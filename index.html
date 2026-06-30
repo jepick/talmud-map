@@ -32,7 +32,7 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 #chartbtn.active{background:var(--gold-dk);color:#1A1208}
 
 /* Timeline */
-#tpanel{background:var(--ink);border-bottom:2px solid var(--gold-dk);padding:8px 16px 11px;flex-shrink:0}
+#tpanel{background:var(--ink);border-bottom:2px solid var(--gold-dk);padding:6px 16px 8px;flex-shrink:0}
 
 /* Masechet Chullin daf selector panel */
 #dafpanel{
@@ -56,28 +56,43 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 .gen-legend-item{display:flex;align-items:center;gap:4px;font-size:10.5px;color:#C8B890;white-space:nowrap}
 .gen-legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.4)}
 
-#ttop{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-#ydisplay{font-size:26px;font-weight:900;color:var(--gold);min-width:66px;text-align:center;line-height:1}
-#ylabel{font-size:10px;color:#8A7A60;text-align:center}
+#ttop{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+#ydisplay{font-size:22px;font-weight:900;color:var(--gold);min-width:55px;text-align:center;line-height:1}
+#ylabel{font-size:9px;color:#8A7A60;text-align:center}
 #playbtn{width:32px;height:32px;border-radius:50%;border:2px solid var(--gold-dk);background:transparent;color:var(--gold);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 #cbadge{background:rgba(200,134,10,.12);border:1px solid var(--gold-dk);border-radius:20px;padding:3px 11px;font-size:12px;color:var(--gold);white-space:nowrap}
 #plabel{font-size:11px;font-weight:700;color:var(--gold);margin-right:auto}
 
-#ttrack{direction:ltr}
-#pbars{position:relative;height:17px;margin-bottom:5px;border-radius:4px;background:rgba(255,255,255,.05);overflow:hidden}
-.pbar{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:1px}
+#ttrack{direction:ltr;user-select:none}
+#pbars{position:relative;height:14px;border-radius:3px;background:rgba(255,255,255,.05);overflow:hidden;margin-bottom:0}
+.pbar{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:1px}
 .pbar.tan{background:linear-gradient(90deg,rgba(139,94,10,.78),rgba(200,134,10,.78));color:#FEF3C7}
 .pbar.amo{background:linear-gradient(90deg,rgba(30,58,106,.78),rgba(37,99,235,.78));color:#DBEAFE}
 .gdiv{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.22)}
-#swrap{position:relative;height:22px;display:flex;align-items:center}
-#sbg{position:absolute;left:0;right:0;height:6px;background:rgba(255,255,255,.1);border-radius:3px}
-#sfill{position:absolute;left:0;height:6px;background:linear-gradient(90deg,var(--gold-dk),var(--gold));border-radius:3px;pointer-events:none;transition:width .05s}
-#slider{position:relative;z-index:2;width:100%;background:transparent;outline:none;cursor:pointer;height:22px;-webkit-appearance:none;appearance:none}
-#slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;box-shadow:0 0 10px rgba(200,134,10,.7);cursor:grab}
-#slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;cursor:grab;border:none}
-#yticks{position:relative;height:14px;margin-top:3px}
-.tlbl{position:absolute;transform:translateX(-50%);font-size:9.5px;color:#6A5A40;font-family:sans-serif;white-space:nowrap}
-.tlbl.maj{color:#9A8A60;font-weight:700}
+#swrap{position:relative;height:20px;display:flex;align-items:center}
+#sbg{position:absolute;left:0;right:0;height:5px;background:rgba(255,255,255,.1);border-radius:3px}
+#sfill{position:absolute;left:0;height:5px;background:linear-gradient(90deg,var(--gold-dk),var(--gold));border-radius:3px;pointer-events:none;transition:width .05s}
+#slider{position:relative;z-index:2;width:100%;background:transparent;outline:none;cursor:pointer;height:20px;-webkit-appearance:none;appearance:none}
+#slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;box-shadow:0 0 10px rgba(200,134,10,.7);cursor:grab}
+#slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;cursor:grab;border:none}
+#genlabels{position:relative;height:20px}
+.genlbl{position:absolute;transform:translateX(-50%);top:1px;font-size:8.5px;font-weight:800;white-space:nowrap;cursor:pointer;padding:1px 4px;border-radius:3px;font-family:sans-serif;transition:background .12s,color .12s}
+.genlbl.tan-lbl{color:rgba(200,160,40,.9)}
+.genlbl.amo-lbl{color:rgba(100,160,255,.9)}
+.genlbl.active{background:var(--gold-dk) !important;color:#1A1208 !important}
+.genlbl.tan-lbl:hover{background:rgba(200,134,10,.3);color:#FEF3C7}
+.genlbl.amo-lbl:hover{background:rgba(37,99,235,.3);color:#fff}
+#events{position:relative;height:30px;margin-top:1px}
+.evt{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;cursor:default}
+.evt-tick{width:1px;height:7px;margin-bottom:1px;pointer-events:none}
+.evt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;pointer-events:none}
+.evt-lbl{font-size:7px;white-space:nowrap;font-family:sans-serif;margin-top:1px;text-align:center;line-height:1.15;pointer-events:none}
+.evt:hover .evt-lbl{color:#fff !important}
+.evt:hover .evt-dot,.evt:hover .evt-tick{opacity:1 !important}
+.evt.destruction .evt-tick{background:#DC2626}.evt.destruction .evt-dot{background:#DC2626;border:1.5px solid #F87171}.evt.destruction .evt-lbl{color:#F87171}
+.evt.war .evt-tick{background:#EA580C}.evt.war .evt-dot{background:#EA580C;border:1.5px solid #FCA5A1}.evt.war .evt-lbl{color:#FCA5A1}
+.evt.text .evt-tick{background:#2563EB}.evt.text .evt-dot{background:#2563EB;border:1.5px solid #93C5FD}.evt.text .evt-lbl{color:#93C5FD}
+.evt.political .evt-tick{background:#7C3AED}.evt.political .evt-dot{background:#7C3AED;border:1.5px solid #C4B5FD}.evt.political .evt-lbl{color:#C4B5FD}
 
 /* Map */
 #mapwrap{flex:1;position:relative}
@@ -287,12 +302,17 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
     <div id="plabel"></div>
   </div>
   <div id="ttrack">
+    <!-- Generation era bars (Tannaim / Amoraim) -->
     <div id="pbars">
       <div class="pbar tan" style="left:0;width:43.9%">תנאים</div>
       <div class="pbar amo" style="left:43.9%;right:0">אמוראים</div>
     </div>
+    <!-- Clickable generation labels above the slider -->
+    <div id="genlabels"></div>
+    <!-- The slider itself -->
     <div id="swrap"><div id="sbg"></div><div id="sfill"></div><input type="range" id="slider" min="10" max="500" value="50" step="1"></div>
-    <div id="yticks"></div>
+    <!-- Historical event markers below the slider -->
+    <div id="events"></div>
   </div>
 </div>
 
@@ -773,19 +793,82 @@ function formatLifeRange(r){
 }
 
 
-const tickYears=[10,80,120,160,200,220,250,290,320,370,420,500];
-const ticksEl=document.getElementById('yticks');
-tickYears.forEach(y=>{
-  const s=document.createElement('span');
-  s.className='tlbl'+([10,220,500].includes(y)?' maj':'');
-  s.style.left=pct(y)+'%';
-  s.textContent=y;
-  ticksEl.appendChild(s);
-});
+// ══════════════════════════════════════
+// GENERATION LABELS + HISTORICAL EVENTS ON TIMELINE
+// ══════════════════════════════════════
+
+// Generations — each gets a clickable label that snaps the slider to its midpoint
+const GENERATIONS=[
+  {label:'ת׳ א',  mid:45,  cls:'tan-lbl', range:[10,80]},
+  {label:'ת׳ ב',  mid:100, cls:'tan-lbl', range:[80,120]},
+  {label:'ת׳ ג',  mid:140, cls:'tan-lbl', range:[120,160]},
+  {label:'ת׳ ד',  mid:180, cls:'tan-lbl', range:[160,200]},
+  {label:'ת׳ ה',  mid:210, cls:'tan-lbl', range:[200,220]},
+  {label:'א׳ א',  mid:235, cls:'amo-lbl', range:[220,250]},
+  {label:'א׳ ב',  mid:270, cls:'amo-lbl', range:[250,290]},
+  {label:'א׳ ג',  mid:305, cls:'amo-lbl', range:[290,320]},
+  {label:'א׳ ד',  mid:345, cls:'amo-lbl', range:[320,370]},
+  {label:'א׳ ה',  mid:395, cls:'amo-lbl', range:[370,420]},
+  {label:'א׳ ו',  mid:460, cls:'amo-lbl', range:[420,500]},
+];
+
+// Dividers on the era bar at every generation boundary
 [80,120,160,200,250,290,320,370,420].forEach(y=>{
   const d=document.createElement('div');
   d.className='gdiv'; d.style.left=pct(y)+'%';
   document.getElementById('pbars').appendChild(d);
+});
+
+// Build generation label buttons
+const genlabelsEl=document.getElementById('genlabels');
+const genLabelEls=[];
+GENERATIONS.forEach(g=>{
+  const btn=document.createElement('div');
+  btn.className='genlbl '+g.cls;
+  btn.textContent=g.label;
+  btn.style.left=pct(g.mid)+'%';
+  btn.title=g.label+' ('+g.range[0]+'–'+g.range[1]+' לסה)';
+  btn.onclick=()=>{
+    slider.value=g.mid;
+    render(g.mid);
+  };
+  genlabelsEl.appendChild(btn);
+  genLabelEls.push({el:btn, range:g.range});
+});
+
+// Highlight whichever generation label corresponds to the current slider year
+function updateGenHighlight(year){
+  genLabelEls.forEach(({el,range})=>{
+    el.classList.toggle('active', year>=range[0] && year<range[1]);
+  });
+}
+
+// Historical events below the slider — category determines colour (see CSS)
+const HIST_EVENTS=[
+  {y:70,  cat:'destruction', lbl:'חורבן\nהבית'},
+  {y:115, cat:'war',         lbl:'מרד\nהגלויות'},
+  {y:135, cat:'war',         lbl:'מרד\nבר כוכבא'},
+  {y:220, cat:'text',        lbl:'חתימת\nהמשנה'},
+  {y:312, cat:'political',   lbl:'אדיקט\nמילאן'},
+  {y:370, cat:'text',        lbl:'תלמוד\nירושלמי'},
+  {y:425, cat:'political',   lbl:'ביטול\nהנשיאות'},
+  {y:500, cat:'text',        lbl:'חתימת\nהתלמוד'},
+];
+
+const eventsEl=document.getElementById('events');
+HIST_EVENTS.forEach(e=>{
+  const div=document.createElement('div');
+  div.className='evt '+e.cat;
+  div.style.left=pct(e.y)+'%';
+  div.innerHTML=
+    '<div class="evt-tick"></div>'+
+    '<div class="evt-dot"></div>'+
+    '<div class="evt-lbl">'+e.lbl.replace('\n','<br>')+'</div>';
+  div.title=e.lbl.replace('\n',' ')+' ('+e.y+' לסה)';
+  // Clicking an event snaps the slider to that year
+  div.onclick=()=>{ slider.value=e.y; render(e.y); };
+  div.style.cursor='pointer';
+  eventsEl.appendChild(div);
 });
 
 const slider=document.getElementById('slider');
@@ -1400,6 +1483,7 @@ function jumpToRabbi(r){
 function render(year){
   document.getElementById('ydisplay').textContent=year;
   updateFill();
+  updateGenHighlight(year);
 
   const alive=RABBIS.filter(r=>{
     const {born,died}=getLifeRange(r);
