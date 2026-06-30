@@ -24,12 +24,36 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 .lpills{display:flex;gap:12px;align-items:center}
 .lpill{display:flex;align-items:center;gap:5px;font-size:11px;color:#C8B890}
 .ldot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
-#chartbtn,#printbtn{
+#chartbtn,#printbtn,#langbtn,#infobtn{
   background:rgba(200,134,10,.15);border:1px solid var(--gold-dk);border-radius:6px;
   color:var(--gold);font-size:14px;padding:3px 10px;cursor:pointer;line-height:1;
 }
-#chartbtn:hover,#printbtn:hover{background:rgba(200,134,10,.3)}
+#chartbtn:hover,#printbtn:hover,#langbtn:hover,#infobtn:hover{background:rgba(200,134,10,.3)}
 #chartbtn.active{background:var(--gold-dk);color:#1A1208}
+#langbtn{font-size:11px;font-weight:800;letter-spacing:1px;font-family:sans-serif}
+/* Info/About modal */
+#infomodal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:2000;
+  align-items:center;justify-content:center;
+}
+#infomodal.open{display:flex}
+#infobox{
+  background:#FDF6E3;border-radius:16px;border:2px solid var(--gold-dk);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);max-width:560px;width:90vw;
+  max-height:80vh;overflow-y:auto;padding:28px 32px;direction:rtl;
+  position:relative;
+}
+#infoclose{
+  position:absolute;top:14px;left:16px;background:rgba(0,0,0,.06);
+  border:none;cursor:pointer;font-size:18px;padding:3px 10px;border-radius:50%;
+}
+#infoclose:hover{background:rgba(0,0,0,.14)}
+#infobox h2{font-size:22px;font-weight:900;color:var(--ink);margin-bottom:12px}
+#infobox h3{font-size:14px;font-weight:800;color:var(--gold-dk);margin:14px 0 6px}
+#infobox p,#infobox li{font-size:13px;color:#2A1A08;line-height:1.7}
+#infobox ul{padding-right:18px;margin:0}
+#infobox li{margin-bottom:4px}
+#infobox a{color:var(--blue-dk)}
 
 /* Timeline */
 #tpanel{background:var(--ink);border-bottom:2px solid var(--gold-dk);padding:6px 16px 8px;flex-shrink:0}
@@ -76,12 +100,11 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 #slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;box-shadow:0 0 10px rgba(200,134,10,.7);cursor:grab}
 #slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;cursor:grab;border:none}
 #genlabels{position:relative;height:20px}
-.genlbl{position:absolute;transform:translateX(-50%);top:1px;font-size:8.5px;font-weight:800;white-space:nowrap;cursor:pointer;padding:1px 4px;border-radius:3px;font-family:sans-serif;transition:background .12s,color .12s}
-.genlbl.tan-lbl{color:rgba(200,160,40,.9)}
-.genlbl.amo-lbl{color:rgba(100,160,255,.9)}
-.genlbl.active{background:var(--gold-dk) !important;color:#1A1208 !important}
-.genlbl.tan-lbl:hover{background:rgba(200,134,10,.3);color:#FEF3C7}
-.genlbl.amo-lbl:hover{background:rgba(37,99,235,.3);color:#fff}
+.genlbl{position:absolute;transform:translateX(-50%);top:1px;font-size:8.5px;font-weight:800;white-space:nowrap;cursor:pointer;padding:1px 4px;border-radius:3px;font-family:sans-serif;transition:background .15s,color .15s,transform .15s}
+.genlbl:hover{filter:brightness(1.3);transform:translateX(-50%) translateY(-1px)}
+.genlbl.active{outline:2px solid #fff;outline-offset:1px;filter:brightness(1.2)}
+/* Per-generation colored era-bar segments */
+.pbar-seg{position:absolute;top:0;bottom:0}
 #events{position:relative;height:30px;margin-top:1px}
 .evt{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;cursor:default}
 .evt-tick{width:1px;height:7px;margin-bottom:1px;pointer-events:none}
@@ -211,7 +234,7 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 }
 .chart-gen-hdr.tan{background:var(--gold-pale);color:var(--gold-dk)}
 .chart-gen-hdr.amo{background:var(--blue-pale);color:var(--blue-dk)}
-.chart-gen-years{font-size:10.5px;font-weight:600;opacity:.75;font-family:sans-serif}
+.chart-gen-years{font-size:10.5px;font-weight:600;opacity:.75;font-family:sans-serif;margin-right:6px}
 
 .chart-rabbi{
   padding:7px 12px;font-size:13.5px;color:var(--ink);cursor:pointer;
@@ -291,6 +314,30 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
     <div class="lpill"><div class="ldot" style="background:#FFD700;border:1.5px solid #aaa"></div>נשיא/ראש ישיבה</div>
     <button id="chartbtn" title="הצג/הסתר ציר זמן">📜 ציר זמן</button>
     <button id="printbtn" title="הדפס דף ייחוס PDF">🖨️ הדפס טבלה</button>
+    <button id="langbtn" title="Switch to English">EN</button>
+    <button id="infobtn" title="About this project">ℹ️</button>
+  </div>
+</div>
+
+<!-- Info/About modal -->
+<div id="infomodal">
+  <div id="infobox">
+    <button id="infoclose">✕</button>
+    <h2 id="info-h2">🗺️ מפת התנאים והאמוראים</h2>
+    <div id="info-body">
+      <p id="info-p1">מפה אינטראקטיבית של תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.</p>
+      <h3 id="info-h3a">כיצד להשתמש</h3>
+      <ul id="info-ul">
+        <li id="info-li1"><b>מפה:</b> רחף מעל נקודה לפרטים · לחץ לפתיחת ציר הזמן ופעימת זהב · לחץ שוב לסגירה</li>
+        <li id="info-li2"><b>ציר זמן:</b> לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה</li>
+        <li id="info-li3"><b>ציר זמן (גלילה):</b> לחץ על 📜 לפתיחת רשימת כל החכמים · לחץ על שם לפתיחת המפה אצלו</li>
+        <li id="info-li4"><b>מסכת חולין:</b> בחר עמוד לראות רק את החכמים המוזכרים בו</li>
+        <li id="info-li5"><b>הדפסה:</b> 🖨️ מייצר דף ייחוס A4 של כל החכמים</li>
+      </ul>
+      <h3 id="info-h3b">מקורות</h3>
+      <p id="info-p2">טקסט התלמוד וציטוטי הדפים — <a href="https://www.sefaria.org" target="_blank">Sefaria.org</a> (מהדורת William Davidson) · כרונולוגיה — Heinrich Graetz / אנציקלופדיה יודאיקה · מפה — OpenStreetMap / Esri</p>
+      <p id="info-p3" style="font-size:11px;color:#8A7A60;margin-top:12px">תאריכי לידה ופטירה אישיים אינם מתועדים היסטורית עבור רוב התנאים והאמוראים. כל חכם מציג רק את טווח הדור המשוער שלו (~) ולא תאריכים אישיים שעלולים להיות בדיה.</p>
+    </div>
   </div>
 </div>
 
@@ -304,8 +351,7 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
   <div id="ttrack">
     <!-- Generation era bars (Tannaim / Amoraim) -->
     <div id="pbars">
-      <div class="pbar tan" style="left:0;width:43.9%">תנאים</div>
-      <div class="pbar amo" style="left:43.9%;right:0">אמוראים</div>
+      <!-- per-generation color segments, built by JS below -->
     </div>
     <!-- Clickable generation labels above the slider -->
     <div id="genlabels"></div>
@@ -799,41 +845,54 @@ function formatLifeRange(r){
 
 // Generations — each gets a clickable label that snaps the slider to its midpoint
 const GENERATIONS=[
-  {label:'ת׳ א',  mid:45,  cls:'tan-lbl', range:[10,80]},
-  {label:'ת׳ ב',  mid:100, cls:'tan-lbl', range:[80,120]},
-  {label:'ת׳ ג',  mid:140, cls:'tan-lbl', range:[120,160]},
-  {label:'ת׳ ד',  mid:180, cls:'tan-lbl', range:[160,200]},
-  {label:'ת׳ ה',  mid:210, cls:'tan-lbl', range:[200,220]},
-  {label:'א׳ א',  mid:235, cls:'amo-lbl', range:[220,250]},
-  {label:'א׳ ב',  mid:270, cls:'amo-lbl', range:[250,290]},
-  {label:'א׳ ג',  mid:305, cls:'amo-lbl', range:[290,320]},
-  {label:'א׳ ד',  mid:345, cls:'amo-lbl', range:[320,370]},
-  {label:'א׳ ה',  mid:395, cls:'amo-lbl', range:[370,420]},
-  {label:'א׳ ו',  mid:460, cls:'amo-lbl', range:[420,500]},
+  {label:'ת׳ א', labelEn:'T1', mid:45,  range:[10,80],   color:'#2563EB'},
+  {label:'ת׳ ב', labelEn:'T2', mid:100, range:[80,120],  color:'#7C3AED'},
+  {label:'ת׳ ג', labelEn:'T3', mid:140, range:[120,160], color:'#0E9488'},
+  {label:'ת׳ ד', labelEn:'T4', mid:180, range:[160,200], color:'#0891B2'},
+  {label:'ת׳ ה', labelEn:'T5', mid:210, range:[200,220], color:'#4F46E5'},
+  {label:'א׳ א', labelEn:'A1', mid:235, range:[220,250], color:'#DC2626'},
+  {label:'א׳ ב', labelEn:'A2', mid:270, range:[250,290], color:'#EA580C'},
+  {label:'א׳ ג', labelEn:'A3', mid:305, range:[290,320], color:'#D97706'},
+  {label:'א׳ ד', labelEn:'A4', mid:345, range:[320,370], color:'#CA8A04'},
+  {label:'א׳ ה', labelEn:'A5', mid:395, range:[370,420], color:'#65A30D'},
+  {label:'א׳ ו', labelEn:'A6', mid:460, range:[420,500], color:'#BE123C'},
 ];
 
-// Dividers on the era bar at every generation boundary
-[80,120,160,200,250,290,320,370,420].forEach(y=>{
-  const d=document.createElement('div');
-  d.className='gdiv'; d.style.left=pct(y)+'%';
-  document.getElementById('pbars').appendChild(d);
+// Build the era bar with one colored segment per generation
+const pbarsEl=document.getElementById('pbars');
+GENERATIONS.forEach(g=>{
+  const seg=document.createElement('div');
+  seg.className='pbar-seg';
+  const w=pct(g.range[1])-pct(g.range[0]);
+  seg.style.left=pct(g.range[0])+'%';
+  seg.style.width=w+'%';
+  seg.style.background=g.color;
+  seg.style.opacity='0.85';
+  pbarsEl.appendChild(seg);
+  // generation divider line
+  if(g.range[0]>10){
+    const d=document.createElement('div');
+    d.className='gdiv';d.style.left=pct(g.range[0])+'%';
+    pbarsEl.appendChild(d);
+  }
 });
 
-// Build generation label buttons
+// Build generation label buttons, each colored with its generation color
 const genlabelsEl=document.getElementById('genlabels');
 const genLabelEls=[];
 GENERATIONS.forEach(g=>{
   const btn=document.createElement('div');
-  btn.className='genlbl '+g.cls;
+  btn.className='genlbl';
   btn.textContent=g.label;
   btn.style.left=pct(g.mid)+'%';
+  btn.style.color=g.color;
   btn.title=g.label+' ('+g.range[0]+'–'+g.range[1]+' לסה)';
   btn.onclick=()=>{
     slider.value=g.mid;
     render(g.mid);
   };
   genlabelsEl.appendChild(btn);
-  genLabelEls.push({el:btn, range:g.range});
+  genLabelEls.push({el:btn, range:g.range, color:g.color});
 });
 
 // Highlight whichever generation label corresponds to the current slider year
@@ -1127,14 +1186,21 @@ function buildChart(){
       if(inGen.length===0) return;
       const genDiv=document.createElement('div');
       genDiv.className='chart-gen';
+      const color=GEN_COLORS[type][gen]||'#888';
       const hdr=document.createElement('div');
-      hdr.className='chart-gen-hdr '+type;
-      hdr.innerHTML='<span>'+gen+'</span><span class="chart-gen-years">'+genYears[gen]+' לסה</span>';
+      hdr.className='chart-gen-hdr';
+      hdr.style.background=color;
+      hdr.style.color='#fff';
+      const genDisplay=STRINGS[currentLang].gen_names[gen]||gen;
+      hdr.innerHTML='<span>'+genDisplay+'</span><span class="chart-gen-years">'+genYears[gen]+'</span>';
       genDiv.appendChild(hdr);
+      // Light tint for the rows in this generation
+      const tint=color+'18'; // 18 = ~10% opacity in hex
       inGen.forEach(r=>{
         const row=document.createElement('div');
         row.className='chart-rabbi';
         row.dataset.rabbiId=r.id;
+        row.style.background=tint;
         const yearsLabel=formatLifeRange(r);
         row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+yearsLabel+'</span>';
         row.onclick=()=>jumpToRabbi(r);
@@ -1144,9 +1210,108 @@ function buildChart(){
     });
   }
 
-  renderPeriod('tan','תנאים',GEN_ORDER_TAN,GEN_YEARS_TAN);
-  renderPeriod('amo','אמוראים',GEN_ORDER_AMO,GEN_YEARS_AMO);
+  const Sc=STRINGS[currentLang];
+  renderPeriod('tan',Sc.chart_tan,GEN_ORDER_TAN,Sc.gen_years_tan);
+  renderPeriod('amo',Sc.chart_amo,GEN_ORDER_AMO,Sc.gen_years_amo);
 }
+// ══════════════════════════════════════
+// INFO MODAL
+// ══════════════════════════════════════
+document.getElementById('infobtn').onclick=()=>document.getElementById('infomodal').classList.add('open');
+document.getElementById('infoclose').onclick=()=>document.getElementById('infomodal').classList.remove('open');
+document.getElementById('infomodal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('infomodal')) document.getElementById('infomodal').classList.remove('open');
+});
+
+// ══════════════════════════════════════
+// ENGLISH / HEBREW LANGUAGE TOGGLE
+// ══════════════════════════════════════
+let currentLang='he';
+
+const STRINGS={
+  he:{
+    htitle:'🗺️ מפת התנאים והאמוראים — OpenStreetMap',
+    hsub:'הזז את הסליידר · לחץ על סמל לפרטים · גרור לזוז · גלגל/כפתורים לזום',
+    pill_tan:'תנאים', pill_amo:'אמוראים', pill_lead:'נשיא/ראש ישיבה',
+    chartbtn:'📜 ציר זמן', printbtn:'🖨️ הדפס טבלה',
+    langbtn:'EN', infobtn:'ℹ️',
+    ylabel:'לספירה',
+    playtitle:'נגן', stoptitle:'עצור',
+    daf_label:'📖 מסכת חולין:',
+    daf_placeholder:'— בחר עמוד —',
+    daf_verified:'✓ מאומת — חכמים אמיתיים מהדף',
+    daf_unverified:'⚠️ עדיין לא אומת',
+    daf_clear:'✕ נקה בחירה',
+    chart_title:'📜 ציר זמן — תנאים ואמוראים',
+    chart_tan:'תנאים', chart_amo:'אמוראים',
+    chart_only:'מציג רק את החכמים המוזכרים בעמוד זה.',
+    badge_tannaim:'תנאים', badge_amoraim:'אמוראים', badge_none:'אין חכמים',
+    gen_tan:'ת', gen_amo:'א',
+    info_h2:'🗺️ מפת התנאים והאמוראים',
+    info_p1:'מפה אינטראקטיבית של תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.',
+    info_h3a:'כיצד להשתמש',
+    info_li1:'מפה: רחף מעל נקודה לפרטים · לחץ לפתיחת ציר הזמן ופעימת זהב · לחץ שוב לסגירה',
+    info_li2:'ציר זמן: לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה',
+    info_li3:'ציר זמן (גלילה): לחץ על 📜 לפתיחת רשימת כל החכמים · לחץ על שם לפתיחת המפה אצלו',
+    info_li4:'מסכת חולין: בחר עמוד לראות רק את החכמים המוזכרים בו',
+    info_li5:'הדפסה: 🖨️ מייצר דף ייחוס A4 של כל החכמים',
+    info_h3b:'מקורות',
+    info_p2:'טקסט התלמוד וציטוטי הדפים — Sefaria.org (מהדורת William Davidson) · כרונולוגיה — Heinrich Graetz / אנציקלופדיה יודאיקה · מפה — OpenStreetMap / Esri',
+    info_p3:'תאריכי לידה ופטירה אישיים אינם מתועדים היסטורית עבור רוב התנאים והאמוראים. כל חכם מציג רק את טווח הדור המשוער שלו (~) ולא תאריכים אישיים שעלולים להיות בדיה.',
+    gen_names:{"דור א׳":"דור א׳","דור ב׳":"דור ב׳","דור ג׳":"דור ג׳","דור ד׳":"דור ד׳","דור ה׳":"דור ה׳","דור ו׳":"דור ו׳"},
+    gen_years_tan:{"דור א׳":"10–80","דור ב׳":"80–120","דור ג׳":"120–160","דור ד׳":"160–200","דור ה׳":"200–220"},
+    gen_years_amo:{"דור א׳":"220–250","דור ב׳":"250–290","דור ג׳":"290–320","דור ד׳":"320–370","דור ה׳":"370–420","דור ו׳":"420–500"},
+    plabel_tan:["דור א׳ תנאים","דור ב׳ תנאים","דור ג׳ תנאים","דור ד׳ תנאים","דור ה׳ תנאים"],
+    plabel_amo:["דור א׳ אמוראים","דור ב׳ אמוראים","דור ג׳ אמוראים","דור ד׳ אמוראים","דור ה׳ אמוראים","דור ו׳ — סבוראים"],
+    role_tan:'תנא', role_amo:'אמורא',
+    years_suffix:' לסה',
+    print_title:'תנאים ואמוראים — לוח ייחוס',
+    print_sub:'ציר הזמן המלא · 10–500 לספירה',
+    badge_format:(tc,ac)=>{const p=[];if(tc)p.push(tc+' תנאים');if(ac)p.push(ac+' אמוראים');return p.join(' · ')||'אין חכמים';},
+  },
+  en:{
+    htitle:'🗺️ Map of Tannaim & Amoraim — OpenStreetMap',
+    hsub:'Move slider to change era · Hover dot for info · Click dot to highlight · Drag/scroll to navigate',
+    pill_tan:'Tannaim', pill_amo:'Amoraim', pill_lead:'Nasi / Rosh Yeshiva',
+    chartbtn:'📜 Timeline', printbtn:'🖨️ Print Table',
+    langbtn:'עב', infobtn:'ℹ️',
+    ylabel:'CE',
+    playtitle:'Play', stoptitle:'Stop',
+    daf_label:'📖 Masechet Chullin:',
+    daf_placeholder:'— Select a page —',
+    daf_verified:'✓ Verified — real sages from this page',
+    daf_unverified:'⚠️ Not yet verified',
+    daf_clear:'✕ Clear selection',
+    chart_title:'📜 Timeline — Tannaim & Amoraim',
+    chart_tan:'Tannaim', chart_amo:'Amoraim',
+    chart_only:'Showing only sages cited on this page.',
+    badge_tannaim:'Tannaim', badge_amoraim:'Amoraim', badge_none:'No sages',
+    gen_tan:'T', gen_amo:'A',
+    info_h2:'🗺️ Map of Tannaim & Amoraim',
+    info_p1:'An interactive map of the Tannaim and Amoraim — the sages of the Mishnah and Talmud — showing where they lived, which generation they flourished in, and which pages of Masechet Chullin they appear on.',
+    info_h3a:'How to use',
+    info_li1:'Map: hover a dot for details · click to open the timeline and show a gold pulse · click again to close',
+    info_li2:'Timeline bar: click a generation label to jump straight to it · click a historical event to go to that year',
+    info_li3:'Chart panel (📜): click any name to jump the map to that sage and highlight them',
+    info_li4:'Chullin selector: pick a page to see only the sages cited on that daf',
+    info_li5:'Print: 🖨️ generates a single-page A4 reference chart of all sages',
+    info_h3b:'Sources',
+    info_p2:'Talmud text and daf citations — Sefaria.org (William Davidson Edition) · Chronology — Heinrich Graetz / Encyclopaedia Judaica · Map — OpenStreetMap / Esri',
+    info_p3:"Exact birth and death years are not historically documented for most Tannaim and Amoraim. Every sage displays only their generation's approximate range (~) rather than personal dates that would be fabricated.",
+    gen_names:{"דור א׳":"Gen 1","דור ב׳":"Gen 2","דור ג׳":"Gen 3","דור ד׳":"Gen 4","דור ה׳":"Gen 5","דור ו׳":"Gen 6"},
+    gen_years_tan:{"דור א׳":"10–80","דור ב׳":"80–120","דור ג׳":"120–160","דור ד׳":"160–200","דור ה׳":"200–220"},
+    gen_years_amo:{"דור א׳":"220–250","דור ב׳":"250–290","דור ג׳":"290–320","דור ד׳":"320–370","דור ה׳":"370–420","דור ו׳":"420–500"},
+    plabel_tan:["Tannaim Gen 1","Tannaim Gen 2","Tannaim Gen 3","Tannaim Gen 4","Tannaim Gen 5"],
+    plabel_amo:["Amoraim Gen 1","Amoraim Gen 2","Amoraim Gen 3","Amoraim Gen 4","Amoraim Gen 5","Savoraim (Gen 6)"],
+    role_tan:'Tanna', role_amo:'Amora',
+    years_suffix:' CE',
+    print_title:'Tannaim & Amoraim — Reference Chart',
+    print_sub:'Full timeline · 10–500 CE',
+    badge_format:(tc,ac)=>{const p=[];if(tc)p.push(tc+' Tannaim');if(ac)p.push(ac+' Amoraim');return p.join(' · ')||'No sages';},
+  }
+};
+
+
 buildChart();
 
 // ══════════════════════════════════════
@@ -1200,7 +1365,7 @@ function buildDafChart(citedRabbis){
 
   const header=document.createElement('div');
   header.style.cssText='font-size:12px;color:#8A7A60;margin-bottom:10px;line-height:1.5';
-  header.textContent='מציג רק את החכמים המוזכרים בעמוד זה.';
+  header.textContent=STRINGS[currentLang].chart_only;
   scroll.appendChild(header);
 
   function renderPeriod(type,label,genOrder,genYears){
@@ -1218,9 +1383,11 @@ function buildDafChart(citedRabbis){
       genDiv.className='chart-gen';
       const hdr=document.createElement('div');
       hdr.className='chart-gen-hdr '+type;
-      hdr.style.background=genColor(inGen[0]);
+      const genHdrColor=genColor(inGen[0]);
+      hdr.style.background=genHdrColor;
       hdr.style.color='#fff';
-      hdr.innerHTML='<span>'+gen+'</span><span class="chart-gen-years">'+genYears[gen]+' לסה</span>';
+      const genDisplayD=STRINGS[currentLang].gen_names[gen]||gen;
+      hdr.innerHTML='<span>'+genDisplayD+'</span><span class="chart-gen-years">'+genYears[gen]+'</span>';
       genDiv.appendChild(hdr);
       inGen.forEach(r=>{
         const row=document.createElement('div');
@@ -1228,6 +1395,7 @@ function buildDafChart(citedRabbis){
         row.dataset.rabbiId=r.id;
         const yearsLabel=formatLifeRange(r);
         row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+yearsLabel+'</span>';
+        row.style.background=genHdrColor+'18';
         row.onmouseenter=()=>showInfo(r);
         row.onmouseleave=()=>hideInfo();
         row.onclick=()=>highlightDafSageOnMap(r.id);
@@ -1237,8 +1405,9 @@ function buildDafChart(citedRabbis){
     });
   }
 
-  renderPeriod('tan','תנאים',GEN_ORDER_TAN,GEN_YEARS_TAN);
-  renderPeriod('amo','אמוראים',GEN_ORDER_AMO,GEN_YEARS_AMO);
+  const Sd=STRINGS[currentLang];
+  renderPeriod('tan',Sd.chart_tan,GEN_ORDER_TAN,Sd.gen_years_tan);
+  renderPeriod('amo',Sd.chart_amo,GEN_ORDER_AMO,Sd.gen_years_amo);
 }
 
 // Fixed view used every time daf mode is entered, so the map always looks
@@ -1491,19 +1660,19 @@ function render(year){
   });
   const aliveIds=new Set(alive.map(r=>r.id));
 
+  const S=STRINGS[currentLang];
   const tc=alive.filter(r=>r.type==='tan').length;
   const ac=alive.filter(r=>r.type==='amo').length;
-  const parts=[];
-  if(tc)parts.push(tc+' תנאים');
-  if(ac)parts.push(ac+' אמוראים');
-  document.getElementById('cbadge').textContent=parts.join(' · ')||'אין חכמים';
+  document.getElementById('cbadge').textContent=S.badge_format(tc,ac);
 
+  const tanLabels=S.plabel_tan;
+  const amoLabels=S.plabel_amo;
   const gensList=year<220?[
-    [10,80,"דור א׳ תנאים"],[80,120,"דור ב׳ תנאים"],[120,160,"דור ג׳ תנאים"],
-    [160,200,"דור ד׳ תנאים"],[200,220,"דור ה׳ תנאים"]
+    [10,80,tanLabels[0]],[80,120,tanLabels[1]],[120,160,tanLabels[2]],
+    [160,200,tanLabels[3]],[200,220,tanLabels[4]]
   ]:[
-    [220,250,"דור א׳ אמוראים"],[250,290,"דור ב׳ אמוראים"],[290,320,"דור ג׳ אמוראים"],
-    [320,370,"דור ד׳ אמוראים"],[370,420,"דור ה׳ אמוראים"],[420,500,"דור ו׳ — סבוראים"]
+    [220,250,amoLabels[0]],[250,290,amoLabels[1]],[290,320,amoLabels[2]],
+    [320,370,amoLabels[3]],[370,420,amoLabels[4]],[420,500,amoLabels[5]]
   ];
   const g=gensList.find(([s,e])=>year>=s&&year<e);
   document.getElementById('plabel').textContent=g?g[2]:'';
@@ -1567,9 +1736,10 @@ gmap.on('moveend',redrawNormalDots);
 function showInfo(r){
   document.getElementById('iname').textContent=r.name;
   const b=document.getElementById('ibadge');
-  b.textContent=(r.type==='tan'?'תנא':'אמורא')+' · '+r.gen;
+  const Sl=STRINGS[currentLang];
+  b.textContent=(r.type==='tan'?Sl.role_tan:Sl.role_amo)+' · '+(Sl.gen_names[r.gen]||r.gen);
   b.className=r.type;
-  document.getElementById('iyears').textContent=formatLifeRange(r)+' לסה';
+  document.getElementById('iyears').textContent=formatLifeRange(r)+STRINGS[currentLang].years_suffix;
   document.getElementById('irole').textContent=r.role;
   document.getElementById('icitytxt').textContent=r.city;
   document.getElementById('idesc').textContent=r.desc;
@@ -1653,6 +1823,68 @@ document.getElementById('printbtn').onclick=()=>{
   buildPrintChart();
   window.print();
 };
+
+
+
+function applyLang(lang){
+  currentLang=lang;
+  const S=STRINGS[lang];
+  const isHe=lang==='he';
+  // direction
+  document.body.style.direction=isHe?'rtl':'ltr';
+  document.getElementById('chartpanel').style.direction=isHe?'rtl':'ltr';
+  document.getElementById('info').style.direction=isHe?'rtl':'ltr';
+  document.getElementById('infobox').style.direction=isHe?'rtl':'ltr';
+  document.getElementById('infobox').style.textAlign=isHe?'right':'left';
+  // header
+  document.getElementById('htitle').textContent=S.htitle;
+  document.getElementById('hsub').textContent=S.hsub;
+  document.getElementById('chartbtn').textContent=S.chartbtn;
+  document.getElementById('printbtn').textContent=S.printbtn;
+  document.getElementById('langbtn').textContent=S.langbtn;
+  document.getElementById('ylabel').textContent=S.ylabel;
+  // legend pills
+  const pills=document.querySelectorAll('.lpill');
+  if(pills[0]) pills[0].childNodes[1].textContent=S.pill_tan;
+  if(pills[1]) pills[1].childNodes[1].textContent=S.pill_amo;
+  if(pills[2]) pills[2].childNodes[1].textContent=S.pill_lead;
+  // daf panel
+  document.getElementById('dafpanel-label').textContent=S.daf_label;
+  const dafSel=document.getElementById('dafselect');
+  if(dafSel.options[0]) dafSel.options[0].text=S.daf_placeholder;
+  document.getElementById('dafverified').textContent=S.daf_verified;
+  document.getElementById('dafunverified').textContent=S.daf_unverified;
+  document.getElementById('dafclear').textContent=S.daf_clear;
+  // chart panel title
+  document.querySelector('#chartpanel-hdr h3').textContent=S.chart_title;
+  // gen labels on timeline
+  genLabelEls.forEach(({el},i)=>{
+    const g=GENERATIONS[i];
+    el.textContent=isHe?g.label:g.labelEn;
+  });
+  // info modal
+  document.getElementById('info-h2').textContent=S.info_h2;
+  document.getElementById('info-p1').textContent=S.info_p1;
+  document.getElementById('info-h3a').textContent=S.info_h3a;
+  document.getElementById('info-li1').innerHTML='<b>'+(isHe?'מפה':'Map')+':</b> '+S.info_li1.replace(/^[^:]+: /,'');
+  document.getElementById('info-li2').innerHTML='<b>'+(isHe?'ציר זמן':'Timeline bar')+':</b> '+S.info_li2.replace(/^[^:]+: /,'');
+  document.getElementById('info-li3').innerHTML='<b>'+(isHe?'ציר זמן (גלילה)':'Chart panel')+':</b> '+S.info_li3.replace(/^[^:]+: /,'');
+  document.getElementById('info-li4').innerHTML='<b>'+(isHe?'מסכת חולין':'Chullin selector')+':</b> '+S.info_li4.replace(/^[^:]+: /,'');
+  document.getElementById('info-li5').innerHTML='<b>'+(isHe?'הדפסה':'Print')+':</b> '+S.info_li5.replace(/^[^:]+: /,'');
+  document.getElementById('info-h3b').textContent=S.info_h3b;
+  document.getElementById('info-p2').textContent=S.info_p2;
+  document.getElementById('info-p3').textContent=S.info_p3;
+  // re-render chart so generation names update
+  if(dafModeActive) buildDafChart(currentDafCitedRabbis);
+  else buildChart();
+  // update current display
+  render(parseInt(slider.value));
+}
+
+document.getElementById('langbtn').onclick=()=>{
+  applyLang(currentLang==='he'?'en':'he');
+};
+
 </script>
 </body>
 </html>
