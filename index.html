@@ -90,8 +90,8 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 #ttrack{direction:ltr;user-select:none}
 #pbars{position:relative;height:14px;border-radius:3px;background:rgba(255,255,255,.05);overflow:hidden;margin-bottom:0}
 .pbar{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:1px}
-.pbar.tan{background:linear-gradient(90deg,rgba(139,94,10,.78),rgba(200,134,10,.78));color:#FEF3C7}
-.pbar.amo{background:linear-gradient(90deg,rgba(30,58,106,.78),rgba(37,99,235,.78));color:#DBEAFE}
+.pbar.tan{background:rgba(139,94,10,.5);color:#FEF3C7}
+.pbar.amo{background:rgba(30,58,80,.5);color:#DBEAFE}
 .gdiv{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.22)}
 #swrap{position:relative;height:20px;display:flex;align-items:center}
 #sbg{position:absolute;left:0;right:0;height:5px;background:rgba(255,255,255,.1);border-radius:3px}
@@ -99,17 +99,17 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 #slider{position:relative;z-index:2;width:100%;background:transparent;outline:none;cursor:pointer;height:20px;-webkit-appearance:none;appearance:none}
 #slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;box-shadow:0 0 10px rgba(200,134,10,.7);cursor:grab}
 #slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid #1A1208;cursor:grab;border:none}
-#genlabels{position:relative;height:20px}
-.genlbl{position:absolute;transform:translateX(-50%);top:1px;font-size:8.5px;font-weight:800;white-space:nowrap;cursor:pointer;padding:1px 4px;border-radius:3px;font-family:sans-serif;transition:background .15s,color .15s,transform .15s}
+#genlabels{position:relative;height:24px}
+.genlbl{position:absolute;transform:translateX(-50%);top:0px;font-size:11px;font-weight:800;white-space:nowrap;cursor:pointer;padding:2px 5px;border-radius:3px;font-family:sans-serif;transition:background .15s,color .15s,transform .15s}
 .genlbl:hover{filter:brightness(1.3);transform:translateX(-50%) translateY(-1px)}
 .genlbl.active{outline:2px solid #fff;outline-offset:1px;filter:brightness(1.2)}
 /* Per-generation colored era-bar segments */
 .pbar-seg{position:absolute;top:0;bottom:0}
-#events{position:relative;height:30px;margin-top:1px}
+#events{position:relative;height:38px;margin-top:2px}
 .evt{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;cursor:default}
-.evt-tick{width:1px;height:7px;margin-bottom:1px;pointer-events:none}
+.evt-tick{width:1px;height:8px;margin-bottom:2px;pointer-events:none}
 .evt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;pointer-events:none}
-.evt-lbl{font-size:7px;white-space:nowrap;font-family:sans-serif;margin-top:1px;text-align:center;line-height:1.15;pointer-events:none}
+.evt-lbl{font-size:9.5px;white-space:nowrap;font-family:sans-serif;margin-top:2px;text-align:center;line-height:1.2;pointer-events:none;font-weight:600}
 .evt:hover .evt-lbl{color:#fff !important}
 .evt:hover .evt-dot,.evt:hover .evt-tick{opacity:1 !important}
 .evt.destruction .evt-tick{background:#DC2626}.evt.destruction .evt-dot{background:#DC2626;border:1.5px solid #F87171}.evt.destruction .evt-lbl{color:#F87171}
@@ -406,88 +406,88 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 
 <script>
 const RABBIS=[
-  {id:"hillel",       name:"הלל הזקן",           type:"tan",gen:"דור א׳",born:null,died:null, lat:31.776,lng:35.234,city:"ירושלים",        role:"ראש בית הלל",           isL:false,desc:"מגדולי חכמי ישראל, מייסד בית הלל. נולד בבבל ועלה לארץ ישראל. 'מה דסני עלך לחברך לא תעביד — זו כל התורה כולה'."},
-  {id:"shammai",      name:"שמאי",               type:"tan",gen:"דור א׳",born:null,died:null, lat:31.793,lng:35.210,city:"ירושלים",        role:"ראש בית שמאי",          isL:true, desc:"ראש בית שמאי. נחשב למחמיר בפסיקת הלכה. מחלוקות בית שמאי ובית הלל מן המפורסמות בתלמוד."},
-  {id:"rg_zaken",     name:"רבן גמליאל הזקן",   type:"tan",gen:"דור א׳",born:null,died:null, lat:31.760,lng:35.250,city:"ירושלים",        role:"נשיא הסנהדרין",         isL:true, desc:"נשיא הסנהדרין, נכד הלל. הנשיא הראשון שנקרא 'רבן'. תלמידו שאול מטרסוס (פאולוס השליח)."},
-  {id:"rybz",         name:"ריב\"ז",              type:"tan",gen:"דור א׳",born:null,died:null, lat:31.876,lng:34.745,city:"יבנה",           role:"מייסד יבנה",            isL:true, desc:"מייסד המרכז התורני ביבנה לאחר חורבן הבית. ניהל משא ומתן עם אספסיאנוס. הציל את התורה לדורות."},
-  {id:"rg_yavne",     name:"רבן גמליאל דיבנה",  type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.880,lng:34.750,city:"יבנה",           role:"נשיא יבנה",             isL:true, desc:"נשיא הסנהדרין ביבנה. איחד את עם ישראל לאחר החורבן. הוסיף 'ולמלשינים' לסדר התפילה."},
-  {id:"reliezer",     name:"ר' אליעזר הגדול",   type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",             role:"רבי אליעזר הגדול",      isL:false,desc:"עמד במרכז 'תנורו של עכנאי' — אחת הדרמות הגדולות בתלמוד. תלמיד מובהק של רבן יוחנן בן זכאי."},
-  {id:"ryehoshua",    name:"ר' יהושע",          type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"תנא, מתון ופייסן",      isL:false,desc:"מגדולי תנאי יבנה. ידוע בגישתו המתונה. ניהל ויכוחים עם קיסרים ופילוסופים."},
-  {id:"rakiva",       name:"רבי עקיבא",          type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.872,lng:34.758,city:"יבנה / בני ברק", role:"עמוד התורה שבעל פה",    isL:true, desc:"מגדולי חכמי ישראל. לא למד עד גיל ארבעים. יצר שיטת המשנה. תמך בבר כוכבא. מת על קידוש השם."},
-  {id:"rishmael",     name:"רבי ישמעאל",         type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.870,lng:34.762,city:"יבנה",           role:"בעל י\"ג מידות",         isL:false,desc:"מחבר שלוש עשרה המידות שהתורה נדרשת בהן. מסורת פרשנית מקבילה לרבי עקיבא."},
-  {id:"rmeir",        name:"רבי מאיר",           type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"תלמיד ר' עקיבא",        isL:false,desc:"תלמיד מובהק של ר' עקיבא. אשתו ברוריה מפורסמת. רוב סתם המשנה על שמו."},
-  {id:"ryehuda_ilai", name:"ר' יהודה בן אלעאי", type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.862,lng:35.295,city:"ציפורי",         role:"מסדר סתם משנה",         isL:false,desc:"תלמיד ר' עקיבא ומסדר 'סתם משנה'. הלכה כמותו ב'ר' יהודה אומר' ברוב המקומות."},
-  {id:"rsby",         name:"רשב\"י",              type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.977,lng:35.502,city:"מירון",          role:"מחבר הזוהר (מיוחס לו)", isL:true, desc:"תלמיד ר' עקיבא. נמלט מהרומאים ושהה במערה שנים. ספר הזוהר מיוחס לו. ל\"ג בעומר לזכרו."},
-  {id:"ryosi",        name:"ר' יוסי בן חלפתא",  type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.858,lng:35.300,city:"ציפורי",         role:"מחבר סדר עולם",         isL:false,desc:"חכם ותנא בציפורי. חיבר 'סדר עולם רבה' — הכרונולוגיה ההיסטורית היהודית הקדומה."},
-  {id:"relazer_s",    name:"ר' אלעזר בן שמוע",  type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.797,lng:35.528,city:"טבריה",          role:"תלמיד ר' עקיבא",        isL:false,desc:"מחמשת תלמידי ר' עקיבא שנסמכו לאחר מות חמשת עשרת אלפי תלמידיו."},
-  {id:"rabbi_hanasi", name:"רבי יהודה הנשיא",   type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"עורך המשנה",            isL:true, desc:"הנשיא הגדול, עורך המשנה. כונה 'רבי'. חיבור המשנה עיצב ההלכה לדורות."},
-  {id:"rabbi_natan",  name:"ר' נתן הבבלי",      type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.856,lng:35.305,city:"ציפורי",         role:"אב בית דין",            isL:true, desc:"אב בית דין. נולד בבבל ועלה לארץ ישראל. חיבר 'אבות דרבי נתן'."},
-  {id:"rabbi_chiya",  name:"רבי חייא",          type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.864,lng:35.290,city:"ציפורי",         role:"תלמיד רבי",             isL:false,desc:"תלמידו הגדול של רבי יהודה הנשיא. 'אני הוא שלא הניחה תורה לשכוח מישראל'."},
-  {id:"bar_kapara",   name:"בר קפרא",           type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.796,lng:35.527,city:"טבריה",          role:"תלמיד רבי",             isL:false,desc:"תלמיד רבי יהודה הנשיא. ידוע בחידותיו. חיבר משנה קטנה משלו."},
-  {id:"rabbi_oshaya", name:"ר' אושעיא",         type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.867,lng:35.286,city:"ציפורי",         role:"אבי המשנה",             isL:true, desc:"כונה 'אבי המשנה'. מגדולי אמוראי א\"י. תלמיד רבי חייא."},
-  {id:"rav",          name:"רב (אבא אריכא)",    type:"amo",gen:"דור א׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",      role:"מייסד ישיבת סורא",      isL:true, desc:"מייסד ישיבת סורא. תלמיד רבי יהודה הנשיא. מחלוקותיו עם שמואל מאפיינות תחילת התלמוד הבבלי."},
-  {id:"shmuel",       name:"שמואל",             type:"amo",gen:"דור א׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא, בבל",    role:"ראש ישיבת נהרדעא",      isL:true, desc:"ראש ישיבת נהרדעא ואסטרונום. פסק 'דינא דמלכותא דינא'. חברו האינטלקטואלי של רב."},
-  {id:"ryochanan",    name:"ר' יוחנן בר נפחא", type:"amo",gen:"דור א׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"ראש ישיבת טבריה",       isL:true, desc:"גדול אמוראי א\"י. עורך התלמוד הירושלמי. ידוע ביופיו. ויכוחיו עם ריש לקיש ממלאים את הש\"ס."},
-  {id:"resh_lakish",  name:"ריש לקיש",          type:"amo",gen:"דור א׳",born:null,died:null,lat:32.797,lng:35.534,city:"טבריה",          role:"חברותא של ר' יוחנן",    isL:false,desc:"גיסו וחברו של ר' יוחנן. לפי המסורת היה גלדיאטור בצעירותו. ויכוחיו עם ר' יוחנן נפוצים בכל הש\"ס."},
-  {id:"rav_huna",     name:"רב הונא",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.985,lng:44.942,city:"סורא, בבל",      role:"ראש ישיבת סורא",        isL:true, desc:"ראש ישיבת סורא ארבעים שנה. אמוצא עניים. תלמידיו כ-800 איש."},
-  {id:"rav_yehuda",   name:"רב יהודה",          type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.465,lng:44.521,city:"פומבדיתא, בבל",  role:"מייסד ישיבת פומבדיתא", isL:true, desc:"מייסד ישיבת פומבדיתא, תלמיד שמואל. דבריו בדיני ממונות שלטים בתלמוד."},
-  {id:"rabi_elazar",  name:"ר' אלעזר",          type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.791,lng:35.536,city:"טבריה",          role:"תלמיד ר' יוחנן",        isL:false,desc:"תלמידו המובהק של ר' יוחנן. מסורותיו בשמו נפוצות מאוד בתלמוד."},
-  {id:"rabi_ami",     name:"רבי אמי",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.799,lng:35.527,city:"טבריה",          role:"פרנס ארץ ישראל",        isL:true, desc:"נשיא ישיבת טבריה. כונה עם ר' אסי 'פרנסי ארץ ישראל'."},
-  {id:"rabi_assi",    name:"רבי אסי",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.788,lng:35.540,city:"טבריה",          role:"ראש ישיבת טבריה",       isL:true, desc:"חברו של ר' אמי. עלה מבבל לא\"י. ידוע בחסידותו."},
-  {id:"rav_chisda",   name:"רב חסדא",           type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.982,lng:44.948,city:"סורא, בבל",      role:"ראש ישיבת סורא",        isL:true, desc:"ראש ישיבת סורא. ידוע בחכמתו ועשרו. חתנו של רב הונא."},
-  {id:"rav_sheshet",  name:"רב ששת",            type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.052,lng:44.413,city:"נהרדעא, בבל",   role:"חד בדרא",               isL:false,desc:"עיוור אך ידע את כל התלמוד בעל פה. זכרונו הפנומנלי מופיע בסיפורים רבים."},
-  {id:"raba",         name:"רבה בר נחמני",      type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.465,lng:44.527,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ראש ישיבת פומבדיתא 22 שנה. 'עוקר הרים'. ויכוחיו עם רב יוסף מרכזיים בתלמוד."},
-  {id:"rav_yosef",    name:"רב יוסף",           type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.462,lng:44.533,city:"פומבדיתא, בבל",  role:"סיני ועוקר הרים",       isL:true, desc:"'סיני' — ידיעותיו האנציקלופדיות. חלה ושכח תלמודו. שקד לחזור על כל מה ששנה."},
-  {id:"rabbi_zeira",  name:"רבי זירא",          type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.788,lng:35.533,city:"טבריה",          role:"עלה לארץ ישראל",        isL:false,desc:"עלה מבבל לא\"י ועבר תענית על כך. ידוע בחסידותו."},
-  {id:"abaye",        name:"אביי",              type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.460,lng:44.515,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ויכוחי 'אביי ורבא' הם עמוד שדרה של התלמוד הבבלי. הלכה כרבא חוץ מ-6 מקרים."},
+  {id:"hillel",       name:"הלל הזקן",           type:"tan",gen:"דור א׳",born:null,died:null, lat:31.776,lng:35.234,city:"ירושלים",        role:"ראש בית הלל",           isL:false,desc:"מגדולי חכמי ישראל, מייסד בית הלל. נולד בבבל ועלה לארץ ישראל. 'מה דסני עלך לחברך לא תעביד — זו כל התורה כולה'.",descEn:"One of the greatest sages of Israel, founder of Beit Hillel. Born in Babylonia and emigrated to the Land of Israel. His most famous teaching: 'What is hateful to you, do not do to others — the rest is commentary, go and learn.'"},
+  {id:"shammai",      name:"שמאי",               type:"tan",gen:"דור א׳",born:null,died:null, lat:31.793,lng:35.210,city:"ירושלים",        role:"ראש בית שמאי",          isL:true, desc:"ראש בית שמאי. נחשב למחמיר בפסיקת הלכה. מחלוקות בית שמאי ובית הלל מן המפורסמות בתלמוד.",descEn:"Head of Beit Shammai, known for strict rulings. Debates between Beit Shammai and Beit Hillel span the entire Mishnah. Taught: 'Receive every person pleasantly.'"},
+  {id:"rg_zaken",     name:"רבן גמליאל הזקן",   type:"tan",gen:"דור א׳",born:null,died:null, lat:31.760,lng:35.250,city:"ירושלים",        role:"נשיא הסנהדרין",         isL:true, desc:"נשיא הסנהדרין, נכד הלל. הנשיא הראשון שנקרא 'רבן'. תלמידו שאול מטרסוס (פאולוס השליח).",descEn:"President of the Sanhedrin and grandson of Hillel. The first Nasi called Rabban. His students form the founding generation of Tannaim."},
+  {id:"rybz",         name:"ריב\"ז",              type:"tan",gen:"דור א׳",born:null,died:null, lat:31.876,lng:34.745,city:"יבנה",           role:"מייסד יבנה",            isL:true, desc:"מייסד המרכז התורני ביבנה לאחר חורבן הבית. ניהל משא ומתן עם אספסיאנוס. הציל את התורה לדורות.",descEn:"Founder of the Yavneh center after the Temple's destruction. Negotiated with Vespasian to preserve Jewish scholarship, enabling Judaism to survive without the Temple."},
+  {id:"rg_yavne",     name:"רבן גמליאל דיבנה",  type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.880,lng:34.750,city:"יבנה",           role:"נשיא יבנה",             isL:true, desc:"נשיא הסנהדרין ביבנה. איחד את עם ישראל לאחר החורבן. הוסיף 'ולמלשינים' לסדר התפילה.",descEn:"President of the Sanhedrin at Yavneh. United the Jewish people after the Temple's destruction. His decrees are foundational to post-Temple halachic practice."},
+  {id:"reliezer",     name:"ר' אליעזר הגדול",   type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",             role:"רבי אליעזר הגדול",      isL:false,desc:"עמד במרכז 'תנורו של עכנאי' — אחת הדרמות הגדולות בתלמוד. תלמיד מובהק של רבן יוחנן בן זכאי.",descEn:"Preeminent student of Rabban Yochanan ben Zakkai, one of the most prolific Tannaim. Refused to yield to majority opinion — the famous story of the Oven of Akhnai."},
+  {id:"ryehoshua",    name:"ר' יהושע",          type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"תנא, מתון ופייסן",      isL:false,desc:"מגדולי תנאי יבנה. ידוע בגישתו המתונה. ניהל ויכוחים עם קיסרים ופילוסופים.",descEn:"Student of Rabban Yochanan ben Zakkai, colleague of Rabbi Eliezer. Known for moderate rulings and famous debates with Ben Zoma."},
+  {id:"rakiva",       name:"רבי עקיבא",          type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.872,lng:34.758,city:"יבנה / בני ברק", role:"עמוד התורה שבעל פה",    isL:true, desc:"מגדולי חכמי ישראל. לא למד עד גיל ארבעים. יצר שיטת המשנה. תמך בבר כוכבא. מת על קידוש השם.",descEn:"The pivotal Tanna, said to have begun studying Torah at age 40. Developed the systematic arrangement that underlies the Mishnah. Died as a martyr in the Bar Kokhba revolt aftermath."},
+  {id:"rishmael",     name:"רבי ישמעאל",         type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.870,lng:34.762,city:"יבנה",           role:"בעל י\"ג מידות",         isL:false,desc:"מחבר שלוש עשרה המידות שהתורה נדרשת בהן. מסורת פרשנית מקבילה לרבי עקיבא.",descEn:"Developed the thirteen hermeneutical principles for interpreting Torah. His school's rulings appear throughout the Talmud, often in tension with Rabbi Akiva's school."},
+  {id:"rmeir",        name:"רבי מאיר",           type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"תלמיד ר' עקיבא",        isL:false,desc:"תלמיד מובהק של ר' עקיבא. אשתו ברוריה מפורסמת. רוב סתם המשנה על שמו.",descEn:"Student of Rabbi Akiva, one of the most prolific Tannaim. Husband of Beruriah. The Sages said his reasoning was too sharp to follow fully."},
+  {id:"ryehuda_ilai", name:"ר' יהודה בן אלעאי", type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.862,lng:35.295,city:"ציפורי",         role:"מסדר סתם משנה",         isL:false,desc:"תלמיד ר' עקיבא ומסדר 'סתם משנה'. הלכה כמותו ב'ר' יהודה אומר' ברוב המקומות.",descEn:"Student of Rabbi Akiva, the most frequently cited Tanna in the Mishnah. Known for his eloquence and making Torah accessible."},
+  {id:"rsby",         name:"רשב\"י",              type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.977,lng:35.502,city:"מירון",          role:"מחבר הזוהר (מיוחס לו)", isL:true, desc:"תלמיד ר' עקיבא. נמלט מהרומאים ושהה במערה שנים. ספר הזוהר מיוחס לו. ל\"ג בעומר לזכרו.", descEn:"Student of Rabbi Akiva who hid in a cave for thirteen years during Roman persecution. Credited with mystical teachings; the Zohar is attributed to him by tradition."},
+  {id:"ryosi",        name:"ר' יוסי בן חלפתא",  type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.858,lng:35.300,city:"ציפורי",         role:"מחבר סדר עולם",         isL:false,desc:"חכם ותנא בציפורי. חיבר 'סדר עולם רבה' — הכרונולוגיה ההיסטורית היהודית הקדומה.",descEn:"Student of Rabbi Akiva, son of Chalafta. Known for moderate and precise rulings. His Seder Olam laid the foundation for the traditional chronology of Jewish history."},
+  {id:"relazer_s",    name:"ר' אלעזר בן שמוע",  type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.797,lng:35.528,city:"טבריה",          role:"תלמיד ר' עקיבא",        isL:false,desc:"מחמשת תלמידי ר' עקיבא שנסמכו לאחר מות חמשת עשרת אלפי תלמידיו.",descEn:"Fourth-generation Tanna, son of Rabbi Shamua, student of Rabbi Akiva. Known for careful halachic reasoning."},
+  {id:"rabbi_hanasi", name:"רבי יהודה הנשיא",   type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"עורך המשנה",            isL:true, desc:"הנשיא הגדול, עורך המשנה. כונה 'רבי'. חיבור המשנה עיצב ההלכה לדורות.",descEn:"Redacted the Mishnah (~220 CE), the foundational code of Oral Torah. Maintained close relations with Roman authorities. The greatest Nasi of the post-Temple era."},
+  {id:"rabbi_natan",  name:"ר' נתן הבבלי",      type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.856,lng:35.305,city:"ציפורי",         role:"אב בית דין",            isL:true, desc:"אב בית דין. נולד בבבל ועלה לארץ ישראל. חיבר 'אבות דרבי נתן'.",descEn:"A Babylonian Tanna who came to the Land of Israel and participated in the Mishnah's final redaction."},
+  {id:"rabbi_chiya",  name:"רבי חייא",          type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.864,lng:35.290,city:"ציפורי",         role:"תלמיד רבי",             isL:false,desc:"תלמידו הגדול של רבי יהודה הנשיא. 'אני הוא שלא הניחה תורה לשכוח מישראל'.",descEn:"Bridged the Tannaitic and Amoraic periods. Together with Oshaya, arranged Beraitot after Rabbi Yehuda HaNasi completed the Mishnah."},
+  {id:"bar_kapara",   name:"בר קפרא",           type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.796,lng:35.527,city:"טבריה",          role:"תלמיד רבי",             isL:false,desc:"תלמיד רבי יהודה הנשיא. ידוע בחידותיו. חיבר משנה קטנה משלו.",descEn:"Student of Rabbi Yehuda HaNasi, known for sharp wit and epigrams. Compiled an early collection of Beraitot."},
+  {id:"rabbi_oshaya", name:"ר' אושעיא",         type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.867,lng:35.286,city:"ציפורי",         role:"אבי המשנה",             isL:true, desc:"כונה 'אבי המשנה'. מגדולי אמוראי א\"י. תלמיד רבי חייא.",descEn:"Student of Rabbi Chiya, helped arrange Beraitot. Called 'father of the Mishnah' for his organizational work."},
+  {id:"rav",          name:"רב (אבא אריכא)",    type:"amo",gen:"דור א׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",      role:"מייסד ישיבת סורא",      isL:true, desc:"מייסד ישיבת סורא. תלמיד רבי יהודה הנשיא. מחלוקותיו עם שמואל מאפיינות תחילת התלמוד הבבלי.",descEn:"Founder of the Sura academy, towering figure of the first Amoraic generation in Babylonia. Gave the Kaddish prayer its final form. His rulings are the foundation of Babylonian halacha."},
+  {id:"shmuel",       name:"שמואל",             type:"amo",gen:"דור א׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא, בבל",    role:"ראש ישיבת נהרדעא",      isL:true, desc:"ראש ישיבת נהרדעא ואסטרונום. פסק 'דינא דמלכותא דינא'. חברו האינטלקטואלי של רב.",descEn:"Head of the Nehardea academy, colleague of Rav. Expert in astronomy and civil law. His ruling 'the law of the land is the law' governs Jews' relationship with civil authorities."},
+  {id:"ryochanan",    name:"ר' יוחנן בר נפחא", type:"amo",gen:"דור א׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"ראש ישיבת טבריה",       isL:true, desc:"גדול אמוראי ארץ ישראל. עורך התלמוד הירושלמי. ידוע ביופיו. ויכוחיו עם ריש לקיש ממלאים את השס.",descEn:"Head of the Tiberias academy, the greatest Amora in the Land of Israel. His discussions with Resh Lakish define much of the Jerusalem Talmud."},
+  {id:"resh_lakish",  name:"ריש לקיש",          type:"amo",gen:"דור א׳",born:null,died:null,lat:32.797,lng:35.534,city:"טבריה",          role:"חברותא של ר' יוחנן",    isL:false,desc:"גיסו וחברו של ר' יוחנן. לפי המסורת היה גלדיאטור בצעירותו. ויכוחיו עם ר' יוחנן נפוצים בכל השס.",descEn:"Close colleague and brother-in-law of Rabbi Yochanan. Former gladiator who returned to Torah. Known for fierce analytical debates with Rabbi Yochanan."},
+  {id:"rav_huna",     name:"רב הונא",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.985,lng:44.942,city:"סורא, בבל",      role:"ראש ישיבת סורא",        isL:true, desc:"ראש ישיבת סורא ארבעים שנה. אמוצא עניים. תלמידיו כ-800 איש.",descEn:"Head of the Sura academy for forty years after Rav. Known for great charity — he collected wood each winter to heat the poor."},
+  {id:"rav_yehuda",   name:"רב יהודה",          type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.465,lng:44.521,city:"פומבדיתא, בבל",  role:"מייסד ישיבת פומבדיתא", isL:true, desc:"מייסד ישיבת פומבדיתא, תלמיד שמואל. דבריו בדיני ממונות שלטים בתלמוד.",descEn:"Founder of the Pumbedita academy, student of Shmuel. His civil law rulings dominate the Talmud."},
+  {id:"rabi_elazar",  name:"ר' אלעזר",          type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.791,lng:35.536,city:"טבריה",          role:"תלמיד ר' יוחנן",        isL:false,desc:"תלמידו המובהק של ר' יוחנן. מסורותיו בשמו נפוצות מאוד בתלמוד.",descEn:"Foremost student of Rabbi Yochanan. His traditions in Rabbi Yochanan's name are cited throughout the Talmud."},
+  {id:"rabi_ami",     name:"רבי אמי",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.799,lng:35.527,city:"טבריה",          role:"פרנס ארץ ישראל",        isL:true, desc:"נשיא ישיבת טבריה. כונה עם ר' אסי 'פרנסי ארץ ישראל'.",descEn:"Student of Rabbi Yochanan, served as a leading judge in Tiberias."},
+  {id:"rabi_assi",    name:"רבי אסי",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.788,lng:35.540,city:"טבריה",          role:"ראש ישיבת טבריה",       isL:true, desc:"חברו של ר' אמי. עלה מבבל לאי. ידוע בחסידותו.",descEn:"Colleague of Rabbi Ami, student of Rabbi Yochanan. Served as a judge in the Land of Israel."},
+  {id:"rav_chisda",   name:"רב חסדא",           type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.982,lng:44.948,city:"סורא, בבל",      role:"ראש ישיבת סורא",        isL:true, desc:"ראש ישיבת סורא. ידוע בחכמתו ועשרו. חתנו של רב הונא.",descEn:"Third-generation Babylonian Amora, student of Rav. Known for his wealth and sharp reasoning. Father-in-law of Rava."},
+  {id:"rav_sheshet",  name:"רב ששת",            type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.052,lng:44.413,city:"נהרדעא, בבל",   role:"חד בדרא",               isL:false,desc:"עיוור אך ידע את כל התלמוד בעל פה. זכרונו הפנומנלי מופיע בסיפורים רבים.",descEn:"Third-generation Babylonian Amora, blind but with a phenomenal memory. Known for strong opinions."},
+  {id:"raba",         name:"רבה בר נחמני",      type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.465,lng:44.527,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ראש ישיבת פומבדיתא 22 שנה. 'עוקר הרים'. ויכוחיו עם רב יוסף מרכזיים בתלמוד.",descEn:"Head of the Mahoza academy, dominant figure of the fourth Amoraic generation. His debates with Abaye fill hundreds of Talmudic passages."},
+  {id:"rav_yosef",    name:"רב יוסף",           type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.462,lng:44.533,city:"פומבדיתא, בבל",  role:"סיני ועוקר הרים",       isL:true, desc:"'סיני' — ידיעותיו האנציקלופדיות. חלה ושכח תלמודו. שקד לחזור על כל מה ששנה.",descEn:"Head of the Pumbedita academy, called Sinai for his encyclopedic mastery of tradition. Became blind late in life."},
+  {id:"rabbi_zeira",  name:"רבי זירא",          type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.788,lng:35.533,city:"טבריה",          role:"עלה לארץ ישראל",        isL:false,desc:"עלה מבבל לאי ועבר תענית על כך. ידוע בחסידותו.",descEn:"Emigrated from Babylonia to the Land of Israel. Known for extreme piety — fasted 100 times to forget his Babylonian learning and absorb the traditions of Eretz Yisrael."},
+  {id:"abaye",        name:"אביי",              type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.460,lng:44.515,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ויכוחי 'אביי ורבא' הם עמוד שדרה של התלמוד הבבלי. הלכה כרבא חוץ מ-6 מקרים.",descEn:"Head of the Pumbedita academy, foster son of Rabbah. His debates with Rava define the analytical core of the Talmud. Known for his ethical maxims."},
   {id:"rava",         name:"רבא",               type:"amo",gen:"דור ד׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",     role:"ראש ישיבת מחוזא",       isL:true, desc:"ראש ישיבת מחוזא וגדול דורו. הלכה כמותו כנגד אביי ברוב המחלוקות."},
-  {id:"rav_nachman_y",name:"ר' נחמן בר יצחק",  type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.470,lng:44.509,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ראש ישיבת פומבדיתא לאחר רבא."},
-  {id:"rav_ashi",     name:"רב אשי",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.989,lng:44.936,city:"מתא מחסיא, בבל", role:"עורך התלמוד הבבלי",     isL:true, desc:"עורך התלמוד הבבלי עם רבינא. עמד בראש ישיבת סורא כ-60 שנה."},
-  {id:"ravina_1",     name:"רבינא הראשון",      type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.986,lng:44.930,city:"סורא, בבל",      role:"חברו של רב אשי",        isL:false,desc:"חברו של רב אשי בעריכת התלמוד."},
-  {id:"rav_zvid",     name:"רב זביד",           type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.462,lng:44.530,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ראש ישיבת פומבדיתא. בן דורו ותלמידו של רבא."},
-  {id:"ravina_2",     name:"רבינא השני",         type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.982,lng:44.936,city:"סורא, בבל",      role:"סוף הוראה",             isL:true, desc:"האמורא האחרון. 'רב אשי ורבינא — סוף הוראה'. מותו מסמן חתימת התלמוד הבבלי."},
-  {id:"mar_bar_ashi", name:"מר בר רב אשי",      type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.993,lng:44.931,city:"מתא מחסיא, בבל", role:"בנו של רב אשי",         isL:false,desc:"בנו של רב אשי. ראש ישיבת סורא. המשיך את חתימת התלמוד."},
+  {id:"rav_nachman_y",name:"ר' נחמן בר יצחק",  type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.470,lng:44.509,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ראש ישיבת פומבדיתא לאחר רבא.",descEn:"Head of the Pumbedita academy after Rava. Student of both Rava and Rav Chisda. His rulings are accepted throughout the Talmud."},
+  {id:"rav_ashi",     name:"רב אשי",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.989,lng:44.936,city:"מתא מחסיא, בבל", role:"עורך התלמוד הבבלי",     isL:true, desc:"עורך התלמוד הבבלי עם רבינא. עמד בראש ישיבת סורא כ-60 שנה.",descEn:"Head of the Sura academy for about sixty years (the Talmud explicitly states this). Began the formal redaction of the Babylonian Talmud at Mata Mechasya."},
+  {id:"ravina_1",     name:"רבינא הראשון",      type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.986,lng:44.930,city:"סורא, בבל",      role:"חברו של רב אשי",        isL:false,desc:"חברו של רב אשי בעריכת התלמוד.",descEn:"Close colleague of Rav Ashi, participated in the Talmud's redaction."},
+  {id:"rav_zvid",     name:"רב זביד",           type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.462,lng:44.530,city:"פומבדיתא, בבל",  role:"ראש ישיבת פומבדיתא",   isL:true, desc:"ראש ישיבת פומבדיתא. בן דורו ותלמידו של רבא.",descEn:"Fifth-generation Babylonian Amora at the Sura academy."},
+  {id:"ravina_2",     name:"רבינא השני",         type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.982,lng:44.936,city:"סורא, בבל",      role:"סוף הוראה",             isL:true, desc:"האמורא האחרון. 'רב אשי ורבינא — סוף הוראה'. מותו מסמן חתימת התלמוד הבבלי.",descEn:"Traditional marker for Sof Hora'ah — the end of Amoraic instruction (~500 CE), cited in Iggeret Rav Sherira Gaon. Completed the Babylonian Talmud's redaction."},
+  {id:"mar_bar_ashi", name:"מר בר רב אשי",      type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.993,lng:44.931,city:"מתא מחסיא, בבל", role:"בנו של רב אשי",         isL:false,desc:"בנו של רב אשי. ראש ישיבת סורא. המשיך את חתימת התלמוד.",descEn:"Son of Rav Ashi. Head of the Sura academy. Continued the completion of the Talmud."},
   // ── Added while verifying real sages cited in specific dapim (e.g. Chullin) ──
-  {id:"rpinchas_yair", name:"ר' פנחס בן יאיר",     type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",            role:"חתנו של רשב\"י, חסיד מופלג", isL:false,desc:"חתנו של רבי שמעון בר יוחאי, חי בזמן רבי יהודה הנשיא. ידוע בחסידותו המופלגת, ובסיפור על חמורו שלא היה אוכל מאכל לא מתוקן. נחשב גם למקובל."},
-  {id:"rchanina_pappa", name:"ר' חנינא בר פפא",    type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"תלמיד ר' שמואל בר נחמני", isL:false,desc:"אמורא בארץ ישראל, תלמיד רבי שמואל בר נחמני ובן דורו של רבי אמי. ידוע בסיפורי נסים שמיוחסים לו."},
-  {id:"rshimon_pazi",   name:"ר' שמעון בן פזי",    type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"דרום הארץ / טבריה",role:"תלמיד ר' יוחנן ור' יהושע בן לוי", isL:false,desc:"אמורא בארץ ישראל, תלמיד רבי יוחנן ורבי יהושע בן לוי. הראשון שמנה את י\"ג מידות הרחמים. ידוע גם כ'רבי שמעון' בתלמוד הירושלמי."},
-  {id:"rshmuel_nachmani",name:"ר' שמואל בר נחמני", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"בעל אגדה מובהק", isL:false,desc:"אמורא בארץ ישראל, מגדולי בעלי האגדה. רבו של ר' חנינא בר פפא ושל ר' חלבו. תלמידם של רבי יוחנן וריש לקיש."},
-  {id:"rava_bar_ulla",  name:"רבא בר עולא",        type:"amo",gen:"דור ד׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",      role:"חכם בבלי", isL:false,desc:"אמורא בבלי המוזכר בדורם של רבא ואביי. דבריו מובאים בכמה מקומות בש\"ס בשם רב פפא."},
-  {id:"rav_asi2",       name:"רב אסי",             type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי, מוזכר בכמה מקומות בש\"ס. יש להבחין בינו לבין רבי אסי שעלה מבבל לארץ ישראל."},
+  {id:"rpinchas_yair", name:"ר' פנחס בן יאיר",     type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",            role:"חתנו של רשב\"י, חסיד מופלג", isL:false,desc:"חתנו של רבי שמעון בר יוחאי, חי בזמן רבי יהודה הנשיא. ידוע בחסידותו המופלגת, ובסיפור על חמורו שלא היה אוכל מאכל לא מתוקן. נחשב גם למקובל.",descEn:"Son-in-law of Rabbi Shimon bar Yochai, contemporary of Rabbi Yehuda HaNasi. Famous for extraordinary piety — even his donkey refused to eat untithed food."},
+  {id:"rchanina_pappa", name:"ר' חנינא בר פפא",    type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"תלמיד ר' שמואל בר נחמני", isL:false,desc:"אמורא בארץ ישראל, תלמיד רבי שמואל בר נחמני ובן דורו של רבי אמי. ידוע בסיפורי נסים שמיוחסים לו.",descEn:"Third-generation Amora in the Land of Israel, student of Rabbi Shmuel bar Nachmani. Known for miraculous stories attributed to him."},
+  {id:"rshimon_pazi",   name:"ר' שמעון בן פזי",    type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"דרום הארץ / טבריה",role:"תלמיד ר' יוחנן ור' יהושע בן לוי", isL:false,desc:"אמורא בארץ ישראל, תלמיד רבי יוחנן ורבי יהושע בן לוי. הראשון שמנה את יג מידות הרחמים. ידוע גם כ'רבי שמעון' בתלמוד הירושלמי.",descEn:"Third-generation Amora in the Land of Israel, student of Rabbi Yochanan and Rabbi Yehoshua ben Levi. First to enumerate the thirteen divine attributes of mercy."},
+  {id:"rshmuel_nachmani",name:"ר' שמואל בר נחמני", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",          role:"בעל אגדה מובהק", isL:false,desc:"אמורא בארץ ישראל, מגדולי בעלי האגדה. רבו של ר' חנינא בר פפא ושל ר' חלבו. תלמידם של רבי יוחנן וריש לקיש.",descEn:"Leading master of Aggadah in the Land of Israel. Teacher of Rabbi Chanina bar Pappa. Student of Rabbi Yochanan and Resh Lakish."},
+  {id:"rava_bar_ulla",  name:"רבא בר עולא",        type:"amo",gen:"דור ד׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",      role:"חכם בבלי", isL:false,desc:"אמורא בבלי המוזכר בדורם של רבא ואביי. דבריו מובאים בכמה מקומות בשס בשם רב פפא.",descEn:"Fourth-generation Babylonian Amora, contemporary of Rava and Abaye."},
+  {id:"rav_asi2",       name:"רב אסי",             type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי, מוזכר בכמה מקומות בשס. יש להבחין בינו לבין רבי אסי שעלה מבבל לארץ ישראל.",descEn:"Babylonian Amora cited in several Talmudic passages. To be distinguished from Rabbi Assi who emigrated to the Land of Israel."},
   // ── Added while verifying real sages cited in Chullin 61a-70b ──
-  {id:"relazer_btzadok",name:"ר' אלעזר בר צדוק",   type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.776,lng:35.234,city:"ירושלים",        role:"כהן ותנא", isL:false,desc:"תנא וכהן, חי בזמן חורבן הבית השני ובדורות שאחריו. דבריו מובאים במשניות וברייתות רבות, ובפרט בענייני עופות טמאים וטהורים."},
-  {id:"rav_yitzchak1",  name:"רב יצחק",             type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי המובא בכמה מקומות בש\"ס, ובפרט בעניין המסורת על עופות טהורים."},
-  {id:"rav_geviha",     name:"רב גביהא מבי כתיל",  type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"בן דורו של רב אשי", isL:false,desc:"אמורא בבלי מהדור השישי, בן דורו של רב אשי. ידוע בשאלותיו המדויקות ובדיוקים שהביא מתלמודם של אביי ורבא."},
-  {id:"mar_bar_idai",   name:"מר בר רב אידאי",     type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור השישי, מוזכר בדיוני הלכה על עופות וסימניהם."},
-  {id:"rav_adda_shimi", name:"רב אדא בר שימי",     type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור השישי, מוזכר בדיון עם מר בר רב אידאי על עניין הרחם (עוף)."},
-  {id:"dostai_aptoriki",name:"דוסתאי אבי ר' אפטוריקי",type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",        role:"תנא, מסר ברייתות", isL:false,desc:"תנא מהדור החמישי, אביו של רבי אפטוריקי. מסורות ברייתא בשמו מובאות בעניין דם הנמצא בביצים."},
-  {id:"relazer_byosei", name:"ר' אלעזר ברבי יוסי", type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",        role:"תנא, בנו של ר' יוסי", isL:false,desc:"תנא מהדור הרביעי, בנו של רבי יוסי בן חלפתא. מובאות הלכותיו במשנה ובברייתות, ובפרט בעניין חגבים וסימניהם."},
-  {id:"rav_chanan_chisda",name:"רב חנן בר רב חסדא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.940,city:"סורא, בבל",      role:"בנו של רב חסדא", isL:false,desc:"אמורא בבלי, בנו של רב חסדא. מוסר מסורת בשם אביו ובשם רב חנן בר רבא בשם רב, בעניין מנין העופות הטמאים."},
-  {id:"rav_chanan_rava",name:"רב חנן בר רבא",      type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"חתנו של רב", isL:false,desc:"אמורא בבלי מהדור השני, חתנו של רב (אבא אריכא). מוסר מסורות רבות בשם רב."},
-  {id:"rabbi_yirmeya",  name:"ר' ירמיה",            type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.500,lng:34.900,city:"קיסריה",        role:"תלמיד ר' זירא ור' אבהו", isL:false,desc:"אמורא בארץ ישראל מהדור הרביעי, עלה מבבל ולמד בקיסריה. ידוע בשאלותיו המדויקות והדקדקניות, עד שהורחק לזמן מבית המדרש."},
-  {id:"rav_beivai_abaye",name:"רב ביבי בר אביי",     type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.465,lng:44.521,city:"פומבדיתא, בבל",  role:"בנו של אביי", isL:false,desc:"אמורא בבלי, בנו של אביי. מוסר מסורות אגדה, בהן הסבר לשמות עופות וסימני בוא הגאולה."},
-  {id:"rav_ukva_chama", name:"רב עוקבא בר חמא",      type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",      role:"חתנו של רב חסדא", isL:false,desc:"אמורא בבלי מהדור הרביעי, חתנו של רב חסדא ואחיו של רמי בר חמא. מוסר הלכות בעניין ביצי שרץ וטומאתן."},
+  {id:"relazer_btzadok",name:"ר' אלעזר בר צדוק",   type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.776,lng:35.234,city:"ירושלים",        role:"כהן ותנא", isL:false,desc:"תנא וכהן, חי בזמן חורבן הבית השני ובדורות שאחריו. דבריו מובאים במשניות וברייתות רבות, ובפרט בענייני עופות טמאים וטהורים.",descEn:"A Tanna and Kohen who witnessed the Second Temple and continued teaching in later generations. His rulings appear in many Mishnayot, particularly on birds and Temple law."},
+  {id:"rav_yitzchak1",  name:"רב יצחק",             type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי המובא בכמה מקומות בשס, ובפרט בעניין המסורת על עופות טהורים.",descEn:"Second-generation Babylonian Amora, transmitter of traditions about kosher species."},
+  {id:"rav_geviha",     name:"רב גביהא מבי כתיל",  type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"בן דורו של רב אשי", isL:false,desc:"אמורא בבלי מהדור השישי, בן דורו של רב אשי. ידוע בשאלותיו המדויקות ובדיוקים שהביא מתלמודם של אביי ורבא.",descEn:"Sixth-generation Babylonian Amora, contemporary of Rav Ashi. Known for incisive questions and precise transmission of Abaye and Rava's teachings."},
+  {id:"mar_bar_idai",   name:"מר בר רב אידאי",     type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור השישי, מוזכר בדיוני הלכה על עופות וסימניהם.",descEn:"Sixth-generation Babylonian Amora, cited in discussions of bird law in Chullin."},
+  {id:"rav_adda_shimi", name:"רב אדא בר שימי",     type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור השישי, מוזכר בדיון עם מר בר רב אידאי על עניין הרחם (עוף).",descEn:"Sixth-generation Babylonian Amora, cited alongside Mar bar Rav Idai on bird taxonomy."},
+  {id:"dostai_aptoriki",name:"דוסתאי אבי ר' אפטוריקי",type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",        role:"תנא, מסר ברייתות", isL:false,desc:"תנא מהדור החמישי, אביו של רבי אפטוריקי. מסורות ברייתא בשמו מובאות בעניין דם הנמצא בביצים.",descEn:"Fifth-generation Tanna, father of Rabbi Aptoriki. His Beraita traditions are cited on questions of blood found in eggs."},
+  {id:"relazer_byosei", name:"ר' אלעזר ברבי יוסי", type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",        role:"תנא, בנו של ר' יוסי", isL:false,desc:"תנא מהדור הרביעי, בנו של רבי יוסי בן חלפתא. מובאות הלכותיו במשנה ובברייתות, ובפרט בעניין חגבים וסימניהם.",descEn:"Fourth-generation Tanna, son of Rabbi Yosi ben Chalafta. His rulings appear in the Mishnah and Beraitot on locusts and their identifying signs."},
+  {id:"rav_chanan_chisda",name:"רב חנן בר רב חסדא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.940,city:"סורא, בבל",      role:"בנו של רב חסדא", isL:false,desc:"אמורא בבלי, בנו של רב חסדא. מוסר מסורת בשם אביו ובשם רב חנן בר רבא בשם רב, בעניין מנין העופות הטמאים.",descEn:"Babylonian Amora, son of Rav Chisda. Transmitter of his father's and Rav Chanan bar Rava's teachings, particularly on the count of forbidden birds."},
+  {id:"rav_chanan_rava",name:"רב חנן בר רבא",      type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"חתנו של רב", isL:false,desc:"אמורא בבלי מהדור השני, חתנו של רב (אבא אריכא). מוסר מסורות רבות בשם רב.",descEn:"Second-generation Babylonian Amora, son-in-law of Rav. Transmitter of many traditions in Rav's name."},
+  {id:"rabbi_yirmeya",  name:"ר' ירמיה",            type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.500,lng:34.900,city:"קיסריה",        role:"תלמיד ר' זירא ור' אבהו", isL:false,desc:"אמורא בארץ ישראל מהדור הרביעי, עלה מבבל ולמד בקיסריה. ידוע בשאלותיו המדויקות והדקדקניות, עד שהורחק לזמן מבית המדרש.",descEn:"Fourth-generation Amora in the Land of Israel, emigrated from Babylonia. Famous for precise, probing questions — temporarily expelled from the study house for an overly far-fetched query."},
+  {id:"rav_beivai_abaye",name:"רב ביבי בר אביי",     type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.465,lng:44.521,city:"פומבדיתא, בבל",  role:"בנו של אביי", isL:false,desc:"אמורא בבלי, בנו של אביי. מוסר מסורות אגדה, בהן הסבר לשמות עופות וסימני בוא הגאולה.",descEn:"Babylonian Amora, son of Abaye. Transmitter of Aggadic traditions including the story of the Angel of Death's assistant."},
+  {id:"rav_ukva_chama", name:"רב עוקבא בר חמא",      type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",      role:"חתנו של רב חסדא", isL:false,desc:"אמורא בבלי מהדור הרביעי, חתנו של רב חסדא ואחיו של רמי בר חמא. מוסר הלכות בעניין ביצי שרץ וטומאתן.",descEn:"Fourth-generation Babylonian Amora, son-in-law of Rav Chisda and brother of Rami bar Chama. Ruled on questions of eggs from forbidden species."},
   // ── Additional Tannaim ──
-  {id:"rtarfon",      name:"רבי טרפון",            type:"tan",gen:"דור ב׳",born:null,died:null,lat:32.013,lng:34.844,city:"לוד",             role:"עשיר וחסיד, בעל הלכה למעשה", isL:false,desc:"תלמיד דורו הראשון של רבי עקיבא. ידוע בעושרו הגדול ובחסידותו. נהג להגן בהלכה למעשה — לא רק בתורה. 'לא עליך המלאכה לגמור ולא אתה בן חורין להבטל'."},
-  {id:"relazer_azarya",name:"ר' אלעזר בן עזריה",   type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"נשיא לזמן קצר",          isL:true, desc:"כיהן כנשיא לזמן קצר אחרי הדחת רבן גמליאל ביבנה (כשהיה רק כ-18). עשיר ומיוחס, מצאצאי עזרא הסופר."},
-  {id:"ryochanan_nuri",name:"ר' יוחנן בן נורי",    type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"חכם יבנה",               isL:false,desc:"מחכמי יבנה, נודע בהתמדתו ובהגינותו בדיון. נחלק עם ר' עקיבא בכמה הלכות."},
-  {id:"ryosi_hagelili",name:"ר' יוסי הגלילי",      type:"tan",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"הגליל",          role:"דרשן גדול",              isL:false,desc:"חכם גלילי בעל כושר דרשני יוצא דופן. ידוע בדבריו עם ר' עקיבא ועם בנו רוּמה."},
-  {id:"elisha_avuya",  name:"אלישע בן אבויה (אחר)", type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"חכם שסר מן הדרך",        isL:false,desc:"חכם גדול ביבנה שלפי המסורת 'יצא לתרבות רעה' וכונה 'אחר'. רבי מאיר היה תלמידו ונשאר נאמן לו."},
-  {id:"acha",          name:"רבי אחא",              type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"חכם בדור האחרון לתנאים",  isL:false,desc:"מהחכמים שכונו 'סמי תנאים' — בני דורו ותלמידיו האחרונים של רבי יהודה הנשיא. מוזכר בתוספתא ובברייתות."},
-  {id:"shimon_bg2",    name:"ר' שמעון בן גמליאל ב׳",type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"בנו של רבי",             isL:true, desc:"בנו השני של רבי יהודה הנשיא, נשיא לאחר אחיו גמליאל. נודע לבדיחותו ולחוכמתו."},
+  {id:"rtarfon",      name:"רבי טרפון",            type:"tan",gen:"דור ב׳",born:null,died:null,lat:32.013,lng:34.844,city:"לוד",             role:"עשיר וחסיד, בעל הלכה למעשה", isL:false,desc:"תלמיד דורו הראשון של רבי עקיבא. ידוע בעושרו הגדול ובחסידותו. נהג להגן בהלכה למעשה — לא רק בתורה. 'לא עליך המלאכה לגמור ולא אתה בן חורין להבטל'.",descEn:"Wealthy and pious contemporary of Rabbi Akiva. Famous maxim: 'The task is not yours to complete, but neither are you free to desist from it.'"},
+  {id:"relazer_azarya",name:"ר' אלעזר בן עזריה",   type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"נשיא לזמן קצר",          isL:true, desc:"כיהן כנשיא לזמן קצר אחרי הדחת רבן גמליאל ביבנה (כשהיה רק כ-18). עשיר ומיוחס, מצאצאי עזרא הסופר.",descEn:"Briefly served as Nasi at Yavneh after Rabban Gamliel was deposed, reportedly only about eighteen years old. Wealthy, of distinguished lineage, descended from Ezra the Scribe."},
+  {id:"ryochanan_nuri",name:"ר' יוחנן בן נורי",    type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"חכם יבנה",               isL:false,desc:"מחכמי יבנה, נודע בהתמדתו ובהגינותו בדיון. נחלק עם ר' עקיבא בכמה הלכות.",descEn:"A sage at Yavneh known for meticulous fairness in debate. Disagreed with Rabbi Akiva on several halachic points."},
+  {id:"ryosi_hagelili",name:"ר' יוסי הגלילי",      type:"tan",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"הגליל",          role:"דרשן גדול",              isL:false,desc:"חכם גלילי בעל כושר דרשני יוצא דופן. ידוע בדבריו עם ר' עקיבא ועם בנו רוּמה.",descEn:"A Galilean Tanna with exceptional homiletical ability, known for his exchanges with Rabbi Akiva."},
+  {id:"elisha_avuya",  name:"אלישע בן אבויה (אחר)", type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",           role:"חכם שסר מן הדרך",        isL:false,desc:"חכם גדול ביבנה שלפי המסורת 'יצא לתרבות רעה' וכונה 'אחר'. רבי מאיר היה תלמידו ונשאר נאמן לו.",descEn:"A great scholar who, according to rabbinic tradition, went astray and became known only as Acher — the Other. Rabbi Meir remained his devoted student."},
+  {id:"acha",          name:"רבי אחא",              type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"חכם בדור האחרון לתנאים",  isL:false,desc:"מהחכמים שכונו 'סמי תנאים' — בני דורו ותלמידיו האחרונים של רבי יהודה הנשיא. מוזכר בתוספתא ובברייתות.",descEn:"One of the sages called semi-Tannaim — contemporaries and later students of Rabbi Yehuda HaNasi. Cited in the Tosefta and Beraitot."},
+  {id:"shimon_bg2",    name:"ר' שמעון בן גמליאל ב׳",type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"בנו של רבי",             isL:true, desc:"בנו השני של רבי יהודה הנשיא, נשיא לאחר אחיו גמליאל. נודע לבדיחותו ולחוכמתו.",descEn:"Son of Rabbi Yehuda HaNasi, served as Nasi after his brother. Known for his sharp humor and wisdom."},
   // ── Additional Amoraim ──
-  {id:"ryehoshua_levi",name:"ר' יהושע בן לוי",      type:"amo",gen:"דור א׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",             role:"ראש ישיבת לוד",          isL:true, desc:"מגדולי אמוראי ארץ ישראל. ראש ישיבת לוד. ידוע בחסידותו הגדולה ובאגדותיו על המוות ועולם הבא."},
-  {id:"rabbi_yannai",  name:"ר' ינאי",               type:"amo",gen:"דור א׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"ראש ישיבת ציפורי",       isL:true, desc:"מגדולי האמוראים הראשונים בארץ ישראל, מייסד בית מדרש בציפורי. רבו של רבי יוחנן."},
-  {id:"rabbah_b_chana",name:"רבה בר בר חנה",         type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה (עלה מבבל)",role:"מספר סיפורי הפלגה",      isL:false,desc:"תלמיד רבי יוחנן, עלה מבבל לארץ ישראל. ידוע בסיפוריו המופלאים על מסעותיו בים ובמדבר, המובאים במסכת בבא בתרא."},
-  {id:"rabbi_abbahu",  name:"רבי אבהו",              type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.500,lng:34.900,city:"קיסריה",         role:"ראש ישיבת קיסריה",       isL:true, desc:"מגדולי אמוראי ארץ ישראל בדורו, ראש ישיבת קיסריה. ניהל יחסים עם השלטון הרומי ועם חכמי הנצרות הקדומה. עשיר ומיוחס."},
-  {id:"rav_kahana1",   name:"רב כהנא",               type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"בבל / טבריה",     role:"תלמיד רב, עלה לא\"י",     isL:false,desc:"תלמיד רב שעלה לארץ ישראל ולמד מרבי יוחנן. מספר אמוראים נקראו כך; המוכר שבהם תלמיד מובהק של רב."},
-  {id:"rabbah_b_avuha",name:"רבה בר אבוה",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",      role:"מייסד ישיבת מחוזא",      isL:true, desc:"תלמיד רב ושמואל, מייסד ישיבת מחוזא. חתנו של ריש גלותא. רב נחמן היה מתלמידיו הבולטים."},
-  {id:"rav_dimi",      name:"רב דימי",               type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"א\"י / בבל",      role:"נחותא (מעביר תורת א\"י לבבל)",isL:false,desc:"מהאמוראים שעברו בין ארץ ישראל לבבל והעבירו תורה ('נחותא'). ידוע במסחרו בתאנים."},
-  {id:"rav_pappa",     name:"רב פפא",                type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.600,lng:44.600,city:"נרש, בבל",        role:"ראש ישיבת נרש",          isL:true, desc:"תלמיד אביי ורבא, מייסד וראש ישיבת נרש. ידוע בעושרו (היה לו מבשלת שיכר) ובפסקיו המקובלים."},
-  {id:"rav_mesharshiya",name:"רב משרשיא",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.462,lng:44.521,city:"פומבדיתא, בבל",  role:"חתנו של רב כהנא",        isL:false,desc:"תלמיד רבא, חתנו של רב כהנא. חברו של רב פפא בדורם בפומבדיתא."},
-  {id:"ameimar",       name:"אמימר",                 type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא / מחוזא, בבל",role:"ראש ישיבת נהרדעא",    isL:true, desc:"חידש את ישיבת נהרדעא שנחרבה כמאה שנה לפניו. ישב גם בדין במחוזא. חברו של מר זוטרא ורב אשי; שלושתם יוצגו לפני המלך פרס."},
-  {id:"mar_zutra",     name:"מר זוטרא",              type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"ראש ישיבה וריש גלותא",   isL:true, desc:"חכם בדור השישי לאמוראים, גם ריש גלותא (נשיא הגולה). חברו של אמימר ורב אשי."},
-  {id:"rav_zevid2",    name:"רב הונא בריה דרב יהושע", type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",      role:"חכם בדור החמישי",        isL:false,desc:"מחכמי הדור החמישי לאמוראים בסורא. תלמידם של רבא ורב פפא."},
+  {id:"ryehoshua_levi",name:"ר' יהושע בן לוי",      type:"amo",gen:"דור א׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",             role:"ראש ישיבת לוד",          isL:true, desc:"מגדולי אמוראי ארץ ישראל. ראש ישיבת לוד. ידוע בחסידותו הגדולה ובאגדותיו על המוות ועולם הבא.",descEn:"Head of the Lod academy, one of the greatest first-generation Amoraim in the Land of Israel. Known for extraordinary piety and Aggadic traditions about death and the world to come."},
+  {id:"rabbi_yannai",  name:"ר' ינאי",               type:"amo",gen:"דור א׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",         role:"ראש ישיבת ציפורי",       isL:true, desc:"מגדולי האמוראים הראשונים בארץ ישראל, מייסד בית מדרש בציפורי. רבו של רבי יוחנן.",descEn:"Head of the Tzippori academy, one of the earliest Amoraim in the Land of Israel. Teacher of Rabbi Yochanan. Founded an influential school of study."},
+  {id:"rabbah_b_chana",name:"רבה בר בר חנה",         type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה (עלה מבבל)",role:"מספר סיפורי הפלגה",      isL:false,desc:"תלמיד רבי יוחנן, עלה מבבל לארץ ישראל. ידוע בסיפוריו המופלאים על מסעותיו בים ובמדבר, המובאים במסכת בבא בתרא.",descEn:"Student of Rabbi Yochanan who traveled between Israel and Babylonia. Famous for fantastical sea-voyage stories in Tractate Bava Batra."},
+  {id:"rabbi_abbahu",  name:"רבי אבהו",              type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.500,lng:34.900,city:"קיסריה",         role:"ראש ישיבת קיסריה",       isL:true, desc:"מגדולי אמוראי ארץ ישראל בדורו, ראש ישיבת קיסריה. ניהל יחסים עם השלטון הרומי ועם חכמי הנצרות הקדומה. עשיר ומיוחס.",descEn:"Head of the Caesarea academy, third-generation Amora. Wealthy and distinguished. Maintained relations with Roman authorities and engaged early Christian scholars."},
+  {id:"rav_kahana1",   name:"רב כהנא",               type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"בבל / טבריה",     role:"תלמיד רב, עלה לא\"י",     isL:false,desc:"תלמיד רב שעלה לארץ ישראל ולמד מרבי יוחנן. מספר אמוראים נקראו כך; המוכר שבהם תלמיד מובהק של רב.",descEn:"Student of Rav who emigrated to the Land of Israel and studied under Rabbi Yochanan."},
+  {id:"rabbah_b_avuha",name:"רבה בר אבוה",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",      role:"מייסד ישיבת מחוזא",      isL:true, desc:"תלמיד רב ושמואל, מייסד ישיבת מחוזא. חתנו של ריש גלותא. רב נחמן היה מתלמידיו הבולטים.",descEn:"Founder of the Mahoza academy, student of both Rav and Shmuel. Son-in-law of the Exilarch. Rav Nachman was among his notable students."},
+  {id:"rav_dimi",      name:"רב דימי",               type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"א\"י / בבל",      role:"נחותא (מעביר תורת א\"י לבבל)",isL:false,desc:"מהאמוראים שעברו בין ארץ ישראל לבבל והעבירו תורה ('נחותא'). ידוע במסחרו בתאנים.",descEn:"One of the Neḥuta — Amoraim who traveled between the Land of Israel and Babylonia transmitting teachings between the two great academies."},
+  {id:"rav_pappa",     name:"רב פפא",                type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.600,lng:44.600,city:"נרש, בבל",        role:"ראש ישיבת נרש",          isL:true, desc:"תלמיד אביי ורבא, מייסד וראש ישיבת נרש. ידוע בעושרו (היה לו מבשלת שיכר) ובפסקיו המקובלים.",descEn:"Founder and head of the Naresh academy, student of both Abaye and Rava. Known for his wealth (owned a beer brewery) and widely-accepted rulings."},
+  {id:"rav_mesharshiya",name:"רב משרשיא",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.462,lng:44.521,city:"פומבדיתא, בבל",  role:"חתנו של רב כהנא",        isL:false,desc:"תלמיד רבא, חתנו של רב כהנא. חברו של רב פפא בדורם בפומבדיתא.",descEn:"Fifth-generation Babylonian Amora at Pumbedita, student of Rava, son-in-law of Rav Kahana."},
+  {id:"ameimar",       name:"אמימר",                 type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא / מחוזא, בבל",role:"ראש ישיבת נהרדעא",    isL:true, desc:"חידש את ישיבת נהרדעא שנחרבה כמאה שנה לפניו. ישב גם בדין במחוזא. חברו של מר זוטרא ורב אשי; שלושתם יוצגו לפני המלך פרס.",descEn:"Revived the Nehardea academy about a century after its destruction. He, Mar Zutra, and Rav Ashi were presented together before the Persian king."},
+  {id:"mar_zutra",     name:"מר זוטרא",              type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",            role:"ראש ישיבה וריש גלותא",   isL:true, desc:"חכם בדור השישי לאמוראים, גם ריש גלותא (נשיא הגולה). חברו של אמימר ורב אשי.",descEn:"Sixth-generation Babylonian Amora who also served as Exilarch (head of the Jewish community in exile). Colleague of Ameimar and Rav Ashi."},
+  {id:"rav_zevid2",    name:"רב הונא בריה דרב יהושע", type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",      role:"חכם בדור החמישי",        isL:false,desc:"מחכמי הדור החמישי לאמוראים בסורא. תלמידם של רבא ורב פפא.",descEn:"Fifth-generation Babylonian Amora at Sura, student of Rava and Rav Pappa."},
 ];
 
 const CITIES=[
@@ -800,8 +800,8 @@ const CHULLIN_DAFIM=[
 // Tannaim generations get cool tones, Amoraim generations get warm tones,
 // so the two eras are visually distinguishable at a glance.
 const GEN_COLORS={
-  tan:{"דור א׳":"#2563EB","דור ב׳":"#7C3AED","דור ג׳":"#0E9488","דור ד׳":"#0891B2","דור ה׳":"#4F46E5"},
-  amo:{"דור א׳":"#DC2626","דור ב׳":"#EA580C","דור ג׳":"#D97706","דור ד׳":"#CA8A04","דור ה׳":"#65A30D","דור ו׳":"#BE123C"}
+  tan:{"דור א׳":"#A0522D","דור ב׳":"#8B6914","דור ג׳":"#6B7C3A","דור ד׳":"#4A7C6A","דור ה׳":"#7A5C3A"},
+  amo:{"דור א׳":"#5C7A8A","דור ב׳":"#4A6670","דור ג׳":"#6A5A7A","דור ד׳":"#7A4A4A","דור ה׳":"#5A6A4A","דור ו׳":"#7A5A4A"}
 };
 function genColor(r){
   const table = r.type==='tan' ? GEN_COLORS.tan : GEN_COLORS.amo;
@@ -845,17 +845,17 @@ function formatLifeRange(r){
 
 // Generations — each gets a clickable label that snaps the slider to its midpoint
 const GENERATIONS=[
-  {label:'ת׳ א', labelEn:'T1', mid:45,  range:[10,80],   color:'#2563EB'},
-  {label:'ת׳ ב', labelEn:'T2', mid:100, range:[80,120],  color:'#7C3AED'},
-  {label:'ת׳ ג', labelEn:'T3', mid:140, range:[120,160], color:'#0E9488'},
-  {label:'ת׳ ד', labelEn:'T4', mid:180, range:[160,200], color:'#0891B2'},
-  {label:'ת׳ ה', labelEn:'T5', mid:210, range:[200,220], color:'#4F46E5'},
-  {label:'א׳ א', labelEn:'A1', mid:235, range:[220,250], color:'#DC2626'},
-  {label:'א׳ ב', labelEn:'A2', mid:270, range:[250,290], color:'#EA580C'},
-  {label:'א׳ ג', labelEn:'A3', mid:305, range:[290,320], color:'#D97706'},
-  {label:'א׳ ד', labelEn:'A4', mid:345, range:[320,370], color:'#CA8A04'},
-  {label:'א׳ ה', labelEn:'A5', mid:395, range:[370,420], color:'#65A30D'},
-  {label:'א׳ ו', labelEn:'A6', mid:460, range:[420,500], color:'#BE123C'},
+  {label:'10–80',   labelEn:'10–80',   genHe:'ת׳ א', genEn:'T1', mid:45,  range:[10,80],   color:'#A0522D'},
+  {label:'80–120',  labelEn:'80–120',  genHe:'ת׳ ב', genEn:'T2', mid:100, range:[80,120],  color:'#8B6914'},
+  {label:'120–160', labelEn:'120–160', genHe:'ת׳ ג', genEn:'T3', mid:140, range:[120,160], color:'#6B7C3A'},
+  {label:'160–200', labelEn:'160–200', genHe:'ת׳ ד', genEn:'T4', mid:180, range:[160,200], color:'#4A7C6A'},
+  {label:'200–220', labelEn:'200–220', genHe:'ת׳ ה', genEn:'T5', mid:210, range:[200,220], color:'#7A5C3A'},
+  {label:'220–250', labelEn:'220–250', genHe:'א׳ א', genEn:'A1', mid:235, range:[220,250], color:'#5C7A8A'},
+  {label:'250–290', labelEn:'250–290', genHe:'א׳ ב', genEn:'A2', mid:270, range:[250,290], color:'#4A6670'},
+  {label:'290–320', labelEn:'290–320', genHe:'א׳ ג', genEn:'A3', mid:305, range:[290,320], color:'#6A5A7A'},
+  {label:'320–370', labelEn:'320–370', genHe:'א׳ ד', genEn:'A4', mid:345, range:[320,370], color:'#7A4A4A'},
+  {label:'370–420', labelEn:'370–420', genHe:'א׳ ה', genEn:'A5', mid:395, range:[370,420], color:'#5A6A4A'},
+  {label:'420–500', labelEn:'420–500', genHe:'א׳ ו', genEn:'A6', mid:460, range:[420,500], color:'#7A5A4A'},
 ];
 
 // Build the era bar with one colored segment per generation
@@ -868,6 +868,11 @@ GENERATIONS.forEach(g=>{
   seg.style.width=w+'%';
   seg.style.background=g.color;
   seg.style.opacity='0.85';
+  seg.style.cursor='pointer';
+  seg.title=g.genHe+' / '+g.genEn+' · '+g.range[0]+'–'+g.range[1]+' CE';
+  seg.onclick=(()=>{const mid=g.mid; return ()=>{ slider.value=mid; render(mid); };})();
+  seg.onmouseenter=()=>seg.style.opacity='1';
+  seg.onmouseleave=()=>seg.style.opacity='0.85';
   pbarsEl.appendChild(seg);
   // generation divider line
   if(g.range[0]>10){
@@ -886,7 +891,7 @@ GENERATIONS.forEach(g=>{
   btn.textContent=g.label;
   btn.style.left=pct(g.mid)+'%';
   btn.style.color=g.color;
-  btn.title=g.label+' ('+g.range[0]+'–'+g.range[1]+' לסה)';
+  btn.title=g.genHe+' / '+g.genEn+' ('+g.range[0]+'–'+g.range[1]+' CE)';
   btn.onclick=()=>{
     slider.value=g.mid;
     render(g.mid);
@@ -904,30 +909,32 @@ function updateGenHighlight(year){
 
 // Historical events below the slider — category determines colour (see CSS)
 const HIST_EVENTS=[
-  {y:70,  cat:'destruction', lbl:'חורבן\nהבית'},
-  {y:115, cat:'war',         lbl:'מרד\nהגלויות'},
-  {y:135, cat:'war',         lbl:'מרד\nבר כוכבא'},
-  {y:220, cat:'text',        lbl:'חתימת\nהמשנה'},
-  {y:312, cat:'political',   lbl:'אדיקט\nמילאן'},
-  {y:370, cat:'text',        lbl:'תלמוד\nירושלמי'},
-  {y:425, cat:'political',   lbl:'ביטול\nהנשיאות'},
-  {y:500, cat:'text',        lbl:'חתימת\nהתלמוד'},
+  {y:70,  cat:'destruction', lbl:'חורבן\nהבית',     lblEn:'Temple\nDestroyed'},
+  {y:115, cat:'war',         lbl:'מרד\nהגלויות',    lblEn:'Diaspora\nRevolt'},
+  {y:135, cat:'war',         lbl:'מרד\nבר כוכבא',   lblEn:'Bar Kokhba\nRevolt'},
+  {y:220, cat:'text',        lbl:'חתימת\nהמשנה',     lblEn:'Mishnah\nCodeified'},
+  {y:312, cat:'political',   lbl:'אדיקט\nמילאן',     lblEn:'Edict of\nMilan'},
+  {y:370, cat:'text',        lbl:'תלמוד\nירושלמי',  lblEn:'Jerusalem\nTalmud'},
+  {y:425, cat:'political',   lbl:'ביטול\nהנשיאות',   lblEn:'Patriarchate\nAbolished'},
+  {y:500, cat:'text',        lbl:'חתימת\nהתלמוד',    lblEn:'Babylonian\nTalmud'},
 ];
 
 const eventsEl=document.getElementById('events');
+const evtLabelDivs=[]; // kept so applyLang can swap text
 HIST_EVENTS.forEach(e=>{
   const div=document.createElement('div');
   div.className='evt '+e.cat;
   div.style.left=pct(e.y)+'%';
-  div.innerHTML=
-    '<div class="evt-tick"></div>'+
-    '<div class="evt-dot"></div>'+
-    '<div class="evt-lbl">'+e.lbl.replace('\n','<br>')+'</div>';
-  div.title=e.lbl.replace('\n',' ')+' ('+e.y+' לסה)';
-  // Clicking an event snaps the slider to that year
+  const lblDiv=document.createElement('div');
+  lblDiv.className='evt-lbl';
+  lblDiv.innerHTML=e.lbl.replace(/\n/g,'<br>');
+  div.innerHTML='<div class="evt-tick"></div><div class="evt-dot"></div>';
+  div.appendChild(lblDiv);
+  div.title=e.lbl.replace(/\n/g,' ')+' ('+e.y+' CE)';
   div.onclick=()=>{ slider.value=e.y; render(e.y); };
   div.style.cursor='pointer';
   eventsEl.appendChild(div);
+  evtLabelDivs.push({el:lblDiv, lbl:e.lbl, lblEn:e.lblEn, y:e.y, lbl_he:e.lbl});
 });
 
 const slider=document.getElementById('slider');
@@ -1742,7 +1749,9 @@ function showInfo(r){
   document.getElementById('iyears').textContent=formatLifeRange(r)+STRINGS[currentLang].years_suffix;
   document.getElementById('irole').textContent=r.role;
   document.getElementById('icitytxt').textContent=r.city;
-  document.getElementById('idesc').textContent=r.desc;
+  const descEl=document.getElementById('idesc');
+  descEl.textContent=(currentLang==='en' && r.descEn) ? r.descEn : r.desc;
+  descEl._currentRabbi=r;
   document.getElementById('info').classList.add('on');
 }
 function hideInfo(){
@@ -1862,6 +1871,11 @@ function applyLang(lang){
     const g=GENERATIONS[i];
     el.textContent=isHe?g.label:g.labelEn;
   });
+  // historical event labels on timeline
+  evtLabelDivs.forEach(item=>{
+    const txt=isHe?item.lbl_he:item.lblEn;
+    item.el.innerHTML=txt.replace(/\n/g,'<br>');
+  });
   // info modal
   document.getElementById('info-h2').textContent=S.info_h2;
   document.getElementById('info-p1').textContent=S.info_p1;
@@ -1879,6 +1893,14 @@ function applyLang(lang){
   else buildChart();
   // update current display
   render(parseInt(slider.value));
+  // if the info panel is currently showing a sage, refresh the description language
+  if(document.getElementById('info').classList.contains('on')){
+    const descEl=document.getElementById('idesc');
+    if(descEl._currentRabbi){
+      const r=descEl._currentRabbi;
+      descEl.textContent=(lang==='en'&&r.descEn)?r.descEn:r.desc;
+    }
+  }
 }
 
 document.getElementById('langbtn').onclick=()=>{
