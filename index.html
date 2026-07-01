@@ -46,6 +46,8 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 
 /* Map fills everything — absolutely positioned under the banners */
 #mapwrap{position:absolute;inset:0;z-index:600}
+/* Left-edge hover zone to reopen chart */
+#chart-hover-zone{position:absolute;left:0;top:0;bottom:0;width:20px;z-index:610;cursor:ew-resize;}
 
 /* Hover zone strip that sits over the timeline to catch hover */
 #hdr-hover-zone{display:none}
@@ -99,6 +101,11 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 }
 #dafverified{font-size:10px;color:#8FE89A;font-weight:700}
 #dafunverified{font-size:10px;color:#F0C060;font-weight:700}
+#dafprev,#dafnext{background:rgba(200,134,10,.15);border:1px solid var(--gold-dk);border-radius:5px;color:var(--gold);font-size:10px;padding:2px 5px;cursor:pointer;}
+#dafprev:hover,#dafnext:hover{background:rgba(200,134,10,.3)}
+#masechetselect{background:#FDF6E3;border:1.5px solid var(--gold-dk);border-radius:6px;padding:2px 5px;font-size:10px;font-family:inherit;color:var(--ink);cursor:pointer;}
+/* Grey out unverified daf options */
+#dafselect option.unverified{color:#999;}
 #dafclear{
   background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:5px;
   color:#C8B890;font-size:11px;padding:2px 7px;cursor:pointer;
@@ -152,11 +159,11 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 
 /* Info panel — compact, bottom-right, shown on hover */
 #info{
-  position:absolute;bottom:20px;right:20px;left:auto;
+  position:fixed;bottom:20px;right:20px;left:auto;
   transform:translateY(10px) scale(0.94);
   width:300px;max-width:80vw;
   background:rgba(253,246,227,.98);border-radius:12px;border:2px solid var(--gold-dk);
-  box-shadow:0 10px 32px rgba(0,0,0,.5);z-index:500;display:none;direction:rtl;overflow:hidden;
+  box-shadow:0 10px 32px rgba(0,0,0,.5);z-index:800;display:none;direction:rtl;overflow:hidden;
   opacity:0;pointer-events:none;
   transition:opacity .15s ease, transform .15s cubic-bezier(.34,1.56,.64,1);
 }
@@ -175,17 +182,17 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 #icity{display:inline-flex;align-items:center;gap:5px;background:#FEF9ED;border:1px solid var(--gold-dk);border-radius:18px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--gold-dk);margin-bottom:9px}
 #idesc{font-size:12px;color:#2A1A08;line-height:1.5;border-top:1.5px solid rgba(200,134,10,.22);padding-top:9px}
 
-/* City markers via divIcon */
+/* City markers — diamond shape to distinguish from circular sage dots */
 .city-marker-dot{
-  width:18px;height:18px;border-radius:50%;background:#C8860A;
-  border:2.5px solid #FFF6DC;box-shadow:0 1px 5px rgba(0,0,0,.4);
+  width:10px;height:10px;background:#C8860A;opacity:0.75;
+  transform:rotate(45deg);
+  border:1.5px solid rgba(255,246,220,.9);
+  box-shadow:0 1px 4px rgba(0,0,0,.35);
 }
 .city-marker-label{
-  font-family:'Noto Serif Hebrew',serif;font-weight:800;font-size:16px;color:#2A1A00;
-  white-space:nowrap;text-shadow:
-    -1.5px -1.5px 0 #FFF6DC, 1.5px -1.5px 0 #FFF6DC,
-    -1.5px 1.5px 0 #FFF6DC, 1.5px 1.5px 0 #FFF6DC,
-    0 0 6px #FFF6DC;
+  font-family:'Noto Serif Hebrew',serif;font-weight:700;font-size:13px;
+  color:#5A3800;opacity:0.85;white-space:nowrap;
+  text-shadow:-1px -1px 0 rgba(255,246,220,.8),1px 1px 0 rgba(255,246,220,.8);
   pointer-events:none;
 }
 /* Ancient city markers shown in ancient map mode */
@@ -235,6 +242,13 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
   transform:scale(1.25);
 }
 
+/* Daf mode: tone down background elements so sage dots are primary */
+body.daf-mode .city-marker-dot{opacity:0.3}
+body.daf-mode .city-marker-label{opacity:0.3}
+body.daf-mode .ancient-city-label{opacity:0.2}
+body.daf-mode .empire-label{opacity:0.1}
+body.daf-mode .river-label{opacity:0.15}
+
 /* Pulse ring (Leaflet divIcon, positioned via L.marker so it tracks pan/zoom automatically) */
 .map-pulse-ring{
   width:46px;height:46px;border-radius:50%;border:3px solid #FFD700;
@@ -249,7 +263,7 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
    Slide-out timeline chart panel
    ══════════════════════════════════════ */
 #chartpanel{
-  position:absolute;top:0;left:0;height:100%;width:380px;max-width:88vw;
+  position:absolute;top:var(--tpanel-h,130px);left:0;bottom:0;width:380px;max-width:88vw;
   background:#FDF6E3;border-left:3px solid var(--gold-dk);
   box-shadow:6px 0 24px rgba(0,0,0,.4);
   z-index:600;
@@ -270,6 +284,9 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
   color:#C8B890;padding:4px 11px;border-radius:50%;line-height:1;
 }
 #chartclose:hover{background:rgba(255,255,255,.18);color:#fff}
+#daf-nav{display:flex;align-items:center;gap:4px;margin-right:auto}
+#dafprev,#dafnext{background:rgba(200,134,10,.2);border:1px solid var(--gold-dk);border-radius:4px;color:var(--gold);font-size:10px;padding:2px 7px;cursor:pointer;}
+#dafprev:hover,#dafnext:hover{background:rgba(200,134,10,.4)}
 #chartscroll{flex:1;overflow-y:auto;padding:14px 16px 30px}
 
 .chart-period-label{
@@ -298,6 +315,8 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
   transition:background .15s;
 }
 .chart-rabbi:hover{background:rgba(200,134,10,.1)}
+.chart-rabbi.nehuta{border-right:3px solid #2563EB;}
+.chart-rabbi.nehuta .chart-rabbi-name::after{content:" ✈";font-size:10px;color:#2563EB;opacity:0.8;}
 .chart-rabbi-name{font-weight:700}
 .chart-rabbi-years{font-size:10.5px;color:#8A7A60;font-family:sans-serif;white-space:nowrap}
 
@@ -373,7 +392,10 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
     <button id="langbtn" title="Switch to English">EN</button>
     <button id="infobtn" title="About this project">ℹ️</button>
     <div id="daf-inline">
-      <span id="dafpanel-label">📖 חולין:</span>
+      <span id="dafpanel-label">📖</span>
+      <select id="masechetselect">
+        <option value="chullin">חולין / Chullin</option>
+      </select>
       <select id="dafselect"><option value="">— דף —</option></select>
       <span id="dafverified" style="display:none">✓</span>
       <span id="dafunverified" style="display:none">⚠️</span>
@@ -428,28 +450,35 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 
 <div id="mapwrap">
   <div id="map"></div>
+  <div id="chart-hover-zone"></div>
   <div id="chartpanel">
     <div id="chartpanel-hdr">
       <button id="chartclose">✕</button>
       <h3>📜 ציר זמן — תנאים ואמוראים</h3>
+      <div id="daf-nav" style="display:none">
+        <button id="dafprev" title="עמוד קודם">◀</button>
+        <span id="daf-cur-label" style="font-size:11px;color:var(--gold);min-width:50px;text-align:center"></span>
+        <button id="dafnext" title="עמוד הבא">▶</button>
+      </div>
     </div>
     <div id="chartscroll"></div>
   </div>
-</div>
 
-<div id="info">
-  <div id="ihdr">
-    <div><div id="iname"></div><div id="ibadge"></div></div>
-    <button id="iclose">✕</button>
-  </div>
-  <div id="ibody">
-    <div class="irow">
-      <div class="ifield"><div class="ilbl">שנות חיים</div><div class="ival" id="iyears"></div></div>
-      <div class="ifield"><div class="ilbl">תפקיד</div><div class="ival" id="irole"></div></div>
+  <div id="info">
+    <div id="ihdr">
+      <div><div id="iname"></div><div id="ibadge"></div></div>
+      <button id="iclose">✕</button>
     </div>
-    <div id="icity">📍 <span id="icitytxt"></span></div>
-    <div id="idesc"></div>
+    <div id="ibody">
+      <div class="irow">
+        <div class="ifield"><div class="ilbl">שנות חיים</div><div class="ival" id="iyears"></div></div>
+        <div class="ifield"><div class="ilbl">תפקיד</div><div class="ival" id="irole"></div></div>
+      </div>
+      <div id="icity">📍 <span id="icitytxt"></span></div>
+      <div id="idesc"></div>
+    </div>
   </div>
+
 </div>
 
 </div><!-- #app -->
@@ -539,6 +568,7 @@ const RABBIS=[
   {id:"rav_kahana1",   name:"רב כהנא",               type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"בבל / טבריה",cityEn:"Babylonia / Tiberias",     role:"תלמיד רב, עלה לא\"י",     isL:false,desc:"תלמיד רב שעלה לארץ ישראל ולמד מרבי יוחנן. מספר אמוראים נקראו כך; המוכר שבהם תלמיד מובהק של רב.",descEn:"Student of Rav who emigrated to the Land of Israel and studied under Rabbi Yochanan."},
   {id:"rabbah_b_avuha",name:"רבה בר אבוה",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",cityEn:"Mahoza, Babylonia",      role:"מייסד ישיבת מחוזא",      isL:true, desc:"תלמיד רב ושמואל, מייסד ישיבת מחוזא. חתנו של ריש גלותא. רב נחמן היה מתלמידיו הבולטים.",descEn:"Founder of the Mahoza academy, student of both Rav and Shmuel. Son-in-law of the Exilarch. Rav Nachman was among his notable students."},
   {id:"rav_dimi",      name:"רב דימי",               type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",role:"נחותא (מעביר תורת א\"י לבבל)",isL:false,desc:"מהאמוראים שעברו בין ארץ ישראל לבבל והעבירו תורה ('נחותא'). ידוע במסחרו בתאנים.",descEn:"One of the Neḥuta — Amoraim who traveled between the Land of Israel and Babylonia transmitting teachings between the two great academies."},
+  {id:"rav_daniel_katina",name:"רב דניאל בר רב קטינא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור השלישי. מקשה מהמשנה בענין מי חטאת ויונה, שאלה שרב זירא מתרץ.",descEn:"Third-generation Babylonian Amora. Raises an objection from the Mishnah about Mei Chatas and doves, which Rabbi Zeira answers on Chullin 62b."},
   {id:"ula",           name:"עולא",                   type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",role:"נחותא — מעביר תורת א\"י לבבל", isL:false,desc:"אמורא מארץ ישראל מהדור השני, תלמיד ר' יוחנן. נסע רבות לבבל ומסר את תורת הארץ ישראל. מפורסם בקביעתו שהלכה כר' יוחנן כנגד רב ושמואל.",descEn:"Second-generation Amora from the Land of Israel, student of Rabbi Yochanan. Traveled extensively to Babylonia transmitting Israeli traditions. Famous for ruling that the law follows Rabbi Yochanan over Rav and Shmuel."},
   {id:"rav_pappa",     name:"רב פפא",                type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.600,lng:44.600,city:"נרש, בבל",cityEn:"Naresh, Babylonia",        role:"ראש ישיבת נרש",          isL:true, desc:"תלמיד אביי ורבא, מייסד וראש ישיבת נרש. ידוע בעושרו (היה לו מבשלת שיכר) ובפסקיו המקובלים.",descEn:"Founder and head of the Naresh academy, student of both Abaye and Rava. Known for his wealth (owned a beer brewery) and widely-accepted rulings."},
   {id:"rav_mesharshiya",name:"רב משרשיא",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.462,lng:44.521,city:"פומבדיתא, בבל",cityEn:"Pumbedita, Babylonia",  role:"חתנו של רב כהנא",        isL:false,desc:"תלמיד רבא, חתנו של רב כהנא. חברו של רב פפא בדורם בפומבדיתא.",descEn:"Fifth-generation Babylonian Amora at Pumbedita, student of Rava, son-in-law of Rav Kahana."},
@@ -693,8 +723,8 @@ const CHULLIN_DAFIM=[
   {daf:"60b",verified:true,sages:["ravina_1","rshimon_pazi","resh_lakish","rav_asi2","rav_nachman_papa","rav_chanan_rava","rav_chisda","rav_tachlifa","ryochanan","rav","rav_yosef","rav_pappa"]},
   {daf:"61a",verified:true,sages:["abaye","rabbi_chiya"]},
   {daf:"61b",verified:true,sages:["rav_ukva_chama"]},
-  {daf:"62a",verified:true,sages:["rav_nachman_y","ameimar","rav_ashi","rav_yehuda","mar_zutra"]},
-  {daf:"62b",verified:true,sages:["rabbi_zeira","rav_yehuda","abaye","raba","ravina_1","rav_asi2","rav_pappa","rav_huna","shmuel"]},
+  {daf:"62a",verified:true,sages:["rav_nachman_y","ameimar","rav_ashi","rav_yehuda","mar_zutra","reliezer"]},
+  {daf:"62b",verified:true,sages:["rav_daniel_katina","rabbi_zeira","rav_yehuda","abaye","raba","ravina_1","rav_asi2","rav_pappa","ameimar","rav","rav_huna","shmuel"]},
   {daf:"63a",verified:true,sages:["rav_yehuda","ryochanan","ameimar","abaye","rav_beivai_abaye","rav_adda_shimi","mar_bar_idai","rav_pappa","rav_chanan_chisda","rabbi_hanasi","rabbi_abbahu","rav_yitzchak1"]},
   {daf:"63b",verified:true,sages:["ryochanan","rabbi_zeira"]},
   {daf:"64a",verified:true,sages:["rabbi_zeira","rav_ukva_chama","ravina_1","raba","rabbi_yirmeya","dostai_aptoriki","rav_geviha","chizkiyah"]},
@@ -1136,6 +1166,25 @@ function switchMapMode(mode){
   updateAncientOverlays();
 }
 
+// Show/hide permanent Talmudic city label markers based on daf mode
+// In daf mode, only show cities that appear in the cited sages list
+function filterCityMarkersForDaf(citedRabbis){
+  const dafCities=new Set(citedRabbis.map(r=>r.city));
+  cityLabelMarkers.forEach(lm=>{
+    const c=lm._cityData;
+    // Match by Hebrew city name prefix
+    const matches=dafCities.size===0 || [...dafCities].some(dc=>dc&&(dc.includes(c.name)||c.name.includes(dc.split(',')[0].split('/')[0].trim())));
+    if(lm._map && !matches) try{gmap.removeLayer(lm);}catch(e){}
+    if(!lm._map && matches) try{lm.addTo(gmap);}catch(e){}
+  });
+  // Same for dot markers (index: dot = 2i, label = 2i+1... actually all in one array)
+  // The city DOT markers are the even-indexed entries — find them differently
+}
+
+function restoreCityMarkers(){
+  cityLabelMarkers.forEach(lm=>{ try{lm.addTo(gmap);}catch(e){} });
+}
+
 function updateCityMarkerVisibility(){
   // When using the ancient map, city dot and label get a stronger halo
   // so they always pop against the parchment-toned CAWM tiles
@@ -1569,6 +1618,9 @@ function buildChart(){
         row.style.background=tint;
         const yearsLabel=formatLifeRange(r);
         row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+yearsLabel+'</span>';
+        if(['rav_dimi','ula','rabbah_b_chana'].includes(r.id)) row.classList.add('nehuta');
+        row.onmouseenter=()=>showInfo(r);
+        row.onmouseleave=()=>hideInfo();
         row.onclick=()=>jumpToRabbi(r);
         genDiv.appendChild(row);
       });
@@ -1682,12 +1734,7 @@ buildChart();
 buildAncientCityMarkers(); // deferred here so currentLang is already declared
 // ══════════════════════════════════════
 const dafSelect=document.getElementById('dafselect');
-CHULLIN_DAFIM.forEach(d=>{
-  const opt=document.createElement('option');
-  opt.value=d.daf;
-  opt.textContent='חולין '+d.daf+(d.verified?'':' (לא מאומת)');
-  dafSelect.appendChild(opt);
-});
+// Options are built after STRINGS is declared (see end of script)
 
 function clearDafMode(){
   // Remove daf-mode dot markers from the map
@@ -1697,6 +1744,9 @@ function clearDafMode(){
   currentDafCitedRabbis=[];
   selectedDafSageId=null;
   clearMapPulse();
+  document.getElementById('daf-nav').style.display='none';
+  document.body.classList.remove('daf-mode');
+  document.getElementById('daf-cur-label').textContent='';
   gmap.off('zoomend',redrawDafDots);
   gmap.off('moveend',redrawDafDots);
   // Restore the normal full chart and normal year-driven map markers
@@ -1881,6 +1931,9 @@ function applyDafSelection(dafId){
   document.getElementById('dafverified').style.display='inline';
   document.getElementById('dafverified').textContent='✓ מאומת — חכמים אמיתיים מהדף';
   document.getElementById('dafunverified').style.display='none';
+  document.getElementById('daf-nav').style.display='flex';
+  document.body.classList.add('daf-mode');
+  document.getElementById('daf-cur-label').textContent='חולין '+dafId;
 
   const citedRabbis=entry.sages.map(id=>RABBIS.find(r=>r.id===id)).filter(Boolean);
   buildGenLegend(citedRabbis);
@@ -2298,13 +2351,14 @@ document.getElementById('langbtn').onclick=()=>{
   const tpanel=document.getElementById('tpanel');
   let hideTimer=null;
 
-  // Position #hdr to start right below #tpanel
+  // Position #hdr below #tpanel; also update --tpanel-h so chart panel
+  // starts below the timeline (not overlapping it)
   function positionHdr(){
     const h=tpanel.getBoundingClientRect().height;
     hdr.style.top=h+'px';
+    document.documentElement.style.setProperty('--tpanel-h', h+'px');
   }
   positionHdr();
-  // Reposition if tpanel height ever changes (e.g. window resize)
   new ResizeObserver(positionHdr).observe(tpanel);
 
   function revealHdr(){
@@ -2316,12 +2370,61 @@ document.getElementById('langbtn').onclick=()=>{
     hideTimer=setTimeout(()=>hdr.classList.remove('revealed'), 900);
   }
 
-  // Hovering the timeline reveals the icon bar
   tpanel.addEventListener('mouseenter', revealHdr);
   tpanel.addEventListener('mouseleave', scheduleHide);
-  // Hovering the icon bar itself keeps it revealed
   hdr.addEventListener('mouseenter', revealHdr);
   hdr.addEventListener('mouseleave', scheduleHide);
+})();
+
+// ── Left-edge hover zone reopens chart ──
+document.getElementById('chart-hover-zone').addEventListener('mouseenter', ()=>{
+  openChart();
+});
+
+// ── Daf dropdown: grey out unverified, mark verified-anonymous ──
+// Rebuild daf options with proper styling
+(function(){
+  const sel=document.getElementById('dafselect');
+  // Clear existing options except first
+  while(sel.options.length>1) sel.remove(1);
+  CHULLIN_DAFIM.forEach(d=>{
+    const opt=document.createElement('option');
+    opt.value=d.daf;
+    if(!d.verified){
+      opt.textContent='חולין '+d.daf;
+      opt.classList.add('unverified');
+      opt.style.color='#999';
+      opt.disabled=true;  // grey and unclickable
+    } else if(d.sages.length===0){
+      opt.textContent='חולין '+d.daf+' (אנונ.)';
+      opt.style.color='#888';
+    } else {
+      opt.textContent='חולין '+d.daf;
+    }
+    sel.appendChild(opt);
+  });
+})();
+
+// ── Daf prev/next navigation arrows ──
+(function(){
+  const sel=document.getElementById('dafselect');
+  const verifiedDafim=CHULLIN_DAFIM.filter(d=>d.verified&&d.sages.length>0).map(d=>d.daf);
+
+  function navDaf(dir){
+    const cur=sel.value;
+    const idx=verifiedDafim.indexOf(cur);
+    if(idx===-1){
+      // go to first if none selected
+      const first=verifiedDafim[dir>0?0:verifiedDafim.length-1];
+      if(first){ sel.value=first; sel.dispatchEvent(new Event('change')); }
+    } else {
+      const next=verifiedDafim[idx+dir];
+      if(next){ sel.value=next; sel.dispatchEvent(new Event('change')); }
+    }
+  }
+
+  document.getElementById('dafprev').onclick=()=>navDaf(-1);
+  document.getElementById('dafnext').onclick=()=>navDaf(1);
 })();
 
 
