@@ -509,6 +509,7 @@ const RABBIS=[
   {id:"rav_asi2",       name:"רב אסי",             type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי, מוזכר בכמה מקומות בשס. יש להבחין בינו לבין רבי אסי שעלה מבבל לארץ ישראל.",descEn:"Babylonian Amora cited in several Talmudic passages. To be distinguished from Rabbi Assi who emigrated to the Land of Israel."},
   // ── Added while verifying real sages cited in Chullin 61a-70b ──
   {id:"relazer_btzadok",name:"ר' אלעזר בר צדוק",   type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.776,lng:35.234,city:"ירושלים",cityEn:"Jerusalem",        role:"כהן ותנא", isL:false,desc:"תנא וכהן, חי בזמן חורבן הבית השני ובדורות שאחריו. דבריו מובאים במשניות וברייתות רבות, ובפרט בענייני עופות טמאים וטהורים.",descEn:"A Tanna and Kohen who witnessed the Second Temple and continued teaching in later generations. His rulings appear in many Mishnayot, particularly on birds and Temple law."},
+  {id:"chizkiyah",    name:"חזקיה",                type:"tan",gen:"דור א׳",born:null,died:null,lat:31.776,lng:35.234,city:"ירושלים",cityEn:"Jerusalem",        role:"תנא, אחיו של ר' חייא", isL:false,desc:"תנא מהדור הראשון, אחיו של רבי חייא. דורשת 'בת היענה' לאסור ביצת עוף טמא מן התורה — דרשה המובאת בחולין סד.",descEn:"A Tanna of the first Amoraic generation, brother of Rabbi Chiyya. His exposition of 'Bas ha'Ya'anah' (Chullin 64b) establishes that Tamei bird eggs are Biblically forbidden."},
   {id:"rav_yitzchak1",  name:"רב יצחק",             type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי המובא בכמה מקומות בשס, ובפרט בעניין המסורת על עופות טהורים.",descEn:"Second-generation Babylonian Amora, transmitter of traditions about kosher species."},
   {id:"rav_geviha",     name:"רב גביהא מבי כתיל",  type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"בן דורו של רב אשי", isL:false,desc:"אמורא בבלי מהדור השישי, בן דורו של רב אשי. ידוע בשאלותיו המדויקות ובדיוקים שהביא מתלמודם של אביי ורבא.",descEn:"Sixth-generation Babylonian Amora, contemporary of Rav Ashi. Known for incisive questions and precise transmission of Abaye and Rava's teachings."},
   {id:"mar_bar_idai",   name:"מר בר רב אידאי",     type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור השישי, מוזכר בדיוני הלכה על עופות וסימניהם.",descEn:"Sixth-generation Babylonian Amora, cited in discussions of bird law in Chullin."},
@@ -517,6 +518,8 @@ const RABBIS=[
   {id:"relazer_byosei", name:"ר' אלעזר ברבי יוסי", type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",        role:"תנא, בנו של ר' יוסי", isL:false,desc:"תנא מהדור הרביעי, בנו של רבי יוסי בן חלפתא. מובאות הלכותיו במשנה ובברייתות, ובפרט בעניין חגבים וסימניהם.",descEn:"Fourth-generation Tanna, son of Rabbi Yosi ben Chalafta. His rulings appear in the Mishnah and Beraitot on locusts and their identifying signs."},
   {id:"rav_chanan_chisda",name:"רב חנן בר רב חסדא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.940,city:"סורא, בבל",cityEn:"Sura, Babylonia",      role:"בנו של רב חסדא", isL:false,desc:"אמורא בבלי, בנו של רב חסדא. מוסר מסורת בשם אביו ובשם רב חנן בר רבא בשם רב, בעניין מנין העופות הטמאים.",descEn:"Babylonian Amora, son of Rav Chisda. Transmitter of his father's and Rav Chanan bar Rava's teachings, particularly on the count of forbidden birds."},
   {id:"rav_chanan_rava",name:"רב חנן בר רבא",      type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"חתנו של רב", isL:false,desc:"אמורא בבלי מהדור השני, חתנו של רב (אבא אריכא). מוסר מסורות רבות בשם רב.",descEn:"Second-generation Babylonian Amora, son-in-law of Rav. Transmitter of many traditions in Rav's name."},
+  {id:"rav_tachlifa",name:"רב תחליפא בר אבינא",  type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"תלמיד רב חסדא", isL:false,desc:"אמורא בבלי מהדור השלישי, תלמיד רב חסדא. מוזכר בסוגיות חולין בהקשר של הסבר מילים מיוחדות בגמרא.",descEn:"Third-generation Babylonian Amora, student of Rav Chisda. Cited in Chullin in connection with explaining unusual words in Aggadic material."},
+  {id:"rav_nachman_papa",name:"רב נחמן בר פפא",   type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור הרביעי. מוזכר בסוגיות חולין בהקשר של גינה שזרע ולא צמחה עד שביקש רחמים.",descEn:"Fourth-generation Babylonian Amora. Cited in Chullin regarding a garden he planted that only grew after he prayed — citing it as proof that God desires the prayers of the righteous (following Rav Asi's teaching)."},
   {id:"rabbi_yirmeya",  name:"ר' ירמיה",            type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.500,lng:34.900,city:"קיסריה",cityEn:"Caesarea",        role:"תלמיד ר' זירא ור' אבהו", isL:false,desc:"אמורא בארץ ישראל מהדור הרביעי, עלה מבבל ולמד בקיסריה. ידוע בשאלותיו המדויקות והדקדקניות, עד שהורחק לזמן מבית המדרש.",descEn:"Fourth-generation Amora in the Land of Israel, emigrated from Babylonia. Famous for precise, probing questions — temporarily expelled from the study house for an overly far-fetched query."},
   {id:"rav_beivai_abaye",name:"רב ביבי בר אביי",     type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.465,lng:44.521,city:"פומבדיתא, בבל",cityEn:"Pumbedita, Babylonia",  role:"בנו של אביי", isL:false,desc:"אמורא בבלי, בנו של אביי. מוסר מסורות אגדה, בהן הסבר לשמות עופות וסימני בוא הגאולה.",descEn:"Babylonian Amora, son of Abaye. Transmitter of Aggadic traditions including the story of the Angel of Death's assistant."},
   {id:"rav_ukva_chama", name:"רב עוקבא בר חמא",      type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",cityEn:"Sura, Babylonia",      role:"חתנו של רב חסדא", isL:false,desc:"אמורא בבלי מהדור הרביעי, חתנו של רב חסדא ואחיו של רמי בר חמא. מוסר הלכות בעניין ביצי שרץ וטומאתן.",descEn:"Fourth-generation Babylonian Amora, son-in-law of Rav Chisda and brother of Rami bar Chama. Ruled on questions of eggs from forbidden species."},
@@ -536,6 +539,7 @@ const RABBIS=[
   {id:"rav_kahana1",   name:"רב כהנא",               type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"בבל / טבריה",cityEn:"Babylonia / Tiberias",     role:"תלמיד רב, עלה לא\"י",     isL:false,desc:"תלמיד רב שעלה לארץ ישראל ולמד מרבי יוחנן. מספר אמוראים נקראו כך; המוכר שבהם תלמיד מובהק של רב.",descEn:"Student of Rav who emigrated to the Land of Israel and studied under Rabbi Yochanan."},
   {id:"rabbah_b_avuha",name:"רבה בר אבוה",           type:"amo",gen:"דור ב׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",cityEn:"Mahoza, Babylonia",      role:"מייסד ישיבת מחוזא",      isL:true, desc:"תלמיד רב ושמואל, מייסד ישיבת מחוזא. חתנו של ריש גלותא. רב נחמן היה מתלמידיו הבולטים.",descEn:"Founder of the Mahoza academy, student of both Rav and Shmuel. Son-in-law of the Exilarch. Rav Nachman was among his notable students."},
   {id:"rav_dimi",      name:"רב דימי",               type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",role:"נחותא (מעביר תורת א\"י לבבל)",isL:false,desc:"מהאמוראים שעברו בין ארץ ישראל לבבל והעבירו תורה ('נחותא'). ידוע במסחרו בתאנים.",descEn:"One of the Neḥuta — Amoraim who traveled between the Land of Israel and Babylonia transmitting teachings between the two great academies."},
+  {id:"ula",           name:"עולא",                   type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",role:"נחותא — מעביר תורת א\"י לבבל", isL:false,desc:"אמורא מארץ ישראל מהדור השני, תלמיד ר' יוחנן. נסע רבות לבבל ומסר את תורת הארץ ישראל. מפורסם בקביעתו שהלכה כר' יוחנן כנגד רב ושמואל.",descEn:"Second-generation Amora from the Land of Israel, student of Rabbi Yochanan. Traveled extensively to Babylonia transmitting Israeli traditions. Famous for ruling that the law follows Rabbi Yochanan over Rav and Shmuel."},
   {id:"rav_pappa",     name:"רב פפא",                type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.600,lng:44.600,city:"נרש, בבל",cityEn:"Naresh, Babylonia",        role:"ראש ישיבת נרש",          isL:true, desc:"תלמיד אביי ורבא, מייסד וראש ישיבת נרש. ידוע בעושרו (היה לו מבשלת שיכר) ובפסקיו המקובלים.",descEn:"Founder and head of the Naresh academy, student of both Abaye and Rava. Known for his wealth (owned a beer brewery) and widely-accepted rulings."},
   {id:"rav_mesharshiya",name:"רב משרשיא",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.462,lng:44.521,city:"פומבדיתא, בבל",cityEn:"Pumbedita, Babylonia",  role:"חתנו של רב כהנא",        isL:false,desc:"תלמיד רבא, חתנו של רב כהנא. חברו של רב פפא בדורם בפומבדיתא.",descEn:"Fifth-generation Babylonian Amora at Pumbedita, student of Rava, son-in-law of Rav Kahana."},
   {id:"ameimar",       name:"אמימר",                 type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא / מחוזא, בבל",cityEn:"Nehardea / Mahoza, Babylonia",role:"ראש ישיבת נהרדעא",    isL:true, desc:"חידש את ישיבת נהרדעא שנחרבה כמאה שנה לפניו. ישב גם בדין במחוזא. חברו של מר זוטרא ורב אשי; שלושתם יוצגו לפני המלך פרס.",descEn:"Revived the Nehardea academy about a century after its destruction. He, Mar Zutra, and Rav Ashi were presented together before the Persian king."},
@@ -685,24 +689,24 @@ const CHULLIN_DAFIM=[
   {daf:"58b",verified:false,sages:[]},
   {daf:"59a",verified:false,sages:[]},
   {daf:"59b",verified:false,sages:[]},
-  {daf:"60a",verified:true,sages:["ryehoshua","rchanina_pappa"]},
-  {daf:"60b",verified:true,sages:["rchanina_pappa","resh_lakish","rshimon_pazi","rav_asi2"]},
-  {daf:"61a",verified:true,sages:["abaye"]},
-  {daf:"61b",verified:true,sages:["relazer_btzadok"]},
-  {daf:"62a",verified:true,sages:["rav_huna","rav","rmeir","rav_yitzchak1","ryochanan","rabbi_zeira"]},
-  {daf:"62b",verified:false,sages:[]},
-  {daf:"63a",verified:true,sages:["ryochanan","rav_adda_shimi","mar_bar_idai","rav_pappa","abaye","rav_yehuda","rav_beivai_abaye"]},
-  {daf:"63b",verified:true,sages:["rabbi_abbahu","rav_geviha","rav_ashi","rabbi_yirmeya","dostai_aptoriki","relazer_byosei"]},
-  {daf:"64a",verified:true,sages:["rabbi_zeira"]},
-  {daf:"64b",verified:false,sages:[]},
-  {daf:"65a",verified:true,sages:["rabbi_zeira","rav_asi2","rav_yitzchak1","ryochanan","rav_ukva_chama"]},
-  {daf:"65b",verified:false,sages:[]},
-  {daf:"66a",verified:true,sages:["rishmael"]},
-  {daf:"66b",verified:false,sages:[]},
-  {daf:"67a",verified:false,sages:[]},
-  {daf:"67b",verified:false,sages:[]},
-  {daf:"68a",verified:false,sages:[]},
-  {daf:"68b",verified:false,sages:[]},
+  {daf:"60a",verified:true,sages:["ryehoshua","rav_yehuda","rav_nachman_y","ryehoshua_levi","rchanina_pappa","rav_asi2","ravina_1"]},
+  {daf:"60b",verified:true,sages:["ravina_1","rshimon_pazi","resh_lakish","rav_asi2","rav_nachman_papa","rav_chanan_rava","rav_chisda","rav_tachlifa","ryochanan","rav","rav_yosef","rav_pappa"]},
+  {daf:"61a",verified:true,sages:["abaye","rabbi_chiya"]},
+  {daf:"61b",verified:true,sages:["rav_ukva_chama"]},
+  {daf:"62a",verified:true,sages:["rav_nachman_y","ameimar","rav_ashi","rav_yehuda","mar_zutra"]},
+  {daf:"62b",verified:true,sages:["rabbi_zeira","rav_yehuda","abaye","raba","ravina_1","rav_asi2","rav_pappa","rav_huna","shmuel"]},
+  {daf:"63a",verified:true,sages:["rav_yehuda","ryochanan","ameimar","abaye","rav_beivai_abaye","rav_adda_shimi","mar_bar_idai","rav_pappa","rav_chanan_chisda","rabbi_hanasi","rabbi_abbahu","rav_yitzchak1"]},
+  {daf:"63b",verified:true,sages:["ryochanan","rabbi_zeira"]},
+  {daf:"64a",verified:true,sages:["rabbi_zeira","rav_ukva_chama","ravina_1","raba","rabbi_yirmeya","dostai_aptoriki","rav_geviha","chizkiyah"]},
+  {daf:"64b",verified:true,sages:["chizkiyah"]},
+  {daf:"65a",verified:true,sages:["relazer_btzadok","abaye","rav_yehuda","rav_pappa"]},
+  {daf:"65b",verified:true,sages:["rishmael"]},
+  {daf:"66a",verified:true,sages:["rabbi_abbahu","rishmael"]},
+  {daf:"66b",verified:true,sages:[]},
+  {daf:"67a",verified:true,sages:["ravina_1","rav_huna","rav_chisda","shmuel"]},
+  {daf:"67b",verified:true,sages:["rav_yosef","rav_ashi","ravina_1","rav_mesharshiya"]},
+  {daf:"68a",verified:true,sages:["rav_yehuda","rav_nachman_y","ula","ryochanan","rav","shmuel","raba","rmeir"]},
+  {daf:"68b",verified:true,sages:["rav_nachman_y","rav","ryochanan"]},
   {daf:"69a",verified:false,sages:[]},
   {daf:"69b",verified:false,sages:[]},
   {daf:"70a",verified:true,sages:["raba"]},
@@ -1856,10 +1860,20 @@ function applyDafSelection(dafId){
     return;
   }
 
-  if(!entry || entry.sages.length===0){
+  if(!entry || (!entry.verified && entry.sages.length===0)){
     clearDafMode();
     document.getElementById('dafverified').style.display='none';
     document.getElementById('dafunverified').style.display='inline';
+    document.getElementById('dafunverified').textContent=STRINGS[currentLang].daf_unverified;
+    document.getElementById('gen-legend').innerHTML='';
+    return;
+  }
+
+  if(entry.verified && entry.sages.length===0){
+    clearDafMode();
+    document.getElementById('dafverified').style.display='inline';
+    document.getElementById('dafverified').textContent=currentLang==='he'?'✓ דף זה אומת — אין חכמים נקובים בשם בעמוד זה':'✓ Verified — no named sages on this page (anonymous Gemara)';
+    document.getElementById('dafunverified').style.display='none';
     document.getElementById('gen-legend').innerHTML='';
     return;
   }
