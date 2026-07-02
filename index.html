@@ -252,6 +252,47 @@ body.ancient-mode .leaflet-tile-pane{
   opacity: 0.88;
 }
 
+/* ══ CHART PANEL MODE COLOR SCHEMES ══
+   Three visual identities for the three chart modes:
+   Default (timeline): warm gold/ink — matches the app's overall palette
+   .daf-chart: cool blue-slate — evokes the structured Talmudic page
+   .city-chart: warm terracotta/parchment — ancient/archaeological feel
+   ══════════════════════════════════════ */
+
+/* DAF CHART MODE */
+#chartpanel.daf-chart{background:#0D1B2A}
+#chartpanel.daf-chart #chartpanel-hdr{background:#0D1B2A;border-bottom-color:rgba(100,150,210,.4)}
+#chartpanel.daf-chart #chartpanel-hdr h3{color:#7EB8D4}
+#chartpanel.daf-chart #chartclose{color:#7EB8D4}
+#chartpanel.daf-chart .chart-gen-hdr{background:rgba(94,140,185,.25)!important;color:#A8D0E8!important}
+#chartpanel.daf-chart .chart-rabbi{border-bottom-color:rgba(100,150,210,.15)}
+#chartpanel.daf-chart .chart-rabbi:hover{background:rgba(94,140,185,.18)}
+#chartpanel.daf-chart .chart-rabbi-name{color:#0D1B2A}
+#chartpanel.daf-chart .chart-rabbi-years{color:#7EB8D4}
+#chartpanel.daf-chart .chart-period-label{color:#7EB8D4;border-color:rgba(100,150,210,.4)}
+
+/* CITY CHART MODE */
+#chartpanel.city-chart{background:#1E0F04}
+#chartpanel.city-chart #chartpanel-hdr{background:#2A1505;border-bottom-color:rgba(180,100,40,.4)}
+#chartpanel.city-chart #chartpanel-hdr h3{color:#D4885A}
+#chartpanel.city-chart #chartclose{color:#D4885A}
+#chartpanel.city-chart .chart-period-label{display:none}
+#chartpanel.city-chart .chart-gen-hdr{background:rgba(160,82,45,.3)!important;color:#E8B090!important}
+#chartpanel.city-chart .chart-rabbi{border-bottom-color:rgba(180,100,40,.2)}
+#chartpanel.city-chart .chart-rabbi:hover{background:rgba(160,82,45,.2)}
+#chartpanel.city-chart .chart-rabbi-name{color:#1A0800}
+#chartpanel.city-chart .chart-rabbi-years{color:#D4885A;font-style:italic}
+#chartpanel.city-chart #chartscroll{background:#1E0F04}
+
+/* City mode header banner */
+#city-mode-hdr{display:none;padding:10px 16px 8px;border-bottom:1px solid rgba(180,100,40,.3)}
+#city-mode-hdr .city-mode-name{font-size:18px;font-weight:900;color:#D4885A;font-family:'Noto Serif Hebrew',serif}
+#city-mode-hdr .city-mode-sub{font-size:11px;color:#A07050;margin-top:2px}
+
+/* Daf mode header sub-label */
+#daf-mode-hdr{display:none;padding:4px 16px 6px;border-bottom:1px solid rgba(100,150,210,.2)}
+#daf-mode-hdr-label{font-size:11px;color:#7EB8D4}
+
 /* Daf mode: tone down background elements so sage dots are primary */
 /* In daf mode, ancient overlay elements are dimmed but Talmudic cities stay full brightness */
 body.daf-mode .ancient-city-label{opacity:0.15}
@@ -325,8 +366,8 @@ body.daf-mode .river-label{opacity:0.12}
 }
 .chart-rabbi:hover{background:rgba(200,134,10,.1)}
 .chart-rabbi.nehuta{border-right:3px solid #2563EB;}
-.chart-rabbi.nehuta .chart-rabbi-name::after{content:" ✈";font-size:10px;color:#2563EB;opacity:0.8;}
-.chart-rabbi-name{font-weight:700}
+.chart-rabbi.nehuta .chart-rabbi-name::after{content:" ⛵";font-size:10px;color:#2563EB;opacity:0.85;}
+.chart-rabbi-name{font-weight:700;color:#1A0800}
 .chart-rabbi-years{font-size:10.5px;color:#8A7A60;font-family:sans-serif;white-space:nowrap}
 
 .chart-rabbi.highlight{
@@ -419,18 +460,18 @@ body.daf-mode .river-label{opacity:0.12}
     <button id="infoclose">✕</button>
     <h2 id="info-h2">🗺️ מפת התנאים והאמוראים</h2>
     <div id="info-body">
-      <p id="info-p1">מפה אינטראקטיבית של תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.</p>
+      <p id="info-p1">מפה אינטראקטיבית של 85 תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.</p>
       <h3 id="info-h3a">כיצד להשתמש</h3>
       <ul id="info-ul">
-        <li id="info-li1"><b>מפה:</b> רחף מעל נקודה לפרטים · לחץ לפתיחת ציר הזמן ופעימת זהב · לחץ שוב לסגירה</li>
-        <li id="info-li2"><b>ציר זמן:</b> לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה</li>
-        <li id="info-li3"><b>ציר זמן (גלילה):</b> לחץ על 📜 לפתיחת רשימת כל החכמים · לחץ על שם לפתיחת המפה אצלו</li>
-        <li id="info-li4"><b>מסכת חולין:</b> בחר עמוד לראות רק את החכמים המוזכרים בו</li>
+        <li id="info-li1"><b>מפה:</b> רחף מעל נקודה לפרטים · לחץ על ◆ עיר לראות כל חכמי אותה ישיבה · לחץ על המפה לסגירה</li>
+        <li id="info-li2"><b>ציר זמן:</b> לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה · הזזת הסליידר סוגרת תצוגת דף</li>
+        <li id="info-li3"><b>לוח החכמים:</b> רחף לצד שמאל לפתיחה · זהב = ציר זמן · כחול = תצוגת דף · חום = תצוגת עיר · ⛵ = נחותא</li>
+        <li id="info-li4"><b>מסכת חולין:</b> בחר מסכת ועמוד · ◀ ▶ לניווט בין עמודים מאומתים</li>
         <li id="info-li5"><b>הדפסה:</b> 🖨️ מייצר דף ייחוס A4 של כל החכמים</li>
       </ul>
       <h3 id="info-h3b">מקורות</h3>
-      <p id="info-p2">טקסט התלמוד וציטוטי הדפים — <a href="https://www.sefaria.org" target="_blank">Sefaria.org</a> (מהדורת William Davidson) · כרונולוגיה — Heinrich Graetz / אנציקלופדיה יודאיקה · מפה — OpenStreetMap / Esri</p>
-      <p id="info-p3" style="font-size:11px;color:#8A7A60;margin-top:12px">תאריכי לידה ופטירה אישיים אינם מתועדים היסטורית עבור רוב התנאים והאמוראים. כל חכם מציג רק את טווח הדור המשוער שלו (~) ולא תאריכים אישיים שעלולים להיות בדיה.</p>
+      <p id="info-p2">טקסט התלמוד — <a href="https://www.sefaria.org" target="_blank">Sefaria.org</a> (מהדורת William Davidson) · קו מתאר הדפים — <a href="https://dafyomi.co.il" target="_blank">dafyomi.co.il</a> · כרונולוגיה — Graetz / אנציקלופדיה יודאיקה · מפה עתיקה — <a href="https://cawm.lib.uiowa.edu" target="_blank">CAWM</a>, אוניברסיטת איווה (CC BY 4.0) · מפה מודרנית — CartoDB Positron / OpenStreetMap</p>
+      <p id="info-p3" style="font-size:11px;color:#8A7A60;margin-top:12px">⛵ נחותא = אמוראים שנסעו בין ארץ ישראל לבבל. תאריכים אישיים אינם מתועדים עבור רוב החכמים — הדורות (~) הם משוערים בלבד.</p>
     </div>
   </div>
 </div>
@@ -469,6 +510,10 @@ body.daf-mode .river-label{opacity:0.12}
         <button id="dafnext">▶</button>
       </div>
       <button id="chartclose">✕</button>
+    </div>
+    <div id="city-mode-hdr">
+      <div class="city-mode-name" id="city-mode-name"></div>
+      <div class="city-mode-sub" id="city-mode-sub"></div>
     </div>
     <div id="chartscroll"></div>
   </div>
@@ -1040,6 +1085,9 @@ HIST_EVENTS.forEach(e=>{
 });
 
 const slider=document.getElementById('slider');
+
+// Declare language early — referenced in map/chart initialization code below
+let currentLang='he';
 const sfill=document.getElementById('sfill');
 function updateFill(){sfill.style.width=pct(parseInt(slider.value))+'%';}
 
@@ -1073,7 +1121,7 @@ const gmap=L.map('map',{
 // ring (clicking a marker itself does not trigger this — Leaflet keeps
 // marker clicks and map clicks separate — so this only fires for clicks
 // that land on the map background, exactly as intended).
-gmap.on('click',()=>{ hideInfo(); clearMapPulse(); closeChart(); if(dafModeActive){ clearDafMode(); document.getElementById('dafselect').value=''; document.getElementById('dafclear').style.display='none'; document.getElementById('dafverified').style.display='none'; document.getElementById('dafunverified').style.display='none'; } });
+gmap.on('click',()=>{ hideInfo(); clearMapPulse(); closeChart(); clearCityMode(); if(dafModeActive){ clearDafMode(); document.getElementById('dafselect').value=''; document.getElementById('dafclear').style.display='none'; document.getElementById('dafverified').style.display='none'; document.getElementById('dafunverified').style.display='none'; } });
 
 // Basemap with automatic fallback across multiple independent tile providers.
 // Honesty note on why this exists: we tried committing to a single "best"
@@ -1226,6 +1274,8 @@ function updateCityMarkerVisibility(){
 }
 
 tryNextTileProvider();
+// Ancient is the default — clamp zoom immediately so tiles never disappear
+gmap.setMaxZoom(10);
 
 document.getElementById('mapbtn').onclick=()=>{
   switchMapMode(currentMapMode==='modern'?'ancient':'modern');
@@ -1485,20 +1535,30 @@ setTimeout(fixMapSize, 1500);
 
 // City markers — permanent gold dot + label, language-switchable
 CITIES.forEach(c=>{
-  L.marker([c.lat,c.lng],{
-    icon:L.divIcon({className:'',html:'<div class="city-marker-dot"></div>',iconSize:[7,7],iconAnchor:[3,3]}),
-    interactive:false,zIndexOffset:500
+  const dotMarker=L.marker([c.lat,c.lng],{
+    icon:L.divIcon({className:'',html:'<div class="city-marker-dot" style="cursor:pointer"></div>',iconSize:[7,7],iconAnchor:[3,3]}),
+    interactive:true,zIndexOffset:500,title:((typeof currentLang!=='undefined'&&currentLang==='en')?c.nameEn:c.name)
   }).addTo(gmap);
+  dotMarker.on('click',()=>{
+    clearCityMode();
+    if(dafModeActive){ clearDafMode(); document.getElementById('dafselect').value=''; document.getElementById('dafclear').style.display='none'; document.getElementById('dafverified').style.display='none'; document.getElementById('dafunverified').style.display='none'; }
+    buildCityChart(c);
+  });
   // Label stored so applyLang can update it
   const lm=L.marker([c.lat,c.lng],{
     icon:L.divIcon({
       className:'',
-      html:'<div class="city-marker-label">'+c.name+'</div>',
+      html:'<div class="city-marker-label" style="cursor:pointer">'+c.name+'</div>',
       iconSize:[0,0],iconAnchor:[-12,8]
     }),
-    interactive:false,zIndexOffset:501
+    interactive:true,zIndexOffset:501
   }).addTo(gmap);
   lm._cityData=c;
+  lm.on('click',()=>{
+    clearCityMode();
+    if(dafModeActive){ clearDafMode(); document.getElementById('dafselect').value=''; document.getElementById('dafclear').style.display='none'; document.getElementById('dafverified').style.display='none'; document.getElementById('dafunverified').style.display='none'; }
+    buildCityChart(c);
+  });
   cityLabelMarkers.push(lm);
 });
 
@@ -1595,6 +1655,8 @@ let currentAliveIds=new Set();
 // When true, the normal year-driven marker rendering is suspended and only
 // the sages cited on the selected daf are shown, as small plain dots.
 let dafModeActive=false;
+let cityModeActive=false;
+let currentCityName='';
 const dafSageMarkers=[]; // small dot markers currently shown for daf mode
 
 // ══════════════════════════════════════
@@ -1635,8 +1697,8 @@ function buildChart(){
         row.className='chart-rabbi';
         row.dataset.rabbiId=r.id;
         row.style.background=tint;
-        const yearsLabel=formatLifeRange(r);
-        row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+yearsLabel+'</span>';
+        const cityLabel=(currentLang==='en'&&r.cityEn)?r.cityEn.split(',')[0]:r.city.split(',')[0].split('/')[0].trim();
+        row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+cityLabel+'</span>';
         if(['rav_dimi','ula','rabbah_b_chana'].includes(r.id)) row.classList.add('nehuta');
         row.onmouseenter=()=>showInfo(r);
         row.onmouseleave=()=>hideInfo();
@@ -1663,7 +1725,6 @@ document.getElementById('infomodal').addEventListener('click',e=>{
 // ══════════════════════════════════════
 // ENGLISH / HEBREW LANGUAGE TOGGLE
 // ══════════════════════════════════════
-let currentLang='he';
 
 const STRINGS={
   he:{
@@ -1685,16 +1746,16 @@ const STRINGS={
     badge_tannaim:'תנאים', badge_amoraim:'אמוראים', badge_none:'אין חכמים',
     gen_tan:'ת', gen_amo:'א',
     info_h2:'🗺️ מפת התנאים והאמוראים',
-    info_p1:'מפה אינטראקטיבית של תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.',
+    info_p1:'מפה אינטראקטיבית של 85 תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.',
     info_h3a:'כיצד להשתמש',
-    info_li1:'מפה: רחף מעל נקודה לפרטים · לחץ לפתיחת ציר הזמן ופעימת זהב · לחץ שוב לסגירה',
-    info_li2:'ציר זמן: לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה',
-    info_li3:'ציר זמן (גלילה): לחץ על 📜 לפתיחת רשימת כל החכמים · לחץ על שם לפתיחת המפה אצלו',
-    info_li4:'מסכת חולין: בחר עמוד לראות רק את החכמים המוזכרים בו',
+    info_li1:'מפה: רחף מעל נקודה לפרטים · לחץ לפתיחת ציר הזמן · לחץ על ◆ עיר לראות כל חכמי אותה ישיבה',
+    info_li2:'ציר זמן: לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה · הזז לסגירת תצוגת הדף',
+    info_li3:'לוח החכמים: רחף לצד שמאל לפתיחה · לחץ על שם לפתיחת המפה אצלו · צבע זהב = ציר זמן רגיל · כחול = תצוגת דף · חום = תצוגת עיר',
+    info_li4:'מסכת חולין: בחר מסכת ועמוד לראות את החכמים המוזכרים בו · ◀ ▶ לניווט בין עמודים מאומתים',
     info_li5:'הדפסה: 🖨️ מייצר דף ייחוס A4 של כל החכמים',
-    info_h3b:'מקורות',
-    info_p2:'טקסט התלמוד וציטוטי הדפים — Sefaria.org (מהדורת William Davidson) · כרונולוגיה — Heinrich Graetz / אנציקלופדיה יודאיקה · מפה — OpenStreetMap / Esri',
-    info_p3:'תאריכי לידה ופטירה אישיים אינם מתועדים היסטורית עבור רוב התנאים והאמוראים. כל חכם מציג רק את טווח הדור המשוער שלו (~) ולא תאריכים אישיים שעלולים להיות בדיה.',
+    info_h3b:'מקורות ותכונות',
+    info_p2:'טקסט התלמוד — Sefaria.org (מהדורת William Davidson) · קו מתאר הדפים — dafyomi.co.il · כרונולוגיה — Heinrich Graetz / אנציקלופדיה יודאיקה · מפה עתיקה — CAWM, אוניברסיטת איווה (CC BY 4.0) · מפה מודרנית — CartoDB Positron / OpenStreetMap',
+    info_p3:'⛵ = נחותא — אמוראים שנסעו בין ארץ ישראל לבבל והעבירו את תורת הארץ. תאריכי לידה ופטירה אישיים אינם מתועדים עבור רוב החכמים — הדורות המוצגים (~) הם משוערים.',
     gen_names:{"דור א׳":"דור א׳","דור ב׳":"דור ב׳","דור ג׳":"דור ג׳","דור ד׳":"דור ד׳","דור ה׳":"דור ה׳","דור ו׳":"דור ו׳"},
     gen_years_tan:{"דור א׳":"10–80","דור ב׳":"80–120","דור ג׳":"120–160","דור ד׳":"160–200","דור ה׳":"200–220"},
     gen_years_amo:{"דור א׳":"220–250","דור ב׳":"250–290","דור ג׳":"290–320","דור ד׳":"320–370","דור ה׳":"370–420","דור ו׳":"420–500"},
@@ -1725,12 +1786,12 @@ const STRINGS={
     badge_tannaim:'Tannaim', badge_amoraim:'Amoraim', badge_none:'No sages',
     gen_tan:'T', gen_amo:'A',
     info_h2:'🗺️ Map of Tannaim & Amoraim',
-    info_p1:'An interactive map of the Tannaim and Amoraim — the sages of the Mishnah and Talmud — showing where they lived, which generation they flourished in, and which pages of Masechet Chullin they appear on.',
+    info_p1:'An interactive map of 85 Tannaim and Amoraim — the sages of the Mishnah and Talmud — showing where they lived, which generation they flourished in, and which pages of Masechet Chullin they appear on.',
     info_h3a:'How to use',
-    info_li1:'Map: hover a dot for details · click to open the timeline and show a gold pulse · click again to close',
-    info_li2:'Timeline bar: click a generation label to jump straight to it · click a historical event to go to that year',
-    info_li3:'Chart panel (📜): click any name to jump the map to that sage and highlight them',
-    info_li4:'Chullin selector: pick a page to see only the sages cited on that daf',
+    info_li1:'Map: hover a dot for details · click a ◆ city diamond or city name to see all sages of that academy · click anywhere to dismiss',
+    info_li2:'Timeline bar: click a generation segment or label to jump to it · click a historical event marker to go to that year · drag the slider — exits daf mode and returns to timeline',
+    info_li3:'Chart panel: hover the left edge of the map to reveal · gold = full timeline · blue = daf page view · terracotta = city/academy view · ⛵ = Neḥuta (sages who traveled between Israel and Babylonia)',
+    info_li4:'Masechet Chullin: choose a tractate and page to see only the sages cited on that daf · use ◀ ▶ arrows to step through verified pages',
     info_li5:'Print: 🖨️ generates a single-page A4 reference chart of all sages',
     info_h3b:'Sources',
     info_p2:'Talmud text and daf citations — Sefaria.org (William Davidson Edition) · Chronology — Heinrich Graetz / Encyclopaedia Judaica · Map — OpenStreetMap / Esri',
@@ -1765,6 +1826,8 @@ function clearDafMode(){
   clearMapPulse();
   document.getElementById('daf-nav').style.display='none';
   document.body.classList.remove('daf-mode');
+  document.getElementById('chartpanel').classList.remove('daf-chart');
+  restoreCityMarkers();
   document.getElementById('daf-cur-label').textContent='';
   gmap.off('zoomend',redrawDafDots);
   gmap.off('moveend',redrawDafDots);
@@ -1826,8 +1889,8 @@ function buildDafChart(citedRabbis){
         const row=document.createElement('div');
         row.className='chart-rabbi';
         row.dataset.rabbiId=r.id;
-        const yearsLabel=formatLifeRange(r);
-        row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+yearsLabel+'</span>';
+        const cityLabel=(currentLang==='en'&&r.cityEn)?r.cityEn.split(',')[0]:r.city.split(',')[0].split('/')[0].trim();
+        row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+cityLabel+'</span>';
         row.style.background=genHdrColor+'18';
         row.onmouseenter=()=>showInfo(r);
         row.onmouseleave=()=>hideInfo();
@@ -1952,6 +2015,9 @@ function applyDafSelection(dafId){
   document.getElementById('dafunverified').style.display='none';
   document.getElementById('daf-nav').style.display='flex';
   document.body.classList.add('daf-mode');
+  document.getElementById('chartpanel').classList.add('daf-chart');
+  document.getElementById('chartpanel').classList.remove('city-chart');
+  clearCityMode();
   document.getElementById('daf-cur-label').textContent=dafId;
 
   const citedRabbis=entry.sages.map(id=>RABBIS.find(r=>r.id===id)).filter(Boolean);
@@ -2229,6 +2295,7 @@ function hideInfo(){
 }
 
 slider.addEventListener('input',()=>{
+  clearCityMode();
   if(dafModeActive){
     // User grabbed the slider while in daf mode — exit daf mode and switch to timeline
     clearDafMode();
@@ -2370,6 +2437,8 @@ function applyLang(lang){
   document.getElementById('info-li3').innerHTML='<b>'+(isHe?'ציר זמן (גלילה)':'Chart panel')+':</b> '+S.info_li3.replace(/^[^:]+: /,'');
   document.getElementById('info-li4').innerHTML='<b>'+(isHe?'מסכת חולין':'Chullin selector')+':</b> '+S.info_li4.replace(/^[^:]+: /,'');
   document.getElementById('info-li5').innerHTML='<b>'+(isHe?'הדפסה':'Print')+':</b> '+S.info_li5.replace(/^[^:]+: /,'');
+  document.getElementById('info-p2').textContent=S.info_p2;
+  document.getElementById('info-p3').textContent=S.info_p3;
   document.getElementById('info-h3b').textContent=S.info_h3b;
   document.getElementById('info-p2').textContent=S.info_p2;
   document.getElementById('info-p3').textContent=S.info_p3;
@@ -2535,6 +2604,93 @@ function buildRiverLabels(){
 }
 
 buildRiverLabels();
+
+
+// ══════════════════════════════════════
+// CITY CHART MODE
+// Clicking a Talmudic city dot shows all sages from that city,
+// grouped by generation, in a terracotta-toned ancient-feeling panel.
+// ══════════════════════════════════════
+function buildCityChart(city){
+  cityModeActive=true;
+  currentCityName=city.name;
+
+  const panel=document.getElementById('chartpanel');
+  panel.classList.remove('daf-chart');
+  panel.classList.add('city-chart');
+
+  // Use currentLang safely — it may not be declared yet at parse time but will be by call time
+  const lang=typeof currentLang!=='undefined'?currentLang:'he';
+  const isHe=lang==='he';
+  const displayName=isHe?city.name:(city.nameEn||city.name);
+  document.getElementById('city-mode-name').textContent=displayName;
+  const cityRabbis=RABBIS.filter(r=>{
+    const rc=r.city||'';
+    return rc===city.name||rc.includes(city.name)||city.name.includes(rc.split(',')[0].split('/')[0].trim());
+  });
+  document.getElementById('city-mode-sub').textContent=
+    (isHe?'חכמים מ':'Sages from ')+displayName+' — '+cityRabbis.length+(isHe?' חכמים':' sages');
+  document.getElementById('city-mode-hdr').style.display='block';
+
+  // Build chart grouped by generation
+  const scroll=document.getElementById('chartscroll');
+  scroll.innerHTML='';
+
+  const GEN_ORDER_TAN=['דור א׳','דור ב׳','דור ג׳','דור ד׳','דור ה׳'];
+  const GEN_ORDER_AMO=['דור א׳','דור ב׳','דור ג׳','דור ד׳','דור ה׳','דור ו׳'];
+
+  function renderCityPeriod(type, genOrder){
+    const inPeriod=cityRabbis.filter(r=>r.type===type);
+    if(inPeriod.length===0) return;
+
+    genOrder.forEach(gen=>{
+      const inGen=inPeriod.filter(r=>r.gen===gen);
+      if(inGen.length===0) return;
+
+      const genDiv=document.createElement('div');
+      genDiv.className='chart-gen';
+      const color=GEN_COLORS[type][gen]||'#888';
+
+      const hdr=document.createElement('div');
+      hdr.className='chart-gen-hdr';
+      hdr.style.background=color;
+      hdr.style.color='#fff';
+      const genDisplay=STRINGS[lang].gen_names[gen]||gen;
+      const genYears=(type==='tan'?STRINGS[lang].gen_years_tan:STRINGS[lang].gen_years_amo)[gen]||'';
+      hdr.innerHTML='<span>'+genDisplay+'</span><span class="chart-gen-years">'+genYears+'</span>';
+      genDiv.appendChild(hdr);
+
+      const tint=color+'20';
+      inGen.forEach(r=>{
+        const row=document.createElement('div');
+        row.className='chart-rabbi';
+        row.dataset.rabbiId=r.id;
+        row.style.background=tint;
+        const role=r.role||(lang==='en'?r.roleEn||'':r.role||'');
+        row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+role+'</span>';
+        if(['rav_dimi','ula','rabbah_b_chana'].includes(r.id)) row.classList.add('nehuta');
+        row.onmouseenter=()=>showInfo(r);
+        row.onmouseleave=()=>hideInfo();
+        row.onclick=()=>jumpToRabbi(r);
+        genDiv.appendChild(row);
+      });
+      scroll.appendChild(genDiv);
+    });
+  }
+
+  renderCityPeriod('tan',GEN_ORDER_TAN);
+  renderCityPeriod('amo',GEN_ORDER_AMO);
+
+  openChart();
+}
+
+function clearCityMode(){
+  if(!cityModeActive) return;
+  cityModeActive=false;
+  currentCityName='';
+  document.getElementById('chartpanel').classList.remove('city-chart');
+  document.getElementById('city-mode-hdr').style.display='none';
+}
 
 </script>
 </body>
