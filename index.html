@@ -56,11 +56,21 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 .lpills{display:flex;gap:12px;align-items:center}
 .lpill{display:flex;align-items:center;gap:5px;font-size:11px;color:#C8B890}
 .ldot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
-#chartbtn,#printbtn,#mapbtn,#langbtn,#infobtn{
+#chartbtn,#printbtn,#mapbtn,#langbtn,#infobtn,#resetbtn{
   background:rgba(200,134,10,.15);border:1px solid var(--gold-dk);border-radius:6px;
   color:var(--gold);font-size:13px;padding:3px 9px;cursor:pointer;line-height:1;font-family:inherit;
 }
-#chartbtn:hover,#printbtn:hover,#mapbtn:hover,#langbtn:hover,#infobtn:hover{background:rgba(200,134,10,.3)}
+#chartbtn:hover,#printbtn:hover,#mapbtn:hover,#langbtn:hover,#infobtn:hover,#resetbtn:hover{background:rgba(200,134,10,.3)}
+#sage-search-wrap{position:relative;display:inline-block}
+#sagesearch{background:#FDF6E3;border:1.5px solid var(--gold-dk);border-radius:6px;padding:3px 8px;font-size:11px;font-family:inherit;color:var(--ink);width:140px;direction:rtl}
+#sagesearch:focus{outline:none;border-color:var(--gold);width:175px}
+#sage-suggest{position:absolute;top:calc(100% + 3px);right:0;left:0;min-width:200px;background:#FDF6E3;border:1.5px solid var(--gold-dk);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.45);max-height:300px;overflow-y:auto;z-index:1500;display:none;direction:rtl}
+#sage-suggest.on{display:block}
+.sug-item{padding:5px 10px;font-size:12px;color:var(--ink);cursor:pointer;border-bottom:1px solid rgba(200,134,10,.15);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.sug-item:last-child{border-bottom:none}
+.sug-item:hover,.sug-item.active{background:rgba(200,134,10,.22)}
+.sug-name{font-weight:600;white-space:nowrap}
+.sug-meta{font-size:10px;color:#8A7A60;white-space:nowrap}
 #chartbtn.active{background:var(--gold-dk);color:#1A1208}
 #langbtn{font-size:11px;font-weight:800;letter-spacing:1px;font-family:sans-serif}
 /* Info/About modal */
@@ -264,11 +274,8 @@ body.ancient-mode .leaflet-tile-pane{
 #chartpanel.daf-chart #chartpanel-hdr{background:#0D1B2A;border-bottom-color:rgba(100,150,210,.4)}
 #chartpanel.daf-chart #chartpanel-hdr h3{color:#7EB8D4}
 #chartpanel.daf-chart #chartclose{color:#7EB8D4}
-#chartpanel.daf-chart .chart-gen-hdr{background:rgba(94,140,185,.25)!important;color:#A8D0E8!important}
 #chartpanel.daf-chart .chart-rabbi{border-bottom-color:rgba(100,150,210,.15)}
 #chartpanel.daf-chart .chart-rabbi:hover{background:rgba(94,140,185,.18)}
-#chartpanel.daf-chart .chart-rabbi-name{color:#0D1B2A}
-#chartpanel.daf-chart .chart-rabbi-years{color:#7EB8D4}
 #chartpanel.daf-chart .chart-period-label{color:#7EB8D4;border-color:rgba(100,150,210,.4)}
 
 /* CITY CHART MODE */
@@ -277,11 +284,8 @@ body.ancient-mode .leaflet-tile-pane{
 #chartpanel.city-chart #chartpanel-hdr h3{color:#D4885A}
 #chartpanel.city-chart #chartclose{color:#D4885A}
 #chartpanel.city-chart .chart-period-label{display:none}
-#chartpanel.city-chart .chart-gen-hdr{background:rgba(160,82,45,.3)!important;color:#E8B090!important}
 #chartpanel.city-chart .chart-rabbi{border-bottom-color:rgba(180,100,40,.2)}
 #chartpanel.city-chart .chart-rabbi:hover{background:rgba(160,82,45,.2)}
-#chartpanel.city-chart .chart-rabbi-name{color:#1A0800}
-#chartpanel.city-chart .chart-rabbi-years{color:#D4885A;font-style:italic}
 #chartpanel.city-chart #chartscroll{background:#1E0F04}
 
 /* City mode header banner */
@@ -441,6 +445,11 @@ body.daf-mode .river-label{opacity:0.12}
     <button id="mapbtn" title="החלף מפה" class="active">🗺️ מודרני</button>
     <button id="langbtn" title="Switch to English">EN</button>
     <button id="infobtn" title="About this project">ℹ️</button>
+    <button id="resetbtn" title="אפס תצוגה למצב ההתחלתי">↺ אפס</button>
+    <div id="sage-search-wrap">
+      <input id="sagesearch" type="text" autocomplete="off" placeholder="🔍 חיפוש חכם…">
+      <div id="sage-suggest"></div>
+    </div>
     <div id="daf-inline">
       <span id="dafpanel-label">📖</span>
       <select id="masechetselect">
@@ -460,14 +469,14 @@ body.daf-mode .river-label{opacity:0.12}
     <button id="infoclose">✕</button>
     <h2 id="info-h2">🗺️ מפת התנאים והאמוראים</h2>
     <div id="info-body">
-      <p id="info-p1">מפה אינטראקטיבית של 85 תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.</p>
+      <p id="info-p1">מפה אינטראקטיבית של 288 תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.</p>
       <h3 id="info-h3a">כיצד להשתמש</h3>
       <ul id="info-ul">
-        <li id="info-li1"><b>מפה:</b> רחף מעל נקודה לפרטים · לחץ על ◆ עיר לראות כל חכמי אותה ישיבה · לחץ על המפה לסגירה</li>
+        <li id="info-li1"><b>מפה:</b> רחף מעל נקודה לפרטים · לחץ על ◆ עיר (כולל קיסריה) לראות כל חכמי אותה ישיבה · 🔍 חפש חכם בשמו וקפוץ אליו · ↺ אפס לחזרה לתצוגה ההתחלתית</li>
         <li id="info-li2"><b>ציר זמן:</b> לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה · הזזת הסליידר סוגרת תצוגת דף</li>
-        <li id="info-li3"><b>לוח החכמים:</b> רחף לצד שמאל לפתיחה · זהב = ציר זמן · כחול = תצוגת דף · חום = תצוגת עיר · ⛵ = נחותא</li>
+        <li id="info-li3"><b>לוח החכמים:</b> רחף לצד שמאל לפתיחה · זהב = ציר זמן · כחול = תצוגת דף · חום = תצוגת עיר · צבע כל דור וחכמיו תואם את צבע הנקודה במפה · ⛵ = נחותא</li>
         <li id="info-li4"><b>מסכת חולין:</b> בחר מסכת ועמוד · ◀ ▶ לניווט בין עמודים מאומתים</li>
-        <li id="info-li5"><b>הדפסה:</b> 🖨️ מייצר דף ייחוס A4 של כל החכמים</li>
+        <li id="info-li5"><b>הדפסה:</b> 🖨️ מייצר דף ייחוס A4 של כל החכמים — דור ועיר לכל חכם</li>
       </ul>
       <h3 id="info-h3b">מקורות</h3>
       <p id="info-p2">טקסט התלמוד — <a href="https://www.sefaria.org" target="_blank">Sefaria.org</a> (מהדורת William Davidson) · קו מתאר הדפים — <a href="https://dafyomi.co.il" target="_blank">dafyomi.co.il</a> · כרונולוגיה — Graetz / אנציקלופדיה יודאיקה · מפה עתיקה — <a href="https://cawm.lib.uiowa.edu" target="_blank">CAWM</a>, אוניברסיטת איווה (CC BY 4.0) · מפה מודרנית — CartoDB Positron / OpenStreetMap</p>
@@ -563,7 +572,7 @@ const RABBIS=[
   {id:"rabbi_natan",  name:"ר' נתן הבבלי",      type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.856,lng:35.305,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",         role:"אב בית דין",            isL:true, desc:"אב בית דין. נולד בבבל ועלה לארץ ישראל. חיבר 'אבות דרבי נתן'.",descEn:"A Babylonian Tanna who came to the Land of Israel and participated in the Mishnah's final redaction."},
   {id:"rabbi_chiya",  name:"רבי חייא",          type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.864,lng:35.290,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",         role:"תלמיד רבי",             isL:false,desc:"תלמידו הגדול של רבי יהודה הנשיא. 'אני הוא שלא הניחה תורה לשכוח מישראל'.",descEn:"Bridged the Tannaitic and Amoraic periods. Together with Oshaya, arranged Beraitot after Rabbi Yehuda HaNasi completed the Mishnah."},
   {id:"bar_kapara",   name:"בר קפרא",           type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.796,lng:35.527,city:"טבריה",cityEn:"Tiberias",          role:"תלמיד רבי",             isL:false,desc:"תלמיד רבי יהודה הנשיא. ידוע בחידותיו. חיבר משנה קטנה משלו.",descEn:"Student of Rabbi Yehuda HaNasi, known for sharp wit and epigrams. Compiled an early collection of Beraitot."},
-  {id:"rabbi_oshaya", name:"ר' אושעיא",         type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.867,lng:35.286,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",         role:"אבי המשנה",             isL:true, desc:"כונה 'אבי המשנה'. מגדולי אמוראי א\"י. תלמיד רבי חייא.",descEn:"Student of Rabbi Chiya, helped arrange Beraitot. Called 'father of the Mishnah' for his organizational work."},
+  {id:"rabbi_oshaya", name:"ר' אושעיא",         type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.500,lng:34.900,city:"קיסריה",cityEn:"Caesarea",         role:"אבי המשנה",             isL:true, desc:"כונה 'אבי המשנה'. מגדולי אמוראי א\"י. תלמיד רבי חייא.",descEn:"Student of Rabbi Chiya, helped arrange Beraitot. Called 'father of the Mishnah' for his organizational work."},
   {id:"rav",          name:"רב (אבא אריכא)",    type:"amo",gen:"דור א׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",cityEn:"Sura, Babylonia",      role:"מייסד ישיבת סורא",      isL:true, desc:"מייסד ישיבת סורא. תלמיד רבי יהודה הנשיא. מחלוקותיו עם שמואל מאפיינות תחילת התלמוד הבבלי.",descEn:"Founder of the Sura academy, towering figure of the first Amoraic generation in Babylonia. Gave the Kaddish prayer its final form. His rulings are the foundation of Babylonian halacha."},
   {id:"shmuel",       name:"שמואל",             type:"amo",gen:"דור א׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא, בבל",cityEn:"Nehardea, Babylonia",    role:"ראש ישיבת נהרדעא",      isL:true, desc:"ראש ישיבת נהרדעא ואסטרונום. פסק 'דינא דמלכותא דינא'. חברו האינטלקטואלי של רב.",descEn:"Head of the Nehardea academy, colleague of Rav. Expert in astronomy and civil law. His ruling 'the law of the land is the law' governs Jews' relationship with civil authorities."},
   {id:"ryochanan",    name:"ר' יוחנן בר נפחא", type:"amo",gen:"דור א׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",cityEn:"Tiberias",          role:"ראש ישיבת טבריה",       isL:true, desc:"גדול אמוראי ארץ ישראל. עורך התלמוד הירושלמי. ידוע ביופיו. ויכוחיו עם ריש לקיש ממלאים את השס.",descEn:"Head of the Tiberias academy, the greatest Amora in the Land of Israel. His discussions with Resh Lakish define much of the Jerusalem Talmud."},
@@ -605,7 +614,7 @@ const RABBIS=[
   {id:"rav_chanan_chisda",name:"רב חנן בר רב חסדא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.940,city:"סורא, בבל",cityEn:"Sura, Babylonia",      role:"בנו של רב חסדא", isL:false,desc:"אמורא בבלי, בנו של רב חסדא. מוסר מסורת בשם אביו ובשם רב חנן בר רבא בשם רב, בעניין מנין העופות הטמאים.",descEn:"Babylonian Amora, son of Rav Chisda. Transmitter of his father's and Rav Chanan bar Rava's teachings, particularly on the count of forbidden birds."},
   {id:"rav_chanan_rava",name:"רב חנן בר רבא",      type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"חתנו של רב", isL:false,desc:"אמורא בבלי מהדור השני, חתנו של רב (אבא אריכא). מוסר מסורות רבות בשם רב.",descEn:"Second-generation Babylonian Amora, son-in-law of Rav. Transmitter of many traditions in Rav's name."},
   {id:"rav_tachlifa",name:"רב תחליפא בר אבינא",  type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"תלמיד רב חסדא", isL:false,desc:"אמורא בבלי מהדור השלישי, תלמיד רב חסדא. מוזכר בסוגיות חולין בהקשר של הסבר מילים מיוחדות בגמרא.",descEn:"Third-generation Babylonian Amora, student of Rav Chisda. Cited in Chullin in connection with explaining unusual words in Aggadic material."},
-  {id:"rav_nachman_papa",name:"רב נחמן בר פפא",   type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור הרביעי. מוזכר בסוגיות חולין בהקשר של גינה שזרע ולא צמחה עד שביקש רחמים.",descEn:"Fourth-generation Babylonian Amora. Cited in Chullin regarding a garden he planted that only grew after he prayed — citing it as proof that God desires the prayers of the righteous (following Rav Asi's teaching)."},
+  {id:"rav_nachman_papa",name:"רב נחמן בר פפא",   type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.989,lng:44.936,city:"בבל",cityEn:"Babylonia",            role:"אמורא בבלי", isL:false,desc:"אמורא בבלי מהדור הרביעי. מוזכר בסוגיות חולין בהקשר של גינה שזרע ולא צמחה עד שביקש רחמים.",descEn:"Fourth-generation Babylonian Amora. Cited in Chullin regarding a garden he planted that only grew after he prayed — citing it as proof that God desires the prayers of the righteous (following Rav Asi's teaching)."},
   {id:"rabbi_yirmeya",  name:"ר' ירמיה",            type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.500,lng:34.900,city:"קיסריה",cityEn:"Caesarea",        role:"תלמיד ר' זירא ור' אבהו", isL:false,desc:"אמורא בארץ ישראל מהדור הרביעי, עלה מבבל ולמד בקיסריה. ידוע בשאלותיו המדויקות והדקדקניות, עד שהורחק לזמן מבית המדרש.",descEn:"Fourth-generation Amora in the Land of Israel, emigrated from Babylonia. Famous for precise, probing questions — temporarily expelled from the study house for an overly far-fetched query."},
   {id:"rav_beivai_abaye",name:"רב ביבי בר אביי",     type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.465,lng:44.521,city:"פומבדיתא, בבל",cityEn:"Pumbedita, Babylonia",  role:"בנו של אביי", isL:false,desc:"אמורא בבלי, בנו של אביי. מוסר מסורות אגדה, בהן הסבר לשמות עופות וסימני בוא הגאולה.",descEn:"Babylonian Amora, son of Abaye. Transmitter of Aggadic traditions including the story of the Angel of Death's assistant."},
   {id:"rav_ukva_chama", name:"רב עוקבא בר חמא",      type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.989,lng:44.936,city:"סורא, בבל",cityEn:"Sura, Babylonia",      role:"חתנו של רב חסדא", isL:false,desc:"אמורא בבלי מהדור הרביעי, חתנו של רב חסדא ואחיו של רמי בר חמא. מוסר הלכות בעניין ביצי שרץ וטומאתן.",descEn:"Fourth-generation Babylonian Amora, son-in-law of Rav Chisda and brother of Rami bar Chama. Ruled on questions of eggs from forbidden species."},
@@ -703,6 +712,147 @@ const RABBIS=[
   {id:"rav_sama",name:"רב סמא בריה דרב משרשיא",type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.986,lng:44.934,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי מהדור השישי. מוסר בחולין יז בשם רב אשי בשם רבא בעניין בדיקת הסכין.",descEn:"Sixth-generation Babylonian Amora. Transmits on Chullin 17b in the name of Rav Ashi citing Rava on inspecting the slaughtering knife."},
   {id:"rav_yeimar",name:"רב יימר",type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא, בבל",cityEn:"Nehardea, Babylonia",role:"בן דורו של רב אשי",isL:false,desc:"אמורא בבלי מהדור השישי, בן דורו של רב אשי. פוסק בחולין יז שבדיקת סכין צריכה על הבשר והציפורן אך לא בשלושה צדדים.",descEn:"Sixth-generation Babylonian Amora, contemporary of Rav Ashi. Rules on Chullin 17b that knife inspection is required on flesh and nail but not on three sides."},
   {id:"rav_huna_katina",name:"רב הונא בר רב קטינא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.937,city:"בבל",cityEn:"Babylonia",role:"מוסר בשם ריש לקיש",isL:false,desc:"אמורא בבלי, מוסר בחולין יז בשם ריש לקיש שלוש פגימות: פגימת עצם בפסח, אוזן בבכור, מום בקדשים.",descEn:"Babylonian Amora who transmits on Chullin 17b in the name of Reish Lakish the three types of 'blemish': the paschal bone, the firstborn's ear, and a blemish in sacrifices."},
+  // ── Added while first-verifying Chullin 18a-22b (Batch E4) ──
+  {id:"reliezer_yaakov",  name:"ר' אליעזר בן יעקב", type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",cityEn:"Lod",role:"תנא, 'משנתו קב ונקי'",isL:false,desc:"תנא, שמשנתו 'קב ונקי'. מובא בחולין יח בשיעור פגימת המזבח.",descEn:"Tanna whose teachings are 'a kav, but clean' (few but reliable). Cited on Chullin 18a on the measure of an altar blemish."},
+  {id:"rava_chinena",     name:"רבא בר חיננא",       type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.987,lng:44.935,city:"בבל",cityEn:"Babylonia",role:"דיין",isL:false,desc:"אמורא בבלי, שדן טבח שלא הראה סכינו לחכם ונידהו. מובא בחולין יח.",descEn:"Babylonian Amora who penalized a butcher that did not present his knife to a scholar. Cited on Chullin 18a."},
+  {id:"ryosi_byehuda",    name:"ר' יוסי ברבי יהודה", type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.796,lng:35.529,city:"טבריה",cityEn:"Tiberias",role:"בנו של ר' יהודה בר אלעאי",isL:false,desc:"תנא, בנו של ר' יהודה בר אלעאי. מובא בחולין יח בעניין שיור מלוא החוט בשחיטה מן הטבעת.",descEn:"Tanna, son of Rabbi Yehuda bar Ilai. Cited on Chullin 18a on leaving a thread's width when slaughtering within the tracheal ring."},
+  {id:"rchanina_antignos",name:"ר' חנינא בן אנטיגנוס",type:"tan",gen:"דור ג׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",cityEn:"Yavneh",role:"תנא, כהן",isL:false,desc:"תנא וכהן. העיד בחולין יח על שחיטה מוגרמת שהיא כשרה.",descEn:"Tanna and Kohen. Testified on Chullin 18b that a 'slanted' (mugremet) slaughter is valid."},
+  {id:"rav_papi",         name:"רב פפי",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.986,lng:44.934,city:"בבל",cityEn:"Babylonia",role:"תלמיד רבא",isL:false,desc:"אמורא בבלי, תלמיד רבא. מוסר בחולין יח בשם רבא: פגע בחיטי — טרפה.",descEn:"Babylonian Amora, student of Rava. Cited on Chullin 18b in Rava's name on the laws of the tracheal cartilage."},
+  {id:"ameimar_yanuka",   name:"רב אמימר בר מר ינוקא",type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.988,lng:44.933,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי, מוסר בחולין יח: שייר בחיטי — כשרה, בשם ר' חייא בריה דרב אויא.",descEn:"Babylonian Amora, cited on Chullin 18b transmitting a ruling on the tracheal cartilage in the name of Rabbi Chiyya son of Rav Avya."},
+  {id:"rchiya_avya",      name:"ר' חייא בריה דרב אויא",type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.985,lng:44.937,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי (בנו של רב אויא). מובא בחולין יח בעניין שיור בחיטי.",descEn:"Babylonian Amora (son of Rav Avya). Cited on Chullin 18b on leaving part of the tracheal cartilage."},
+  {id:"rav_shemen",       name:"רב שמן מסוברא",     type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.984,lng:44.936,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי מסוברא. מוסר בחולין יח שמר זוטרא דרש: שייר בחיטי — כשרה.",descEn:"Babylonian Amora of Suvra. Cited on Chullin 18b reporting Mar Zutra's ruling on the tracheal cartilage."},
+  {id:"rav_chanan_katina",name:"רב חנן בר רב קטינא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.986,lng:44.935,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי (יש להבחין בינו לבין רב הונא בר רב קטינא). מקשה לרב נחמן בחולין יט.",descEn:"Babylonian Amora (distinct from Rav Huna bar Rav Katina). Queries Rav Nachman on Chullin 19a."},
+  {id:"rabba_zavda",      name:"ר' אבא בר זבדא",     type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",cityEn:"Tiberias",role:"תלמיד רב",isL:false,desc:"אמורא בארץ ישראל, תלמיד רב. מוסר בחולין יט בשם ר' חנינא/ריב\"ל.",descEn:"Amora in the Land of Israel, student of Rav. Cited on Chullin 19a transmitting in the name of Rabbi Chanina and Rabbi Yehoshua ben Levi."},
+  {id:"relazer_minyomi",  name:"ר' אלעזר בר מניומי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.938,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי. מובא בחולין יט: שחיטה העשויה כמסרק כשרה.",descEn:"Babylonian Amora. Cited on Chullin 19b: a comb-like slaughter (interrupted then resumed) is valid."},
+  {id:"rabbi_avin",       name:"ר' אבין",           type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.792,lng:35.534,city:"טבריה",cityEn:"Tiberias",role:"אמורא, נחותא",isL:false,desc:"אמורא שעבר בין ארץ ישראל לבבל. מובא בחולין כ בעניין מצות מליקה.",descEn:"Amora who traveled between the Land of Israel and Babylonia. Cited on Chullin 20a on the procedure of melikah (nipping)."},
+  {id:"rami_yechezkel",   name:"רמי בר יחזקאל",     type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.465,lng:44.521,city:"פומבדיתא, בבל",cityEn:"Pumbedita, Babylonia",role:"אחיו של רב יהודה",isL:false,desc:"אמורא בבלי, אחיו של רב יהודה בר יחזקאל. שנה בחולין כ: אין עיקור סימנים בעוף.",descEn:"Babylonian Amora, brother of Rav Yehuda bar Yechezkel. Taught on Chullin 20a: there is no 'uprooting' of the simanim in a bird."},
+  {id:"ravin_kisi",       name:"רבין בר קיסי",       type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",role:"מוסר מסורת",isL:false,desc:"אמורא, מוסר מסורת לרבינא. מובא בחולין כ בעניין עיקור סימנים בשחיטה ובמליקה.",descEn:"Amora who transmitted a tradition to Ravina. Cited on Chullin 20b on uprooting the simanim in slaughter versus nipping."},
+  {id:"zeiri",            name:"זעירי",             type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.796,lng:35.529,city:"טבריה",cityEn:"Tiberias",role:"תלמיד ר' יוחנן",isL:false,desc:"אמורא, תלמיד ר' יוחנן שעלה מבבל. מובא בחולין כ: נשברה מפרקת ורוב בשר עמה — נבלה.",descEn:"Amora, student of Rabbi Yochanan who came up from Babylonia. Cited on Chullin 20b: if the neck bone is broken with most of the flesh, it is a carcass (nevelah)."},
+  {id:"relazer_bshimon",  name:"ר' אלעזר ברבי שמעון",type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.977,lng:35.502,city:"מירון",cityEn:"Meron",role:"בנו של רשב\"י",isL:false,desc:"תנא, בנו של ר' שמעון בר יוחאי. מובא בחולין כא-כב בעניין מליקת עולת העוף ברוב שנים.",descEn:"Tanna, son of Rabbi Shimon bar Yochai. Cited on Chullin 21a-22a on the nipping of a bird burnt-offering with the majority of the two simanim."},
+  {id:"rshmuel_yitzchak", name:"ר' שמואל בר יצחק",  type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",cityEn:"Tiberias",role:"אמורא בארץ ישראל",isL:false,desc:"אמורא בארץ ישראל. מובא בחולין כא: קרעו כדג ומגבו — מטמא באוהל.",descEn:"Amora in the Land of Israel. Cited on Chullin 21a: if one tore a carcass like a fish, from its back — it imparts impurity in a tent."},
+  {id:"rabbi_mani",       name:"ר' מני",            type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",role:"ראש חכמי ציפורי",isL:false,desc:"אמורא בארץ ישראל, מגדולי חכמי ציפורי. מסורתו מובאת בחולין כא בשם ר' אסי בעניין 'הותזו ראשיהן'.",descEn:"Amora in the Land of Israel, a leading sage of Tzippori. His tradition is cited on Chullin 21a via Rabbi Asi on decapitated animals that still twitch."},
+  {id:"yaakov_korcha",    name:"יעקב קרחה",         type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל",cityEn:"Land of Israel",role:"תנא/מוסר ברייתא",isL:false,desc:"תנא/מוסר ברייתא. שנה בחולין כב: מאימתי בני יונה כשרים — משיעלעו (משיביא הנוצה דם).",descEn:"Tanna/Beraita-transmitter. Taught on Chullin 22b: from when are young doves valid for offerings — once their plucked feathers draw blood."},
+  // ── Added while first-verifying Chullin 23a-27b (Batch E5) ──
+  {id:"rabbi_ila",        name:"ר' אילא",          type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"טבריה",cityEn:"Tiberias",role:"אמורא בארץ ישראל",isL:false,desc:"אמורא בארץ ישראל (ר' אילא/אלעא). מוסר בחולין כד-כה מסורות הלכה בשם ר' חנינא.",descEn:"Amora in the Land of Israel (Rabbi Ila/Ela). Cited on Chullin 24b-25b transmitting rulings in the name of Rabbi Chanina."},
+  {id:"ryonatan_abtulmos",name:"ר' יונתן בן אבטולמוס",type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל",cityEn:"Land of Israel",role:"תנא",isL:false,desc:"תנא. דורש בחולין כד גזרה שווה 'תוכו' 'תוכו' בטומאת כלי חרס.",descEn:"Tanna. Cited on Chullin 24b expounding the verbal analogy of 'its inside' regarding earthenware-vessel impurity."},
+  {id:"rav_adda_ahava",   name:"רב אדא בר אהבה",    type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.938,city:"בבל",cityEn:"Babylonia",role:"תלמיד רב",isL:true,desc:"אמורא בבלי מובהק, מתלמידי רב. מקשה על רבא בחולין כה בעניין טומאת כלי חרס מגבו.",descEn:"Prominent Babylonian Amora, student of Rav. Objects to Rava on Chullin 25a regarding the impurity of an earthenware vessel from its outer side."},
+  {id:"rishmael_broka",   name:"ר' ישמעאל בנו של ר' יוחנן בן ברוקה",type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",cityEn:"Yavneh",role:"תנא",isL:false,desc:"תנא, בנו של ר' יוחנן בן ברוקה. דורש בחולין כה שכלי עצם מקבלים טומאה.",descEn:"Tanna, son of Rabbi Yochanan ben Beroka. Cited on Chullin 25b that bone vessels are susceptible to impurity."},
+  {id:"rishmael_byosi",   name:"ר' ישמעאל ברבי יוסי",type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.860,lng:35.297,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",role:"בנו של ר' יוסי",isL:false,desc:"תנא, בנו של ר' יוסי בן חלפתא. מוסר בחולין כה בשם אביו בעניין שקדים מרים ומתוקים.",descEn:"Tanna, son of Rabbi Yosi ben Chalafta. Cited on Chullin 25b in his father's name on bitter and sweet almonds."},
+  {id:"rabbi_dosa",       name:"ר' דוסא",          type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",cityEn:"Yavneh",role:"תנא",isL:false,desc:"תנא. מובא בחולין כו בנוסח ההבדלה: 'בין קודש חמור לקודש הקל'.",descEn:"Tanna. Cited on Chullin 26b for the Havdalah formula 'between the stringent holiness and the lenient holiness.'"},
+  {id:"over_gelili",      name:"עובר הגלילי",       type:"amo",gen:"דור א׳",born:null,died:null,lat:32.900,lng:35.500,city:"הגליל",cityEn:"Galilee",role:"דרשן",isL:false,desc:"דרשן גלילי. דרש בחולין כז בעניין בריאת בהמה, דגים ועוף והכשרם לשחיטה.",descEn:"A Galilean expositor. Cited on Chullin 27b on the creation of animals, fish and birds and their modes of ritual preparation."},
+  {id:"rav_shmuel_kapotkaa",name:"רב שמואל קפוטקאה",type:"amo",gen:"דור ב׳",born:null,died:null,lat:38.640,lng:34.830,city:"קפוטקיא",cityEn:"Cappadocia",role:"אמורא",isL:false,desc:"אמורא מקפוטקיא (קפדוקיה). מובא בחולין כז: עופות יש להן קשקשת ברגליהם כדגים.",descEn:"Amora from Cappadocia. Cited on Chullin 27b: birds have scale-like formations on their legs, like fish."},
+  {id:"ryitzchak_pinchas",name:"ר' יצחק בן פנחס",  type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל",cityEn:"Land of Israel",role:"מוסר ברייתא",isL:false,desc:"תנא/מוסר. מובא בחולין כז בשם רב יהודה: אין שחיטה לעוף מן התורה.",descEn:"Tanna/tradent. Cited on Chullin 27b via Rav Yehuda: there is no Torah-level requirement of sheḥitah for a bird."},
+  // ── Added while first-verifying Chullin 28a-32b (Batch E6) ──
+  {id:"relazer_kappar",  name:"ר' אלעזר הקפר",     type:"tan",gen:"דור ה׳",born:null,died:null,lat:31.952,lng:34.889,city:"לוד",cityEn:"Lod",role:"תנא",isL:false,desc:"תנא מהדור החמישי (ר' אלעזר הקפר ברבי). דורש בחולין כח שאין שחיטה לעוף מן התורה.",descEn:"Fifth-generation Tanna (Rabbi Elazar HaKappar Beribbi). Cited on Chullin 28a that a bird has no Torah-level sheḥitah."},
+  {id:"rav_yosef_rava",  name:"רב יוסף בריה דרבא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",cityEn:"Mahoza, Babylonia",role:"בנו של רבא",isL:false,desc:"אמורא בבלי, בנו של רבא. פותר בחולין כח בעיה בבדיקת קנה וושט; אמר עליו רבא 'חכים יוסף ברי בטרפות'.",descEn:"Babylonian Amora, son of Rava. Resolves a question on Chullin 28b; Rava said of him: 'My son Yosef is expert in tereifot.'"},
+  {id:"rav_katina",      name:"רב קטינא",          type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.985,lng:44.938,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי. מובא בחולין כח בעניין 'אי אפשר לצמצם'.",descEn:"Babylonian Amora. Cited on Chullin 28b on the principle that exact bisection is impossible."},
+  {id:"levi_saba",       name:"לוי סבא",           type:"amo",gen:"דור א׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל",cityEn:"Land of Israel",role:"תלמיד רבי",isL:false,desc:"לוי (בר סיסי) הזקן, מבני דורו של רבי. ריש לקיש מוסר בשמו בחולין כט: אינה לשחיטה אלא בסוף.",descEn:"Levi (bar Sisi) the Elder, a contemporary of Rabbi. Reish Lakish cites him on Chullin 29b: the act of slaughter is defined only at its completion."},
+  {id:"rabbah_shimi",    name:"רבה בר שימי",       type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.986,lng:44.934,city:"בבל",cityEn:"Babylonia",role:"מוסר בשם רב יוסף",isL:false,desc:"אמורא בבלי, מוסר מסורת בשם רב יוסף. מובא בחולין כט.",descEn:"Babylonian Amora, transmitter of Rav Yosef's teachings. Cited on Chullin 29b."},
+  {id:"rav_idi_avin",    name:"רב אידי בר אבין",   type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.600,lng:44.600,city:"נרש, בבל",cityEn:"Naresh, Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי מהדור הרביעי. מקשה בחולין ל מדין קרבן פסח.",descEn:"Fourth-generation Babylonian Amora. Objects on Chullin 30a from the laws of the paschal offering."},
+  {id:"rchiya_gamda",    name:"ר' חייא בר גמדא",   type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל",cityEn:"Land of Israel",role:"מוסר מסורת",isL:false,desc:"אמורא בארץ ישראל, 'נזרקה מפי חבורה'. מובא בחולין ל בעניין פסח שני.",descEn:"Amora in the Land of Israel who transmitted a ruling 'from the mouth of the group.' Cited on Chullin 30a regarding the second Pesach."},
+  {id:"ryitzchak_marta", name:"רב יצחק בר שמואל בר מרתא",type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.987,lng:44.935,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי, שהתיר שור ששחטו בשנים ושלושה מקומות. מובא בחולין ל.",descEn:"Babylonian Amora who permitted an ox slaughtered in two or three places. Cited on Chullin 30b."},
+  {id:"ryeshevav",       name:"ר' ישבב",          type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.874,lng:34.755,city:"יבנה",cityEn:"Yavneh",role:"הסופר, תלמיד ר' עקיבא",isL:false,desc:"תנא, ר' ישבב הסופר, מתלמידי ר' עקיבא. מובא בחולין ל-לב בכלל 'כל שנפסלה בשחיטתה נבלה'.",descEn:"Tanna, Rabbi Yeshevav the Scribe, a student of Rabbi Akiva. Cited on Chullin 30b-32a for the principle distinguishing nevelah from tereifah."},
+  {id:"ryona_tachlifa",  name:"ר' יונה בר תחליפא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.986,lng:44.934,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי. רבא בדק עבורו חץ ושחט בו עוף בעודו פורח (חולין ל).",descEn:"Babylonian Amora. Rava tested an arrow for him and slaughtered a bird with it in flight (Chullin 30b)."},
+  {id:"ryonatan_yosef",  name:"ר' יונתן בן יוסף",  type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל",cityEn:"Land of Israel",role:"תנא",isL:false,desc:"תנא. דורש בחולין לא הקש 'תכבוסת שניה לראשונה' — טבילה מדעת. ר' יוחנן פסק כמותו.",descEn:"Tanna. Cited on Chullin 31b that ritual immersion requires intent; Rabbi Yochanan ruled in accordance with him."},
+  {id:"ravin",           name:"רבין",             type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",role:"נחותא",isL:false,desc:"אמורא שעבר בין ארץ ישראל לבבל ('כי אתא רבין'), מעביר מסורות ר' יוחנן. מובא בחולין לב.",descEn:"Amora who traveled between the Land of Israel and Babylonia ('when Ravin came'), transmitting Rabbi Yochanan's teachings. Cited on Chullin 32a."},
+  {id:"rav_huna_natan",  name:"רב הונא בריה דרב נתן",type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.988,lng:44.933,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי מהדור השישי, בן דורו של רב אשי. שואל בחולין לב על שהייה במיעוט סימנים.",descEn:"Sixth-generation Babylonian Amora, contemporary of Rav Ashi. Asks on Chullin 32a about a pause during a minority of the simanim."},
+  {id:"rav_acha_huna",   name:"רב אחא בר הונא",     type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.985,lng:44.937,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי. מקשה על רבא בחולין לב בעניין נבלה וטרפה בשחיטה.",descEn:"Babylonian Amora. Objects to Rava on Chullin 32b regarding nevelah versus tereifah in slaughter."},
+  // ── Added while first-verifying Chullin 33a-37b (Batch E7) ──
+  {id:"rav_acha_rav",    name:"רב אחא בר רב",       type:"amo",gen:"דור ה׳",born:null,died:null,lat:31.986,lng:44.934,city:"בבל",cityEn:"Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי. אומר לרבינא בחולין לג שאפשר שרבי זירא לא חזר בו.",descEn:"Babylonian Amora. Suggests to Ravina on Chullin 33a that Rabbi Zeira may not have retracted."},
+  {id:"ryitzchak_ashyan",name:"רב יצחק בר אשיאן",  type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.794,lng:35.531,city:"ארץ ישראל",cityEn:"Land of Israel",role:"מוסר בשם רב אידי",isL:false,desc:"אמורא, מסורתו מובאת דרך רב אידי בר אבין בחולין לג בעניין חיתוך כזית בשר מבית השחיטה.",descEn:"Amora whose ruling is transmitted via Rav Idi bar Avin on Chullin 33a about cutting meat from the slaughter site."},
+  {id:"rami_chama",      name:"רמי בר חמא",         type:"amo",gen:"דור ד׳",born:null,died:null,lat:33.212,lng:44.392,city:"מחוזא, בבל",cityEn:"Mahoza, Babylonia",role:"חתן רב חסדא",isL:true,desc:"אמורא בבלי מובהק, חתן רב חסדא ובן דורו של רבא. מקשה בחולין לה בעניין טהרת חולין שנעשו על טהרת הקודש.",descEn:"Prominent Babylonian Amora, son-in-law of Rav Chisda and contemporary of Rava. Objects on Chullin 35a regarding non-sacred food prepared in sacred purity."},
+  {id:"ryirmeya_difti",  name:"ר' ירמיה מדיפתי",   type:"amo",gen:"דור ו׳",born:null,died:null,lat:31.988,lng:44.933,city:"דיפתי, בבל",cityEn:"Difti, Babylonia",role:"אמורא בבלי",isL:false,desc:"אמורא בבלי מהדור השישי מדיפתי (יש להבחין בינו לבין ר' ירמיה בארץ ישראל). מקשה בחולין לה.",descEn:"Sixth-generation Babylonian Amora of Difti (distinct from Rabbi Yirmeya of the Land of Israel). Raises an objection on Chullin 35b."},
+  {id:"rav_nachman_yaakov",name:"ר' נחמן בר יעקב", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.050,lng:44.419,city:"נהרדעא, בבל",cityEn:"Nehardea, Babylonia",  role:"דיין ומורה הוראה",  isL:true, desc:"אמורא בבלי מובהק, דיין בנהרדעא וחתן בית ראש הגולה. 'רב נחמן' הסתמי בתלמוד מכוון אליו. יש להבחין בינו לבין רב נחמן בר יצחק.",descEn:"Prominent third-generation Babylonian amora, judge at Nehardea and son-in-law of the Exilarch's house. The unqualified 'Rav Nachman' in the Talmud refers to him. Distinct from Rav Nachman bar Yitzchak."},
+  {id:"rav_amram",name:"רב עמרם", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.000,lng:44.400,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מהדור השלישי, תלמיד רב ששת ורב נחמן.",descEn:"Third-generation Babylonian amora, student of Rav Sheshet and Rav Nachman."},
+  {id:"rav_sheizvi",name:"רב שיזבי", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.470,lng:44.509,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מהדור הרביעי, בן דורם של אביי ורבא.",descEn:"Fourth-generation Babylonian amora, contemporary of Abaye and Rava."},
+  {id:"rav_tovi_b_matna",name:"רב טובי בר רב מתנה", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.470,lng:44.509,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, שלח שאלה לפני רב יוסף (חולין לט).",descEn:"Babylonian amora who sent a query to Rav Yosef (Chullin 39b)."},
+  {id:"ryehuda_b_bava",name:"ר' יהודה בן בבא", type:"tan",gen:"דור ג׳",born:null,died:null,lat:31.700,lng:35.100,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:true, desc:"תנא, מחסידי הדור. מסר נפשו לסמוך חמישה מתלמידי ר' עקיבא בשעת הגזירה.",descEn:"Tanna and pietist who sacrificed his life to ordain five of Rabbi Akiva's students during the Hadrianic persecution."},
+  {id:"rav_acha_b_rava",name:"רב אחא בריה דרבא", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.000,lng:44.400,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, בנו של רבא, בן דורו של רב אשי.",descEn:"Babylonian amora, son of Rava and contemporary of Rav Ashi."},
+  {id:"rav_matna",name:"רב מתנא", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.470,lng:44.509,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מבעלי ההלכה בטרפות.",descEn:"Babylonian amora cited in the laws of tereifot."},
+  {id:"rachish_b_papa",name:"רכיש בר פפא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.000,lng:44.400,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר הלכה משמיה דרב.",descEn:"Babylonian amora who transmits a ruling in the name of Rav."},
+  {id:"rav_avira",name:"רב עוירא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.000,lng:44.400,city:"בבל",cityEn:"Babylonia",  role:"אמורא",  isL:false, desc:"אמורא, מוסר הלכות משמיה דרבא.",descEn:"Amora who transmits rulings in the name of Rava."},
+  {id:"sama_chilkai",name:"סמא בר חילקאי", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.000,lng:44.400,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי סתום, נזכר בפי רבינא (חולין לח).",descEn:"Obscure Babylonian amora cited by Ravina (Chullin 38a)."},
+  {id:"rav_acha_b_yosef",name:"רב אחא בריה דרב יוסף", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, בן דורו של רב אשי.",descEn:"Babylonian amora, contemporary of Rav Ashi."},
+  {id:"mari_b_ukva",name:"מרי בר מר עוקבא", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם שמואל.",descEn:"Babylonian amora who transmits in the name of Shmuel."},
+  {id:"rabbi_yona",name:"ר' יונה", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"ראש ישיבת טבריה",  isL:true, desc:"אמורא ארץ ישראלי מהדור הרביעי, מראשי ישיבת טבריה ואביו של ר' מני.",descEn:"Fourth-generation Land of Israel amora, a head of the Tiberias academy and father of R. Mani."},
+  {id:"rav_avya",name:"רב אויא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rav_tavut",name:"רב טבות", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר הלכה בשם רב.",descEn:"Babylonian amora who transmits a ruling in the name of Rav."},
+  {id:"geniva",name:"גניבא", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מתלמידי רב.",descEn:"Babylonian amora, a disciple of Rav."},
+  {id:"rav_shisha_idi",name:"רב שישא בריה דרב אידי", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מהדורות האחרונים.",descEn:"Late-generation Babylonian amora."},
+  {id:"rchelbo",name:"ר' חלבו", type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",  role:"אמורא",  isL:false, desc:"אמורא, תלמיד רב הונא; עלה מבבל לארץ ישראל.",descEn:"Amora and disciple of Rav Huna who emigrated from Babylonia to the Land of Israel."},
+  {id:"rav_chama_gurya",name:"רב חמא בר גוריא", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מתלמידי רב.",descEn:"Babylonian amora, a disciple of Rav."},
+  {id:"ryitzchak_nachmani",name:"ר' יצחק בר נחמני", type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי, תלמיד ר' יהושע בן לוי.",descEn:"Land of Israel amora, disciple of R. Yehoshua ben Levi."},
+  {id:"rchiya_yosef",name:"ר' חייא בר יוסף", type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",  role:"אמורא",  isL:false, desc:"אמורא שעלה מבבל לארץ ישראל, בן דורם של רב ושמואל.",descEn:"Amora who emigrated from Babylonia to the Land of Israel, contemporary of Rav and Shmuel."},
+  {id:"rabbah_tachlifa",name:"רבה בר תחליפא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rabbah_yitzchak",name:"רבה בר יצחק", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם רב.",descEn:"Babylonian amora who transmits in the name of Rav."},
+  {id:"mar_bar_chiya",name:"מר בר חייא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"niveli",name:"ניולי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם רב הונא.",descEn:"Babylonian amora who transmits in the name of Rav Huna."},
+  {id:"rav_natan_avin",name:"רב נתן בר אבין", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, ישב לפני רב.",descEn:"Babylonian amora who sat before Rav."},
+  {id:"rav_dimi_yitzchak",name:"רב דימי בר יצחק", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rshimon_bar_rebbi",name:"ר' שמעון בר רבי", type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.867,lng:35.286,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",  role:"תנא",  isL:true, desc:"תנא, בנו של רבי יהודה הנשיא.",descEn:"Tanna, son of R. Yehuda HaNasi."},
+  {id:"rzerika",name:"ר' זריקא", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי מהדור השלישי.",descEn:"Third-generation Land of Israel amora."},
+  {id:"ryosi_meshulam",name:"ר' יוסי בן המשולם", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא מהדור הרביעי.",descEn:"Fourth-generation tanna."},
+  {id:"rav_huna_mar_avya",name:"רב הונא מר בר אויא", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מהדורות האחרונים.",descEn:"Late-generation Babylonian amora."},
+  {id:"rav_sama_rava",name:"רב סמא בריה דרבא", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, בנו של רבא (יש להבחין בינו לבין רב סמא בריה דרב משרשיא).",descEn:"Babylonian amora, son of Rava (distinct from Rav Sama son of Rav Mesharshiya)."},
+  {id:"rchananya_tanna",name:"ר' חנניה", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא, בן דורו של ר' נתן.",descEn:"Tanna, contemporary of R. Natan."},
+  {id:"mar_yehuda",name:"מר יהודה", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם אבימי.",descEn:"Babylonian amora who transmits in the name of Avimi."},
+  {id:"avimi",name:"אבימי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"ravin_shaba",name:"רבין בר שבא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rav_nechemya_yosef",name:"רב נחמיה בריה דרב יוסף", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, בנו של רב יוסף.",descEn:"Babylonian amora, son of Rav Yosef."},
+  {id:"mar_zutra_papi",name:"מר זוטרא בריה דרב הונא בריה דרב פפי", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מהדורות האחרונים.",descEn:"Late-generation Babylonian amora."},
+  {id:"rmani_patish",name:"ר' מני בר פטיש", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי מהדור השלישי.",descEn:"Third-generation Land of Israel amora."},
+  {id:"ryitzchak_nappacha",name:"ר' יצחק נפחא", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ארץ ישראלי",  isL:true, desc:"מגדולי אמוראי ארץ ישראל בדור השלישי, בעל הלכה ואגדה.",descEn:"Prominent third-generation Land of Israel amora, master of both halakha and aggada."},
+  {id:"huna_mar_idi",name:"הונא מר בריה דרב אידי", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rav_huna_yehuda",name:"רב הונא בר יהודה", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rav_adda_natan",name:"רב אדא בר נתן", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"mar_zutra_mari",name:"מר זוטרא בריה דרב מרי", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מהדורות האחרונים.",descEn:"Late-generation Babylonian amora."},
+  {id:"rav_shmuel_abbahu",name:"רב שמואל בריה דרבי אבהו", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.5,lng:34.9,city:"קיסריה",cityEn:"Caesarea",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא, בנו של ר' אבהו מקיסריה.",descEn:"Amora, son of R. Abbahu of Caesarea."},
+  {id:"rav_yosef_dosai",name:"רב יוסף בר דוסאי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rav_acha_bar_abba",name:"רב אחא בר אבא", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, ישב לפני רב הונא.",descEn:"Babylonian amora who sat before Rav Huna."},
+  {id:"rmaluch",name:"ר' מלוך", type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי, נודע בכינוי מלוך ערבאה.",descEn:"Land of Israel amora known by the epithet Maluch the Arabian."},
+  {id:"rav_bibi",name:"רב ביבי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא",  isL:false, desc:"אמורא, בן דורו של ר' זירא; מוסר הלכות בשם ר' יהושע בן לוי.",descEn:"Amora, contemporary of R. Zeira, who transmits rulings of R. Yehoshua ben Levi."},
+  {id:"ryitzchak_ami",name:"ר' יצחק בר אמי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי.",descEn:"Land of Israel amora."},
+  {id:"rav_huna_chinena",name:"רב הונא בר חיננא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rav_huna_brei_nachman",name:"רב הונא בריה דרב נחמן", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, בנו של רב נחמן.",descEn:"Babylonian amora, son of Rav Nachman."},
+  {id:"rabba_chiya_abba",name:"ר' אבא בריה דר' חייא בר אבא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי, בנו של ר' חייא בר אבא.",descEn:"Land of Israel amora, son of R. Chiyya bar Abba."},
+  {id:"rav_shimi_chiya",name:"רב שימי בר חייא", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, נכדו של רב.",descEn:"Babylonian amora, grandson of Rav."},
+  {id:"natan_shila",name:"נתן בר שילא", type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.867,lng:35.286,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",  role:"ראש הטבחים בציפורי",  isL:false, desc:"ראש הטבחים בציפורי, העיד הלכה לפני רבי משום ר' נתן.",descEn:"Chief of the butchers of Tzippori who testified a ruling before Rabbi in the name of R. Natan."},
+  {id:"ryehoshua_korcha",name:"ר' יהושע בן קרחה", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:true, desc:"תנא מהדור הרביעי בארץ ישראל.",descEn:"Fourth-generation tanna of the Land of Israel."},
+  {id:"rav_acha_avva",name:"רב אחא בר רב עוא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם רב אסי.",descEn:"Babylonian amora who transmits in the name of Rav Asi."},
+  {id:"ryaakov_nachmani",name:"ר' יעקב בר נחמני", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם שמואל.",descEn:"Babylonian amora who transmits in the name of Shmuel."},
+  {id:"rabbi_avina",name:"ר' אבינא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם גניבא.",descEn:"Babylonian amora who transmits in the name of Geniva."},
+  {id:"rbinyamin_yefet",name:"ר' בנימין בר יפת", type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי, מוסר בשם ר' אלעזר ור' יוחנן.",descEn:"Land of Israel amora who transmits in the name of R. Elazar and R. Yochanan."},
+  {id:"rav_safra",name:"רב ספרא", type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל / בבל",cityEn:"Land of Israel / Babylonia",  role:"אמורא וסוחר",  isL:true, desc:"אמורא וסוחר נודע, נדד בין בבל לארץ ישראל.",descEn:"Prominent amora and merchant who traveled between Babylonia and the Land of Israel."},
+  {id:"rav_huna_tzipora",name:"רב הונא ציפוראה", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.867,lng:35.286,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",  role:"אמורא",  isL:false, desc:"אמורא, ישב לפני רבי בציפורי.",descEn:"Amora who sat before Rabbi in Tzippori."},
+  {id:"ryosi_madaa",name:"ר' יוסי מדאה", type:"amo",gen:"דור ד׳",born:null,died:null,lat:34.8,lng:48.5,city:"מדי",cityEn:"Media",  role:"אמורא",  isL:false, desc:"אמורא מבני מדי, ישב לפני רבי.",descEn:"Amora from Media who sat before Rabbi."},
+  {id:"rav_chaviva",name:"רב חביבא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rchiya_ashi",name:"רב חייא בר אשי", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מתלמידי רב.",descEn:"Babylonian amora, a disciple of Rav."},
+  {id:"ryirmeya_acha",name:"רב ירמיה בר אחא", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, מוסר בשם רב.",descEn:"Babylonian amora who transmits in the name of Rav."},
+  {id:"huna_mar_nechemya",name:"הונא מר בר בריה דרב נחמיה", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי מהדורות האחרונים.",descEn:"Late-generation Babylonian amora."},
+  {id:"rav_oshaya",name:"רב אושעיא", type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, בן דורו של רב (יש להבחין בינו לבין ר' אושעיא רבה מארץ ישראל).",descEn:"Babylonian amora, contemporary of Rav (distinct from R. Oshaya Rabbah of the Land of Israel)."},
+  {id:"rav_hillel",name:"רב הלל", type:"amo",gen:"דור ו׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי, בן דורו של רב אשי.",descEn:"Babylonian amora, contemporary of Rav Ashi."},
+  {id:"rchana_patoraa",name:"ר' חנא פתוראה", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא",  isL:false, desc:"אמורא, נזכר בענייני שיעורי טרפה.",descEn:"Amora cited regarding the measurements of tereifot."},
+  {id:"ryosi_avin",name:"ר' יוסי בר אבין", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי מהדור החמישי.",descEn:"Fifth-generation Land of Israel amora."},
+  {id:"ryosi_zvida",name:"ר' יוסי בר זבידא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי מהדור החמישי.",descEn:"Fifth-generation Land of Israel amora."},
+  {id:"rav_nechunya",name:"רב נחוניא", type:"amo",gen:"דור ד׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"rabbi_tanchuma",name:"ר' תנחומא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ובעל אגדה",  isL:true, desc:"מגדולי בעלי האגדה בארץ ישראל בדור החמישי.",descEn:"A leading Land of Israel aggadist of the fifth generation."},
+  {id:"elazar_safra",name:"אלעזר ספרא", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא, העיד על הגלודה שפסולה.",descEn:"Tanna who testified that a flayed animal is unfit."},
+  {id:"yochanan_gudgeda",name:"יוחנן בן גודגדא", type:"tan",gen:"דור ב׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא (לוי)",  isL:false, desc:"תנא לוי מדור יבנה, מעדי עדויות.",descEn:"Levite tanna of the Yavneh generation, among the witnesses of testimonies."},
+  {id:"roshaya_bassam",name:"ר' אושעיא בנו של ר' יהודה הבשם", type:"tan",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא, העיד לפני ר' עקיבא משום ר' טרפון.",descEn:"Tanna who testified before R. Akiva in the name of R. Tarfon."},
+  {id:"rabbi_nehorai",name:"ר' נהוראי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא",  isL:false, desc:"אמורא, מוסר בשם שמואל.",descEn:"Amora who transmits in the name of Shmuel."},
+  {id:"ryanai_ishmael",name:"ר' ינאי ברבי ישמעאל", type:"amo",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי.",descEn:"Land of Israel amora."},
+  {id:"eliezer_evlayim",name:"אליעזר בן יהודה איש אבלים", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא, מוסר בשם ר' יעקב.",descEn:"Tanna who transmits in the name of R. Yaakov."},
+  {id:"rshimon_yehuda_ikkus",name:"ר' שמעון בן יהודה איש כפר עיכוס", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא, מוסר בשם ר' שמעון.",descEn:"Tanna who transmits in the name of R. Shimon."},
+  {id:"rabbi_nechemya",name:"ר' נחמיה", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא מהדור הרביעי, מתלמידי ר' עקיבא.",descEn:"Fourth-generation tanna, a disciple of R. Akiva."},
+  {id:"rav_chana",name:"רב חנא", type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:false, desc:"אמורא בבלי.",descEn:"Babylonian amora."},
+  {id:"ryosi_yehoshua",name:"ר' יוסי בן יהושע", type:"tan",gen:"דור ד׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא מארץ ישראל.",descEn:"Tanna of the Land of Israel."},
+  {id:"rav_yosef_rybl",name:"רב יוסף בריה דרבי יהושע בן לוי", type:"amo",gen:"דור ב׳",born:null,died:null,lat:31.951,lng:34.888,city:"לוד",cityEn:"Lod",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא, בנו של ר' יהושע בן לוי מלוד.",descEn:"Amora, son of R. Yehoshua ben Levi of Lod."},
+  {id:"rav_shmuel_chiya",name:"רב שמואל בר חייא", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.795,lng:35.53,city:"טבריה",cityEn:"Tiberias",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי, מוסר בשם ר' מני.",descEn:"Land of Israel amora who transmits in the name of R. Mani."},
+  {id:"rabbi_simai",name:"ר' סימאי", type:"tan",gen:"דור ה׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"תנא",  isL:false, desc:"תנא מהדור החמישי בארץ ישראל.",descEn:"Fifth-generation tanna of the Land of Israel."},
+  {id:"rabbi_tzadok",name:"ר' צדוק", type:"tan",gen:"דור א׳",born:null,died:null,lat:31.776,lng:35.234,city:"ירושלים",cityEn:"Jerusalem",  role:"תנא",  isL:true, desc:"תנא, מחכמי ירושלים ויבנה; צם ארבעים שנה על חורבן הבית.",descEn:"Tanna of Jerusalem and Yavneh who fasted forty years over the destruction of the Temple."},
+  {id:"ryosi_nehorai",name:"ר' יוסי בן נהוראי", type:"amo",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ארץ ישראל",cityEn:"Land of Israel",  role:"אמורא ארץ ישראלי",  isL:false, desc:"אמורא ארץ ישראלי.",descEn:"Land of Israel amora."},
+  {id:"rshimon_chalafta",name:"ר' שמעון בן חלפתא", type:"tan",gen:"דור ה׳",born:null,died:null,lat:32.867,lng:35.286,city:"ציפורי",cityEn:"Tzippori (Sepphoris)",  role:"תנא ובעל אגדה",  isL:true, desc:"תנא מהדור החמישי, בן דורו של רבי, נודע במשליו ובניסיונותיו בטבע.",descEn:"Fifth-generation tanna, contemporary of Rabbi, known for his parables and observations of nature."},
+  {id:"rav_achai",name:"רב אחאי", type:"amo",gen:"דור ה׳",born:null,died:null,lat:32.000,lng:44.400,city:"בבל",cityEn:"Babylonia",  role:"אמורא בבלי",  isL:true, desc:"אמורא בבלי, מכונה מאיר עיני הגולה.",descEn:"Babylonian amora renowned as the enlightener of the eyes of the exile."},
 ];
 
 const CITIES=[
@@ -712,6 +862,7 @@ const CITIES=[
   {name:"ציפורי",   nameEn:"Tzippori",   lat:32.860,lng:35.297},
   {name:"מירון",    nameEn:"Meron",      lat:32.977,lng:35.502},
   {name:"לוד",      nameEn:"Lod",        lat:31.952,lng:34.889},
+  {name:"קיסריה",   nameEn:"Caesarea",   lat:32.504,lng:34.905},
   {name:"סורא",     nameEn:"Sura",       lat:31.989,lng:44.936},
   {name:"נהרדעא",   nameEn:"Nehardea",   lat:32.050,lng:44.419},
   {name:"פומבדיתא", nameEn:"Pumbedita",  lat:32.465,lng:44.521},
@@ -743,7 +894,7 @@ const CHULLIN_DAFIM=[
   {daf:"6b",verified:true,sages:["rshimon_elazar","rav_yosef","ryehoshua_zeruz","rmeir","rabbi_hanasi"]},
   {daf:"7a",verified:true,sages:["yehuda_shimon_pazi","rshimon_pazi","rshimon_elyakim","rabi_elazar","relazer_s","rabbi_yirmeya","rabbi_zeira","rmeir","rav_yosef","rpinchas_yair"]},
   {daf:"7b",verified:true,sages:["rpinchas_yair","rabbi_hanasi","ryochanan","rabbi_chama_chanina","rav_pappa","abaye","ryehoshua_levi","rabbi_chanina","rabi_elazar","rava"]},
-  {daf:"8a",verified:true,sages:["rabbi_zeira","shmuel","rav_nachman_y","rabbah_b_avuha","rava"]},
+  {daf:"8a",verified:true,sages:["rabbi_zeira","shmuel","rav_nachman_yaakov","rabbah_b_avuha","rava"]},
   {daf:"8b",verified:true,sages:["rav","rabbah_b_chana","rav_acha","ravina_1","rav_yehuda","ameimar","rav_pappa"]},
   {daf:"9a",verified:true,sages:["rav_yehuda","rav","rav_chananya_shelemya","shmuel","rav_yosef","rsby","abaye","ryochanan","reliezer_antignos","relazer_yannai","rav_huna","rabbi_abba"]},
   {daf:"9b",verified:true,sages:["rava","abaye","rav_shimi_ashi","rav_ashi","rg_yavne","ryehoshua_levi"]},
@@ -751,10 +902,10 @@ const CHULLIN_DAFIM=[
   {daf:"10b",verified:true,sages:["rav_huna","rav_chisda","rav_yosef","rav_acha","rav_ashi","rav_kahana1","ryochanan","rshmuel_nachmani","rabbi_yonatan","rav_acha_yaakov","abaye","rava"]},
   {daf:"11a",verified:true,sages:["rabi_elazar","mar_brei_ravina","rav_nachman_y","rav_sheshet_idi","rabbi_yannai","rabbah_sheila","rav_acha_yaakov"]},
   {daf:"11b",verified:true,sages:["rav_mari","rav_kahana1","ravina_1","rav_ashi","rav_shimi_ashi","rmeir"]},
-  {daf:"12a",verified:true,sages:["rav_nachman_y","rav","rav_dimi_yosef","ryehuda_ilai","rchanina_ygelili","ryosi_hagelili","rabbi_hanasi"]},
+  {daf:"12a",verified:true,sages:["rav_nachman_y","rav","rav_dimi_yosef","ryehuda_ilai","rchanina_ygelili","ryosi_hagelili","rabbi_hanasi","rav_nachman_yaakov"]},
   {daf:"12b",verified:true,sages:["ryehuda_ilai","rchanina_ygelili","rava","rabbi_natan","oshaya_zeera","rchiya_abba","ryochanan","rabi_ami"]},
   {daf:"13a",verified:true,sages:["ryochanan","rav_nachman_y","rchiya_abba","rabi_ami","shmuel","rav_huna","reliezer"]},
-  {daf:"13b",verified:true,sages:["rav_nachman_y","rabbah_b_avuha","rchiya_abba","ryochanan","rav_yosef_minyomi","rav_ukva_chama","rava","ryehuda_beteira","rav_pappa","rav_ashi"]},
+  {daf:"13b",verified:true,sages:["rav_nachman_yaakov","rabbah_b_avuha","rchiya_abba","ryochanan","rav_yosef_minyomi","rav_ukva_chama","rava","ryehuda_beteira","rav_pappa","rav_ashi"]},
   {daf:"14a",verified:true,sages:["rav_huna","chiya_bar_rav","rav","ryehuda_ilai","rabbi_abba","abaye","rmeir","ryosi","rsby"]},
   {daf:"14b",verified:true,sages:["rmeir","ayo","ryehuda_ilai","ryochanan","rav_yosef","abaye","rav_yehuda","shmuel","rav","rav_sheshet_idi"]},
   {daf:"15a",verified:true,sages:["rav_ashi","ryehuda_ilai","rmeir","ryochanan_sandelar","rav","rav_chanan_ami","rav_nachman_y","rav_huna","chiya_bar_rav"]},
@@ -763,95 +914,95 @@ const CHULLIN_DAFIM=[
   {daf:"16b",verified:true,sages:["rav_anan","shmuel","rav_zvid","rav_pappa","rav_chisda","rav_yitzchak1","rabbah_rav_huna","rabbah","rishmael","rav_yosef"]},
   {daf:"17a",verified:true,sages:["rav_yosef","rakiva","rishmael","rabbi_yirmeya","ryirmeya_abba","rav","rabbah","rava","abba_bar_abba"]},
   {daf:"17b",verified:true,sages:["reliezer","rava","rav_huna_nechemya","rav_ashi","rav_acha_avya","rav_chisda","ryochanan","rav_sheshet","rav_acha_yaakov","rav_pappa","ravina_1","rav_sama","rav_acha","rav_kahana1","rav_yeimar","rabbi_zeira","shmuel","rav_huna_katina","resh_lakish"]},
-  {daf:"18a",verified:false,sages:[]},
-  {daf:"18b",verified:false,sages:[]},
-  {daf:"19a",verified:false,sages:[]},
-  {daf:"19b",verified:false,sages:[]},
-  {daf:"20a",verified:false,sages:[]},
-  {daf:"20b",verified:false,sages:[]},
-  {daf:"21a",verified:false,sages:[]},
-  {daf:"21b",verified:false,sages:[]},
-  {daf:"22a",verified:false,sages:[]},
-  {daf:"22b",verified:false,sages:[]},
-  {daf:"23a",verified:false,sages:[]},
-  {daf:"23b",verified:false,sages:[]},
-  {daf:"24a",verified:false,sages:[]},
-  {daf:"24b",verified:false,sages:[]},
-  {daf:"25a",verified:false,sages:[]},
-  {daf:"25b",verified:false,sages:[]},
-  {daf:"26a",verified:false,sages:[]},
-  {daf:"26b",verified:false,sages:[]},
-  {daf:"27a",verified:false,sages:[]},
-  {daf:"27b",verified:false,sages:[]},
-  {daf:"28a",verified:false,sages:[]},
-  {daf:"28b",verified:false,sages:[]},
-  {daf:"29a",verified:false,sages:[]},
-  {daf:"29b",verified:false,sages:[]},
-  {daf:"30a",verified:false,sages:[]},
-  {daf:"30b",verified:false,sages:[]},
-  {daf:"31a",verified:false,sages:[]},
-  {daf:"31b",verified:false,sages:[]},
-  {daf:"32a",verified:false,sages:[]},
-  {daf:"32b",verified:false,sages:[]},
-  {daf:"33a",verified:false,sages:[]},
-  {daf:"33b",verified:false,sages:[]},
-  {daf:"34a",verified:false,sages:[]},
-  {daf:"34b",verified:false,sages:[]},
-  {daf:"35a",verified:false,sages:[]},
-  {daf:"35b",verified:false,sages:[]},
-  {daf:"36a",verified:false,sages:[]},
-  {daf:"36b",verified:false,sages:[]},
-  {daf:"37a",verified:false,sages:[]},
-  {daf:"37b",verified:false,sages:[]},
-  {daf:"38a",verified:false,sages:[]},
-  {daf:"38b",verified:false,sages:[]},
-  {daf:"39a",verified:false,sages:[]},
-  {daf:"39b",verified:false,sages:[]},
-  {daf:"40a",verified:false,sages:[]},
-  {daf:"40b",verified:false,sages:[]},
-  {daf:"41a",verified:false,sages:[]},
-  {daf:"41b",verified:false,sages:[]},
-  {daf:"42a",verified:false,sages:[]},
-  {daf:"42b",verified:false,sages:[]},
-  {daf:"43a",verified:false,sages:[]},
-  {daf:"43b",verified:false,sages:[]},
-  {daf:"44a",verified:false,sages:[]},
-  {daf:"44b",verified:false,sages:[]},
-  {daf:"45a",verified:false,sages:[]},
-  {daf:"45b",verified:false,sages:[]},
-  {daf:"46a",verified:false,sages:[]},
-  {daf:"46b",verified:false,sages:[]},
-  {daf:"47a",verified:false,sages:[]},
-  {daf:"47b",verified:false,sages:[]},
-  {daf:"48a",verified:false,sages:[]},
-  {daf:"48b",verified:false,sages:[]},
-  {daf:"49a",verified:false,sages:[]},
-  {daf:"49b",verified:false,sages:[]},
-  {daf:"50a",verified:false,sages:[]},
-  {daf:"50b",verified:false,sages:[]},
-  {daf:"51a",verified:false,sages:[]},
-  {daf:"51b",verified:false,sages:[]},
-  {daf:"52a",verified:false,sages:[]},
-  {daf:"52b",verified:false,sages:[]},
-  {daf:"53a",verified:false,sages:[]},
-  {daf:"53b",verified:false,sages:[]},
-  {daf:"54a",verified:false,sages:[]},
-  {daf:"54b",verified:false,sages:[]},
-  {daf:"55a",verified:false,sages:[]},
-  {daf:"55b",verified:false,sages:[]},
-  {daf:"56a",verified:false,sages:[]},
-  {daf:"56b",verified:false,sages:[]},
-  {daf:"57a",verified:false,sages:[]},
-  {daf:"57b",verified:false,sages:[]},
-  {daf:"58a",verified:false,sages:[]},
-  {daf:"58b",verified:false,sages:[]},
-  {daf:"59a",verified:false,sages:[]},
-  {daf:"59b",verified:false,sages:[]},
-  {daf:"60a",verified:true,sages:["ryehoshua","rav_yehuda","rav_nachman_y","ryehoshua_levi","rchanina_pappa","ravina_1"]},
+  {daf:"18a",verified:true,sages:["rsby","reliezer_yaakov","rav_huna","rava","ravina_1","rava_chinena","mar_zutra","rav_ashi","rabbah_rav_huna","shammai","hillel","rchiya_abba","ryochanan","ryosi_byehuda","rav","shmuel"]},
+  {daf:"18b",verified:true,sages:["rchanina_antignos","rav_yosef","ryosi_byehuda","rav","shmuel","rabbi_zeira","rav_yehuda","ryirmeya_abba","abaye","rav_ashi","rav_nachman_yaakov","resh_lakish","ryochanan","rav_papi","rava","rav_pappa","ameimar_yanuka","rchiya_avya","ravina_1","rav_shemen","mar_zutra","mar_bar_ashi"]},
+  {daf:"19a",verified:true,sages:["rav_nachman_yaakov","rav_chanan_katina","ryosi_byehuda","rchiya_abba","ryochanan","rabba_zavda","rabbi_chanina","ryaakov_idi","ryehoshua_levi","rchanina_antignos","rav_huna","rav_asi2","rav_chisda","rav_yosef","abaye","rav","rav_yehuda"]},
+  {daf:"19b",verified:true,sages:["rav_nachman_yaakov","relazer_minyomi","rabbi_abba","rav_kahana1","rav_yehuda","rabi_elazar","ryochanan","rava"]},
+  {daf:"20a",verified:true,sages:["rabbi_yannai","rabbah_b_chana","rabbi_yirmeya","rav_kahana1","rabbi_avin","shmuel","rami_yechezkel","rav_pappa","rav_huna","rav_asi2","rav_acha","rav_ashi"]},
+  {daf:"20b",verified:true,sages:["ravina_1","ravin_kisi","rami_yechezkel","rabbi_yirmeya","shmuel","zeiri","rav_chisda","rav_huna","rava","abaye"]},
+  {daf:"21a",verified:true,sages:["rava","rabbi_zeira","rabi_ami","relazer_bshimon","rav_yehuda","shmuel","rshmuel_nachmani","ryochanan","rshmuel_yitzchak","rabi_elazar","resh_lakish","rabi_assi","rabbi_mani","rabbi_yirmeya"]},
+  {daf:"21b",verified:true,sages:["rishmael","relazer_bshimon"]},
+  {daf:"22a",verified:true,sages:["rav_chisda","rabbah_b_chana","resh_lakish","relazer_bshimon"]},
+  {daf:"22b",verified:true,sages:["yaakov_korcha","abaye","rabbi_zeira","rava"]},
+  {daf:"23a",verified:true,sages:["rishmael","rabbi_zeira","ryochanan","bar_pada"]},
+  {daf:"23b",verified:true,sages:["rabbi_zeira","rmeir","ryehuda_ilai","rav_huna"]},
+  {daf:"24a",verified:true,sages:["ryosi"]},
+  {daf:"24b",verified:true,sages:["rabbi_ila","rabbi_chanina","ryosi","rabbi_hanasi","rav_chisda","ryehoshua_levi","rabi_elazar","ryonatan_abtulmos","rabbi_yonatan"]},
+  {daf:"25a",verified:true,sages:["rav_adda_ahava","rava"]},
+  {daf:"25b",verified:true,sages:["ryochanan","rav_nachman_yaakov","rishmael_broka","rishmael_byosi","ryosi","rabbi_ila","rabbi_chanina","ryehuda_ilai","rabbah_b_avuha"]},
+  {daf:"26a",verified:true,sages:["ryosi_bchanina","rav_nachman_yaakov","rabbah_b_avuha","rabbah","rava","ryochanan_nuri","ryochanan","rabi_elazar","ryehuda_ilai"]},
+  {daf:"26b",verified:true,sages:["rava","rav_geviha","rav_ashi","rav_yehuda","rav","rmeir","ryehuda_ilai","rabbi_dosa","rav_asi2","rav_nachman_yaakov","rav_sheshet_idi","rabbi_zeira"]},
+  {daf:"27a",verified:true,sages:["ryehuda_ilai","rav_kahana1","rav_yeimar","rishmael","rabbi_chiya"]},
+  {daf:"27b",verified:true,sages:["reliezer","bar_kapara","over_gelili","rav_shmuel_kapotkaa","rav_yehuda","ryitzchak_pinchas"]},
+  {daf:"28a",verified:true,sages:["relazer_kappar","rabbi_hanasi","rav_nachman_yaakov","rav_adda_ahava","ryehuda_ilai","rava"]},
+  {daf:"28b",verified:true,sages:["rabbah","rav_yosef_rava","rava","ryochanan","ryehuda_ilai","rav_chisda","rabbi_yirmeya","rabi_elazar","rav","rav_kahana1","rav_katina","rav_pappa"]},
+  {daf:"29a",verified:true,sages:["rava","abaye","rav","rav_kahana1","rabbi_oshaya","rav_shimi_ashi","rav_pappa","ryehuda_ilai","rav_ashi","rav_yosef","resh_lakish"]},
+  {daf:"29b",verified:true,sages:["resh_lakish","levi_saba","ryochanan","rava","rabbah_shimi","rav_yosef","rabbi_zeira","rav_kahana1","abaye","rabbah_b_chana","relazer_bshimon"]},
+  {daf:"30a",verified:true,sages:["relazer_bshimon","rav_idi_avin","rchiya_gamda","abaye","rav_yehuda","rav","shmuel","resh_lakish","rabi_elazar","rabbi_yirmeya","rabbi_abba","rabbi_avin"]},
+  {daf:"30b",verified:true,sages:["rabbi_avin","ryitzchak_marta","rabbi_zeira","rav_yehuda","rav","ryeshevav","rakiva","rav_pappa","shmuel","rishmael","rava","ryona_tachlifa"]},
+  {daf:"31a",verified:true,sages:["rabbi_zeira","rav","rav_menashe","rav_acha_avya","rava","rabbi_natan","oshaya_zeera","rav_yehuda","ryochanan","rav_nachman_yaakov"]},
+  {daf:"31b",verified:true,sages:["rava","rav_nachman_yaakov","abaye","rav_yosef","ryochanan","ryonatan_yosef","rav_shimi_ashi","rabbi_natan","rav_pappa"]},
+  {daf:"32a",verified:true,sages:["rabbi_natan","rsby","rav","rav_kahana1","rav_asi2","shmuel","ravin","ryochanan","rav_chananyah","rav_pappa","ryosi_bchanina","rava","rav_huna_natan","ryeshevav","rakiva","ryehoshua"]},
+  {daf:"32b",verified:true,sages:["rava","rav_acha_huna","chizkiyah","rabi_elazar","resh_lakish","rchiya_abba","ryochanan","rabbi_zeira","ilfa"]},
+  {daf:"33a",verified:true,sages:["rav_acha_rav","ravina_1","rabbi_zeira","rava","rav_acha_yaakov","resh_lakish","rav_pappa","rav_idi_avin","ryitzchak_ashyan","rsby","rchiya_abba","ryochanan","rav_nachman_yaakov","rabbah_b_avuha","rmeir"]},
+  {daf:"33b",verified:true,sages:["rmeir","rav_shimi_ashi","rav_pappa","rshimon_elazar","rakiva","rabi_elazar","rabbi_oshaya","reliezer","ryehoshua"]},
+  {daf:"34a",verified:true,sages:["ula","ryehoshua","rabbah_b_chana","ryochanan","reliezer"]},
+  {daf:"34b",verified:true,sages:["rabbi_zeira","rabi_assi","ryochanan","rabbi_yannai","ula","rav_hamnuna"]},
+  {daf:"35a",verified:true,sages:["rabbi_yonatan","rabbi_hanasi","ula","ryitzchak_marta","rav_nachman_yaakov","rami_chama","rava"]},
+  {daf:"35b",verified:true,sages:["rav_yitzchak1","ryirmeya_difti","rav_huna_natan","relazer_btzadok","rsby","rav_asi2"]},
+  {daf:"36a",verified:true,sages:["rishmael","rabbi_hanasi","rabbi_chiya","rabbi_oshaya","rsby","rav_pappa","rav_ashi","resh_lakish","rabi_elazar"]},
+  {daf:"36b",verified:true,sages:["rav_yosef","rsby","abaye","rabbi_zeira","shammai","hillel","resh_lakish","rchiya_abba","ryochanan","ryosi_bchanina","rav_yehuda","shmuel"]},
+  {daf:"37a",verified:true,sages:["shimon_bg2","reliezer","rsby"]},
+  {daf:"37b",verified:true,sages:["mar_bar_ashi","rabbi_natan","rav_yehuda","rav","rav_chananya_shelemya","rami_yechezkel","shmuel"]},
+  {daf:"38a",verified:true,sages:["rav","rav_anan","shmuel","ryosi","rmeir","relazer_byosei","rav_chisda","rava","rav_nachman_y","rsby","reliezer","rg_yavne","ravina_1","sama_chilkai"]},
+  {daf:"38b",verified:true,sages:["rava","reliezer","ryosi","relazer_byosei"]},
+  {daf:"39a",verified:true,sages:["reliezer","ryosi","ryochanan","resh_lakish","rav_sheshet"]},
+  {daf:"39b",verified:true,sages:["rav_chisda","reliezer","rav_sheizvi","shimon_bg2","ravina_1","rabbah","ryochanan","rav_yehuda","shmuel","ryosi","rav_tovi_b_matna","rav_yosef","rav_acha_avya","rav_ashi"]},
+  {daf:"40a",verified:true,sages:["abaye","rav_huna","ula","ryochanan","rav_nachman_yaakov"]},
+  {daf:"40b",verified:true,sages:["rav_pappa","ula","mar_zutra","rav_huna","rav_nachman_yaakov","rav_amram","rav_yitzchak1"]},
+  {daf:"41a",verified:true,sages:["ryehuda_beteira","ryehuda_b_bava","rav_nachman_yaakov","rav_amram","rav_yitzchak1","rav_acha_b_rava","rav_ashi"]},
+  {daf:"41b",verified:true,sages:["rava","abaye","rsby","ryochanan","rabi_elazar","rabbi_oshaya","rabbi_yannai","rabbi_abbahu"]},
+  {daf:"42a",verified:true,sages:["rsby","ryehuda_ilai","resh_lakish","rishmael"]},
+  {daf:"42b",verified:true,sages:["rshimon_elazar","rishmael","rav_yehuda","shmuel","rmeir","ryosi_byehuda","rav_matna","rachish_b_papa","rav","rav_avira","rava","rabbah_b_chana","rabbah_sheila"]},
+  {daf:"43a",verified:true,sages:["ula","rachish_b_papa","rchiya_abba","ryosi_byehuda","rav_yitzchak_yosef","ryochanan","rabbah_b_chana","rav_nachman_yaakov","rava","mar_zutra","rav_pappa","rav_ashi","rav_acha_b_yosef","rabbah"]},
+  {daf:"43b",verified:true,sages:["rabbah","abaye","ula","rav_kahana1","rav","shmuel","mari_b_ukva","rav_papi","rav_beivai_abaye","rabbi_yona","rabbi_zeira","rav_avya","rava","rabbi_abba","mar_brei_ravina"]},
+  {daf:"44a",verified:true,sages:["rav_tavut","rami_yechezkel","rav_yehuda","rav","rav_nachman_yaakov","rabbah_b_avuha","ravina_1","geniva","shmuel","rav_pappa","rabbah_b_chana","rav_shisha_idi"]},
+  {daf:"44b",verified:true,sages:["rav","rav_kahana1","rav_asi2","rabbah_b_chana","rabbah","rav_chisda","mar_zutra","rav_zvid","rabi_elazar","rabbi_zeira"]},
+  {daf:"45a",verified:true,sages:["rav_yehuda","rav","rabbi_yirmeya","rchelbo","rav_chama_gurya","rabbah_b_chana","ryehoshua_levi","ryitzchak_nachmani","rabi_elazar","rav_pappa","rav_nachman_yaakov","ryochanan","rabbi_yonatan","rchiya_yosef","rava","rav_chananyah","resh_lakish"]},
+  {daf:"45b",verified:true,sages:["rav","shmuel","rshmuel_nachmani","rabbah_b_chana","ryehoshua_levi","rshimon_pazi","bar_kapara","ryitzchak_nachmani","rabbi_yirmeya","rabbi_zeira","abaye","rabbah_tachlifa","ryirmeya_abba","rabbah_yitzchak","ameimar","rav_nachman_yaakov","mar_bar_chiya","rchiya_yosef","rabbi_hanasi","ryaakov","rav_huna","niveli","rav_natan_avin","rshimon_elazar","levi_saba","rav_yehuda","rav_dimi_yitzchak","rav_zevid2"]},
+  {daf:"46a",verified:true,sages:["rav_pappa","rabbi_yirmeya","rabbi_yannai","resh_lakish","ula","rshimon_pazi","rav_yosef","rabbi_chiya","rshimon_bar_rebbi","rabbi_zeira","rabbah","rav_adda_ahava","rav_ashi","rzerika","rabi_ami","rav","shmuel","rav_asi2","rav_yosef_minyomi","rav_nachman_yaakov"]},
+  {daf:"46b",verified:true,sages:["rav_acha","ravina_1","rav_yosef","rava","rav_papi","ryosi_meshulam","ameimar"]},
+  {daf:"47a",verified:true,sages:["rava","mareimar","rav_acha","rav_ashi","rav_huna_mar_avya"]},
+  {daf:"47b",verified:true,sages:["rafram","rava","rabbi_chanina","rabbi_natan","rav_kahana1","rav_sama_rava","ravina_1","rav_yosef","ula","rabbi_abba","rchananya_tanna","rav_acha_b_rava","rav_ashi","rav_nachman_yaakov"]},
+  {daf:"48a",verified:true,sages:["rav_yosef_minyomi","rav_nachman_yaakov","mar_yehuda","avimi","rava","ravin_shaba","rav_nechemya_yosef","mar_zutra_papi","ravina_1","rav_ashi","rav_yosef","rav_ukva_chama","rav_yitzchak_yosef","ryochanan","rabbah_b_chana","shmuel","rav_matna","rabbi_yirmeya","yehuda_shimon_pazi","relazer_bshimon"]},
+  {daf:"48b",verified:true,sages:["rava","rav_nachman_yaakov","rabi_ami","rabi_assi","ryochanan","rabi_elazar","rabbi_chanina","resh_lakish","rmani_patish","rshimon_elyakim","rabbi_yirmeya","rzerika","ryitzchak_nappacha","rav_ashi","rav_nechemya_yosef"]},
+  {daf:"49a",verified:true,sages:["huna_mar_idi","rav_adda_minyomi","ravina_1","rav_ashi","rav_kahana1","ryochanan","rav_huna_yehuda","rav_adda_natan","mar_zutra_mari","rav_shmuel_abbahu","rafram","rav_mesharshiya","rav_yosef_dosai","rsby","rabbah_tachlifa","ryirmeya_abba","rav_acha_bar_abba","rav_huna","rmaluch","rabbi_zeira","rav_bibi","rchiya_abba","rav_asi2","ryitzchak_ami","ryitzchak_nachmani","rabbi_oshaya","rishmael","rakiva","rav_nachman_y"]},
+  {daf:"49b",verified:true,sages:["rishmael","rakiva","rsby","ravin","ryochanan","rav_nachman_y","rav","rav_sheshet","rabbi_zeira","abaye","rava","rav_pappa","rshimon_elazar","rav_nachman_yaakov","rav_zevid2","rav_huna_chinena","rav_huna_brei_nachman","rav_tavut"]},
+  {daf:"50a",verified:true,sages:["rav_avya","rabi_ami","rabbi_yannai","rabbi_chanina","shimon_bg2","rav_kahana1","rabba_chiya_abba","rchiya_abba","ryochanan","rabbi_abba","rabbi_zeira","rsby","rav_chisda","rav_nachman_yaakov","shmuel","rav_shimi_chiya","rav_mesharshiya","rabi_elazar","rava","abaye","rav_pappa","zeiri","rabbi_ila"]},
+  {daf:"50b",verified:true,sages:["rav_nachman_yaakov","abaye","rav_yehuda","rav","natan_shila","rabbi_hanasi","rabbi_natan","ryehoshua_korcha","rishmael","rav_asi2","ryochanan","rav_nachman_y","rav_acha_avva","ryaakov_nachmani","rabbi_avina","geniva","ryosi_bchanina","rabbah_rav_huna","rav_avya","rav_ashi","ameimar","rbinyamin_yefet","rabi_assi","rchiya_abba","rav_yosef"]},
+  {daf:"51a",verified:true,sages:["rav_safra","abaye","rav_avira","rabbi_hanasi","rav_huna_tzipora","ryosi_madaa","rav_huna","ravina_1","rav_ashi","rav_chaviva","rav_yeimar","rav_menashe","rav_yehuda","rav","rav_nachman_yaakov","rava"]},
+  {daf:"51b",verified:true,sages:["rav_nachman_yaakov","ryitzchak_marta","rav","rav_yehuda","rchiya_ashi","ryirmeya_acha","rav_chisda","ameimar","rav_dimi_nehardea","mar_zutra","rav_pappa","huna_mar_nechemya","rav_ashi","shmuel"]},
+  {daf:"52a",verified:true,sages:["rav_ashi","ameimar","zeiri","rabbah_b_chana","ryochanan","ula","rybz","rav","rav_kahana1","rav_asi2","rabbah_sheila","rav_matna","shmuel"]},
+  {daf:"52b",verified:true,sages:["rav_yehuda","shmuel","rav_oshaya","rav","rabbi_yirmeya","rav_ashi","ryosi_bchanina","ryaakov_nachmani","ryehuda_ilai","rbinyamin_yefet","rabbi_ila","rav_amram","rav_chisda","rav_kahana1"]},
+  {daf:"53a",verified:true,sages:["rav_ashi","rav_hillel","rav_kahana1","rav_shimi_ashi","rav_dimi","rav_safra","rav_yosef","abaye","rabbah_rav_huna","rav","shmuel"]},
+  {daf:"53b",verified:true,sages:["rav_yosef","shmuel","rchanina_antignos","ilfa","rabbi_zeira","rav_chanan_rava","rav","rabbah_b_chana","rabi_ami","rav_yehuda","rav_zevid2","rav_ashi","rav_kahana1","rav_nachman_yaakov","rav_zvid","rav_papi","rav_beivai_abaye","ameimar"]},
+  {daf:"54a",verified:true,sages:["ryitzchak_marta","rav_nachman_yaakov","rav","rchiya_yosef","ryochanan","resh_lakish","rabbi_hanasi","rabbi_chiya","ryehuda_beteira","rabbi_abba","shimon_bg2","rmeir","rav_matna"]},
+  {daf:"54b",verified:true,sages:["ryochanan","rav_matna","rava","zeiri","rchana_patoraa","ryosi_avin","rav_nachman_yaakov"]},
+  {daf:"55a",verified:true,sages:["rabbi_abbahu","ryochanan","rav_avira","rava","ryosi_avin","ryosi_zvida","rachish_b_papa","rav"]},
+  {daf:"55b",verified:true,sages:["rav_nechunya","rabbi_tanchuma","rav_ashi","rabbi_zeira","rshimon_elazar","rabbah_b_chana","rmeir","elazar_safra","yochanan_gudgeda","roshaya_bassam","rakiva","rtarfon","rav_nachman_y","rav_yehuda","shmuel","rabbi_nehorai","reliezer_antignos","relazer_yannai","ryanai_ishmael","rav","ryochanan","rabi_assi","eliezer_evlayim","ryaakov","rshimon_yehuda_ikkus"]},
+  {daf:"56a",verified:true,sages:["rav","shmuel","levi_saba","zeiri","rav_oshaya","resh_lakish","ryochanan","ryehuda_ilai","rabbi_nechemya","rshimon_elazar","rav_nachman_yaakov","rav_anan","rav_huna","rav_chana","rav_matna","rav_sheizvi","rav_yeimar","rav_acha_yaakov"]},
+  {daf:"56b",verified:true,sages:["rav_sheizvi","ryochanan","ryosi_yehoshua","rav_yosef_rybl","ryehoshua_levi","rava","relazer_kappar","rav_yitzchak_yosef","rabbi_abbahu","rav_shmuel_chiya","rabbi_mani","rav_nachman_y","rav_ashi","reliezer_antignos","relazer_yannai","rabbi_hanasi","ryehuda_ilai","rabbi_simai","rabbi_tzadok","rabbah","rav_beivai_abaye","rshmuel_yitzchak","rmeir"]},
+  {daf:"57a",verified:true,sages:["rava","rav_yehuda","rav","shmuel","ryochanan","chizkiyah","levi_saba","rav_chana","ryosi_bchanina","rav_huna","rabbah_rav_huna","rabbi_abba","ryirmeya_abba","rabbi_zeira"]},
+  {daf:"57b",verified:true,sages:["rav_huna","ryirmeya_abba","rav","rchiya_ashi","ryaakov_idi","ryochanan","rabbi_chanina","rabbi_hanasi","ryosi_nehorai","ryehoshua_levi","rshimon_chalafta","ryehuda_ilai","rav_mesharshiya","rav_acha_b_rava","rav_ashi","shimon_bg2","ryosi_meshulam","rshimon_elazar","rav_acha_yaakov","ameimar"]},
+  {daf:"58a",verified:true,sages:["rav_ashi","ameimar","reliezer","ryehoshua","rav_acha","rav_acha_yaakov","ravina_1","rav_huna","rav_pappa","shmuel"]},
+  {daf:"58b",verified:true,sages:["rav","rav_pappa","abaye","rav_huna","ravina_1","rav_ashi","rav_huna_mar_avya","mar_bar_ashi","rav_oshaya","natan_shila","rabbi_hanasi","rabi_ami","rabi_assi","ryehuda_ilai","ryochanan","rishmael","rava","shmuel","rav_sheizvi","rav_yehuda"]},
+  {daf:"59a",verified:true,sages:["rav_yehuda","rabbi_abbahu","rav_yosef","rav","shmuel","relazer_btzadok","ryosi","ryehuda_ilai","rav_chisda","rishmael","rabbi_zeira"]},
+  {daf:"59b",verified:true,sages:["rabbi_dosa","rav_achai","rav_shmuel_abbahu","rav_yehuda","rav_kahana1","rav_yosef","ryehoshua"]},
+  {daf:"60a",verified:true,sages:["ryehoshua","rav_yehuda","rav_nachman_yaakov","ryehoshua_levi","rchanina_pappa","ravina_1"]},
   {daf:"60b",verified:true,sages:["rchanina_pappa","rshimon_pazi","resh_lakish","rav_asi2","rav_nachman_papa","rav_chanan_rava","rav_chisda","rav_tachlifa","rabbi_yonatan","rav","rav_yosef","rav_pappa","ravina_1"]},
   {daf:"61a",verified:true,sages:["abaye","rabbi_chiya"]},
-  {daf:"61b",verified:true,sages:["rav_ukva_chama","rav_nachman_y"]},
-  {daf:"62a",verified:true,sages:["reliezer","ameimar","rav_ashi","rav_nachman_y","rav_yehuda","mar_zutra","rachava","rav_daniel_katina"]},
+  {daf:"61b",verified:true,sages:["rav_ukva_chama","rav_nachman_yaakov"]},
+  {daf:"62a",verified:true,sages:["reliezer","ameimar","rav_ashi","rav_nachman_yaakov","rav_yehuda","mar_zutra","rachava","rav_daniel_katina"]},
   {daf:"62b",verified:true,sages:["rav_daniel_katina","rabbi_zeira","rav_yehuda","abaye","rava","ravina_1","rav_asi2","shmuel","rav_pappa","mareimar","rav","rav_huna","rachava"]},
   {daf:"63a",verified:true,sages:["rav_yehuda","ryochanan","ameimar","abaye","rav_beivai_abaye","rav_adda_shimi","mar_bar_idai","rav_pappa","rav_chanan_chisda","rav_chisda","rav_chanan_rava","rav"]},
   {daf:"63b",verified:true,sages:["abaye","rabbi_hanasi","rabbi_abbahu","isi_ben_yehuda","avimi_rabbahu","rav_huna","rav","rmeir","rav_yitzchak1","ryochanan","rabbi_zeira","abba_bar_abba"]},
@@ -1025,6 +1176,11 @@ function genColor(r){
   const table = r.type==='tan' ? GEN_COLORS.tan : GEN_COLORS.amo;
   return table[r.gen] || '#888888';
 }
+// Blend a gen-colour toward white/black so timeline rows echo the map dot
+// hue while staying readable. Used for chart gen-headers and rabbi rows.
+function _hx2(n){ n=Math.round(n); n=n<0?0:(n>255?255:n); return n.toString(16).padStart(2,'0'); }
+function lighten(hex,amt){ const m=/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/.exec(hex); if(!m) return hex; const r=parseInt(m[1],16),g=parseInt(m[2],16),b=parseInt(m[3],16); return '#'+_hx2(r+(255-r)*amt)+_hx2(g+(255-g)*amt)+_hx2(b+(255-b)*amt); }
+function darken(hex,amt){ const m=/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/.exec(hex); if(!m) return hex; const r=parseInt(m[1],16),g=parseInt(m[2],16),b=parseInt(m[3],16); return '#'+_hx2(r*(1-amt))+_hx2(g*(1-amt))+_hx2(b*(1-amt)); }
 
 const START=10,END=500;
 function pct(y){return (y-START)/(END-START)*100;}
@@ -1757,13 +1913,13 @@ function buildChart(){
       const color=GEN_COLORS[type][gen]||'#888';
       const hdr=document.createElement('div');
       hdr.className='chart-gen-hdr';
-      hdr.style.background=color;
-      hdr.style.color='#fff';
+      hdr.style.background=lighten(color,0.60);
+      hdr.style.color=darken(color,0.35);
       const genDisplay=STRINGS[currentLang].gen_names[gen]||gen;
       hdr.innerHTML='<span>'+genDisplay+'</span><span class="chart-gen-years">'+genYears[gen]+'</span>';
       genDiv.appendChild(hdr);
       // Light tint for the rows in this generation
-      const tint=color+'18'; // 18 = ~10% opacity in hex
+      const tint=lighten(color,0.86);
       inGen.forEach(r=>{
         const row=document.createElement('div');
         row.className='chart-rabbi';
@@ -1818,13 +1974,13 @@ const STRINGS={
     badge_tannaim:'תנאים', badge_amoraim:'אמוראים', badge_none:'אין חכמים',
     gen_tan:'ת', gen_amo:'א',
     info_h2:'🗺️ מפת התנאים והאמוראים',
-    info_p1:'מפה אינטראקטיבית של 85 תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.',
+    info_p1:'מפה אינטראקטיבית של 288 תנאים ואמוראים — חכמי המשנה והתלמוד — המציגה היכן חיו, באיזה דור פעלו, ובאילו דפים של מסכת חולין הם מופיעים.',
     info_h3a:'כיצד להשתמש',
-    info_li1:'מפה: רחף מעל נקודה לפרטים · לחץ לפתיחת ציר הזמן · לחץ על ◆ עיר לראות כל חכמי אותה ישיבה',
+    info_li1:'מפה: רחף מעל נקודה לפרטים · לחץ על ◆ עיר (כולל קיסריה) לראות כל חכמי אותה ישיבה · 🔍 חפש חכם בשמו וקפוץ אליו · ↺ אפס לחזרה לתצוגה ההתחלתית',
     info_li2:'ציר זמן: לחץ על שם הדור לקפיצה ישירה · לחץ על אירוע היסטורי לעבור לאותה שנה · הזז לסגירת תצוגת הדף',
-    info_li3:'לוח החכמים: רחף לצד שמאל לפתיחה · לחץ על שם לפתיחת המפה אצלו · צבע זהב = ציר זמן רגיל · כחול = תצוגת דף · חום = תצוגת עיר',
+    info_li3:'לוח החכמים: רחף לצד שמאל לפתיחה · לחץ על שם לפתיחת המפה אצלו · צבע זהב = ציר זמן רגיל · כחול = תצוגת דף · חום = תצוגת עיר · צבע כל דור וחכמיו תואם את צבע הנקודה של אותו דור במפה',
     info_li4:'מסכת חולין: בחר מסכת ועמוד לראות את החכמים המוזכרים בו · ◀ ▶ לניווט בין עמודים מאומתים',
-    info_li5:'הדפסה: 🖨️ מייצר דף ייחוס A4 של כל החכמים',
+    info_li5:'הדפסה: 🖨️ מייצר דף ייחוס A4 של כל החכמים, הכולל דור ועיר לכל חכם',
     info_h3b:'מקורות ותכונות',
     info_p2:'טקסט התלמוד — Sefaria.org (מהדורת William Davidson) · קו מתאר הדפים — dafyomi.co.il · כרונולוגיה — Heinrich Graetz / אנציקלופדיה יודאיקה · מפה עתיקה — CAWM, אוניברסיטת איווה (CC BY 4.0) · מפה מודרנית — CartoDB Positron / OpenStreetMap',
     info_p3:'⛵ = נחותא — אמוראים שנסעו בין ארץ ישראל לבבל והעבירו את תורת הארץ. תאריכי לידה ופטירה אישיים אינם מתועדים עבור רוב החכמים — הדורות המוצגים (~) הם משוערים.',
@@ -1858,13 +2014,13 @@ const STRINGS={
     badge_tannaim:'Tannaim', badge_amoraim:'Amoraim', badge_none:'No sages',
     gen_tan:'T', gen_amo:'A',
     info_h2:'🗺️ Map of Tannaim & Amoraim',
-    info_p1:'An interactive map of 85 Tannaim and Amoraim — the sages of the Mishnah and Talmud — showing where they lived, which generation they flourished in, and which pages of Masechet Chullin they appear on.',
+    info_p1:'An interactive map of 288 Tannaim and Amoraim — the sages of the Mishnah and Talmud — showing where they lived, which generation they flourished in, and which pages of Masechet Chullin they appear on.',
     info_h3a:'How to use',
-    info_li1:'Map: hover a dot for details · click a ◆ city diamond or city name to see all sages of that academy · click anywhere to dismiss',
+    info_li1:'Map: hover a dot for details · click a ◆ city (now including Caesarea) to see its sages · 🔍 search any sage by name to jump straight to them · ↺ Reset returns to the opening view',
     info_li2:'Timeline bar: click a generation segment or label to jump to it · click a historical event marker to go to that year · drag the slider — exits daf mode and returns to timeline',
-    info_li3:'Chart panel: hover the left edge of the map to reveal · gold = full timeline · blue = daf page view · terracotta = city/academy view · ⛵ = Neḥuta (sages who traveled between Israel and Babylonia)',
+    info_li3:'Chart panel: hover the left edge of the map to reveal · gold = full timeline · blue = daf page view · terracotta = city/academy view · each generation is tinted to match its map-dot colour · ⛵ = Neḥuta (sages who traveled between Israel and Babylonia)',
     info_li4:'Masechet Chullin: choose a tractate and page to see only the sages cited on that daf · use ◀ ▶ arrows to step through verified pages',
-    info_li5:'Print: 🖨️ generates a single-page A4 reference chart of all sages',
+    info_li5:'Print: 🖨️ generates a single-page A4 reference chart of all sages, listing each sage\'s generation and town',
     info_h3b:'Sources',
     info_p2:'Talmud text and daf citations — Sefaria.org (William Davidson Edition) · Chronology — Heinrich Graetz / Encyclopaedia Judaica · Map — OpenStreetMap / Esri',
     info_p3:"Exact birth and death years are not historically documented for most Tannaim and Amoraim. Every sage displays only their generation's approximate range (~) rather than personal dates that would be fabricated.",
@@ -1952,8 +2108,8 @@ function buildDafChart(citedRabbis){
       const hdr=document.createElement('div');
       hdr.className='chart-gen-hdr '+type;
       const genHdrColor=genColor(inGen[0]);
-      hdr.style.background=genHdrColor;
-      hdr.style.color='#fff';
+      hdr.style.background=lighten(genHdrColor,0.60);
+      hdr.style.color=darken(genHdrColor,0.35);
       const genDisplayD=STRINGS[currentLang].gen_names[gen]||gen;
       hdr.innerHTML='<span>'+genDisplayD+'</span><span class="chart-gen-years">'+genYears[gen]+'</span>';
       genDiv.appendChild(hdr);
@@ -1963,7 +2119,7 @@ function buildDafChart(citedRabbis){
         row.dataset.rabbiId=r.id;
         const cityLabel=(currentLang==='en'&&r.cityEn)?r.cityEn.split(',')[0]:r.city.split(',')[0].split('/')[0].trim();
         row.innerHTML='<span class="chart-rabbi-name">'+r.name+'</span><span class="chart-rabbi-years">'+cityLabel+'</span>';
-        row.style.background=genHdrColor+'18';
+        row.style.background=lighten(genHdrColor,0.86);
         row.onmouseenter=()=>showInfo(r);
         row.onmouseleave=()=>hideInfo();
         row.onclick=()=>highlightDafSageOnMap(r.id);
@@ -2430,13 +2586,13 @@ function buildPrintChart(){
       hdr.innerHTML='<span>'+gen+'</span><span>'+genYears[gen]+' לסה</span>';
       genDiv.appendChild(hdr);
       inGen.forEach(r=>{
-        const yearsLabel=formatLifeRange(r);
+        const cityLabel=(currentLang==='en'&&r.cityEn)?r.cityEn.split(',')[0]:r.city.split(',')[0].split('/')[0].trim();
         const row=document.createElement('div');
         row.className='print-rabbi';
         row.innerHTML=
           '<span class="print-rabbi-name">'+r.name+'</span>'+
           '<span class="print-rabbi-role">'+r.role+'</span>'+
-          '<span class="print-rabbi-years">'+yearsLabel+'</span>';
+          '<span class="print-rabbi-years">'+cityLabel+'</span>';
         genDiv.appendChild(row);
       });
       col.appendChild(genDiv);
@@ -2725,14 +2881,14 @@ function buildCityChart(city){
 
       const hdr=document.createElement('div');
       hdr.className='chart-gen-hdr';
-      hdr.style.background=color;
-      hdr.style.color='#fff';
+      hdr.style.background=lighten(color,0.60);
+      hdr.style.color=darken(color,0.35);
       const genDisplay=STRINGS[lang].gen_names[gen]||gen;
       const genYears=(type==='tan'?STRINGS[lang].gen_years_tan:STRINGS[lang].gen_years_amo)[gen]||'';
       hdr.innerHTML='<span>'+genDisplay+'</span><span class="chart-gen-years">'+genYears+'</span>';
       genDiv.appendChild(hdr);
 
-      const tint=color+'20';
+      const tint=lighten(color,0.86);
       inGen.forEach(r=>{
         const row=document.createElement('div');
         row.className='chart-rabbi';
@@ -2763,6 +2919,81 @@ function clearCityMode(){
   document.getElementById('chartpanel').classList.remove('city-chart');
   document.getElementById('city-mode-hdr').style.display='none';
 }
+
+// ===== Sage search (autocomplete) + Reset view =====
+(function(){
+  const input=document.getElementById('sagesearch');
+  const box=document.getElementById('sage-suggest');
+  const wrap=document.getElementById('sage-search-wrap');
+  let items=[], active=-1;
+  function labelFor(r){ return (currentLang==='en'&&r.nameEn)?r.nameEn:r.name; }
+  function metaFor(r){
+    const gn=(STRINGS[currentLang].gen_names[r.gen]||r.gen);
+    const city=(currentLang==='en'&&r.cityEn)?r.cityEn:r.city;
+    return gn+' \u00B7 '+city.split(',')[0].split('/')[0].trim();
+  }
+  function close(){ box.classList.remove('on'); box.innerHTML=''; items=[]; active=-1; }
+  function resetDafUI(){
+    document.getElementById('dafselect').value='';
+    document.getElementById('dafclear').style.display='none';
+    document.getElementById('dafverified').style.display='none';
+    document.getElementById('dafunverified').style.display='none';
+  }
+  function pick(r){
+    close(); input.value=''; input.blur();
+    clearCityMode();
+    if(dafModeActive){ clearDafMode(); resetDafUI(); }
+    jumpToRabbi(r);
+  }
+  function build(q){
+    q=q.trim().toLowerCase();
+    if(!q){ close(); return; }
+    const res=RABBIS.filter(function(r){
+      return (r.name&&r.name.toLowerCase().indexOf(q)>=0) || (r.nameEn&&r.nameEn.toLowerCase().indexOf(q)>=0);
+    }).slice(0,12);
+    if(!res.length){ close(); return; }
+    items=res; active=-1; box.innerHTML='';
+    res.forEach(function(r){
+      const d=document.createElement('div'); d.className='sug-item';
+      d.innerHTML='<span class="sug-name">'+labelFor(r)+'</span><span class="sug-meta">'+metaFor(r)+'</span>';
+      d.addEventListener('mousedown',function(e){ e.preventDefault(); pick(r); });
+      box.appendChild(d);
+    });
+    box.classList.add('on');
+  }
+  input.addEventListener('input',function(){ build(input.value); });
+  input.addEventListener('focus',function(){ if(input.value) build(input.value); });
+  input.addEventListener('keydown',function(e){
+    if(!box.classList.contains('on')) return;
+    const cells=Array.prototype.slice.call(box.children);
+    if(e.key==='ArrowDown'){ e.preventDefault(); active=Math.min(active+1,cells.length-1); cells.forEach(function(c,i){c.classList.toggle('active',i===active);}); if(cells[active])cells[active].scrollIntoView({block:'nearest'}); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); active=Math.max(active-1,0); cells.forEach(function(c,i){c.classList.toggle('active',i===active);}); if(cells[active])cells[active].scrollIntoView({block:'nearest'}); }
+    else if(e.key==='Enter'){ e.preventDefault(); if(items.length) pick(items[active>=0?active:0]); }
+    else if(e.key==='Escape'){ close(); input.blur(); }
+  });
+  document.addEventListener('click',function(e){ if(!wrap.contains(e.target)) close(); });
+
+  // Reset button — return to the initial default view
+  document.getElementById('resetbtn').addEventListener('click',function(){
+    clearCityMode();
+    if(dafModeActive){ clearDafMode(); }
+    resetDafUI();
+    closeChart(); clearMapPulse(); hideInfo(); close(); input.value='';
+    slider.value=50; render(50);
+    gmap.setView([32.2,40.5],6);
+  });
+
+  // Keep search/reset labels in sync with language toggle
+  function updateSearchLang(){
+    const he=(currentLang==='he');
+    input.placeholder = he?'\uD83D\uDD0D חיפוש חכם…':'\uD83D\uDD0D Search sage…';
+    const rb=document.getElementById('resetbtn');
+    rb.textContent = he?'\u21BA אפס':'\u21BA Reset';
+    rb.title = he?'אפס תצוגה למצב ההתחלתי':'Reset to initial view';
+  }
+  document.getElementById('langbtn').addEventListener('click',function(){ setTimeout(updateSearchLang,0); });
+  updateSearchLang();
+})();
 
 </script>
 </body>
