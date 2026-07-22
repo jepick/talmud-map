@@ -463,6 +463,7 @@ body.daf-mode .river-label{opacity:0.12}
 <option value="berakhot">ברכות / Berakhot</option>
 <option value="shabbat">שבת / Shabbat</option>
 <option value="eruvin">עירובין / Eruvin</option>
+<option value="pesachim">פסחים / Pesachim</option>
       </select>
       <select id="dafselect"><option value="">— דף —</option></select>
       <span id="dafverified" style="display:none">✓</span>
@@ -1508,6 +1509,76 @@ const RABBIS=[
   {id:"rav_ukva_meishan",name:"רב עוקבא ממישן", nameEn:"Rav Ukva of Meishan", type:"amo",gen:"דור ז׳",born:null,died:null,lat:32.0,lng:44.4,city:"מישן",cityEn:"Meishan",role:"amora",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora (Meishan)."},
   {id:"rabba_tosfaa",name:"רבה תוספאה", nameEn:"Rabba Tosfaa", type:"amo",gen:"דור ז׳",born:null,died:null,lat:32.0,lng:44.4,city:"בבל",cityEn:"Bavel",role:"amora",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."},
   {id:"ravina_2",     name:"רבינא השני", nameEn:"Ravina II",         type:"amo",gen:"דור ז׳",born:null,died:null,lat:31.982,lng:44.936,city:"סורא, בבל",cityEn:"Sura, Babylonia",      role:"סוף הוראה",             isL:true, desc:"האמורא האחרון. 'רב אשי ורבינא — סוף הוראה'. מותו מסמן חתימת התלמוד הבבלי.",descEn:"Traditional marker for Sof Hora'ah — the end of Amoraic instruction (~500 CE), cited in Iggeret Rav Sherira Gaon. Completed the Babylonian Talmud's redaction."}
+
+,{id:"yochanan_chakukaah",name:"יוחנן חקוקאה",nameEn:"Yochanan of Chakuka",type:"tan",gen:"דור א׳",born:null,died:null,lat:32.79,lng:35.53,city:"גליל",cityEn:"Galilee",role:"תנא",isL:false,desc:"תנא קדום מכפר חקוקה שבגליל, מופיע במעשה בפסחים ג׳",descEn:"Early Tanna from Chakuk in the Galilee; appears in an anecdote on Pesachim 3b."}
+// -- Pesachim new sages (v133) --
+,{id:"rchanina_segan",name:"רבי חנינא סגן הכהנים",nameEn:"R. Chanina, Deputy of the Priests",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"תנא",isL:false,desc:"תנא, סגן הכהנים בבית המקדש, דור ראשון",descEn:"Tanna; Deputy (Segan) of the priests in the Temple, first generation."}
+,{id:"rav_shmuel_ami",name:"רב שמואל בר אמי",nameEn:"Rav Shmuel bar Ami",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"טבריה",cityEn:"Tiberias",role:"אמורא",isL:false,desc:"אמורא ארץ־ישראלי, בן דורו של רבי זירא",descEn:"Eretz-Yisrael amora, contemporary of R. Zeira."}
+,{id:"rava_ahilai",name:"רבא בר אהילאי",nameEn:"Rava bar Ahilai",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי (נדחה על ידי רבינא ורב אשי)",descEn:"Bavel amora; his ruling was refuted by Ravina and Rav Ashi."}
+,{id:"rava_bar_abba",name:"רבא בר אבא",nameEn:"Rava bar Abba",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, מסר בשם שמואל דרך רב חייא בר אשי",descEn:"Bavel amora; transmitted Shmuel via R. Chiya bar Ashi."}
+,{id:"relazar_chasma",name:"רבי אלעזר חסמא",nameEn:"R. Elazar Chisma",type:"tan",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"תנא",isL:false,desc:"תנא, תלמיד רבי יהושע ורבי עקיבא, בקי במתמטיקה ואסטרונומיה",descEn:"Tanna, disciple of R. Yehoshua and R. Akiva; noted for math/astronomy (geography inferred)."}
+,{id:"rabbah_chanin",name:"רבה בר רב חנין",nameEn:"Rabbah bar Rav Chanin",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, בן דורו של אביי",descEn:"Bavel amora, contemporary of Abaye."}
+,{id:"rava_avin",name:"רבא בר אבין",nameEn:"Rava bar Avin",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora (his household soaked grain)."}
+,{id:"rav_chiya_natan",name:"רב חייא בריה דרב נתן",nameEn:"Rav Chiya b. Rav Natan",type:"amo",gen:"דור ה׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, מסר בשם רב חסדא",descEn:"Bavel amora; transmitted Rav Chisda."}
+,{id:"rav_shimi_mechoznaa",name:"רב שימי מחוזנאה",nameEn:"Rav Shimi of Mechoza",type:"amo",gen:"דור ה׳",born:null,died:null,lat:32,lng:44.4,city:"מחוזא",cityEn:"Mechoza",role:"אמורא",isL:false,desc:"אמורא בבלי ממחוזא",descEn:"Bavel amora of Mechoza (geography inferred)."}
+,{id:"rav_huna_yirmeya",name:"רב הונא בר ירמיה",nameEn:"Rav Huna bar Yirmeya",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora (gen inferred)."}
+,{id:"rav_natan",name:"רב נתן אבוה דרב הונא",nameEn:"Rav Natan (father of Rav Huna b. Rav Natan)",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, אביו של רב הונא בריה דרב נתן",descEn:"Bavel amora, father of Rav Huna b. Rav Natan (gen inferred)."}
+,{id:"rabbi_inya",name:"רבי אינייא",nameEn:"R. Inya",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.79,lng:35.53,city:"טבריה",cityEn:"Tiberias",role:"אמורא",isL:false,desc:"אמורא ארץ־ישראלי, מסר בשם רבי ינאי (קריאה בטקסט לא ודאית)",descEn:"Eretz-Yisrael amora citing R. Yannai (textual reading uncertain; gen/geo inferred)."}
+,{id:"hillel_gamliel",name:"הלל בנו של רבן גמליאל",nameEn:"Hillel son of Rabban Gamliel",type:"tan",gen:"דור ג׳",born:null,died:null,lat:31.78,lng:35.23,city:"יבנה",cityEn:"Yavneh",role:"תנא",isL:false,desc:"בנו של רבן גמליאל דיבנה, מופיע במעשה בכבול/עכו",descEn:"Son of Rabban Gamliel of Yavneh; appears in the bathing/customs narrative (geo inferred)."}
+,{id:"rav_natan_asya",name:"רב נתן בר אסיא",nameEn:"Rav Natan bar Asya",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora (gen inferred)."}
+,{id:"rav_chama_ukva",name:"רב חמא בר עוקבא",nameEn:"Rav Chama bar Ukva",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"טבריה",cityEn:"Tiberias",role:"אמורא",isL:false,desc:"אמורא, מסר בשם רבי יוסי בר חנינא",descEn:"Amora; transmitted R. Yosi b. Chanina (gen/geo inferred)."}
+,{id:"rav_yehoshua",name:"רב יהושע",nameEn:"Rav Yehoshua",type:"amo",gen:"דור ה׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, מסר דרשת רבא",descEn:"Bavel amora (reports Rava's derasha; identity uncertain)."}
+,{id:"rbnaa_ulla",name:"רבי בנאה בריה דרבי עולא",nameEn:"R. Bnaa b. R. Ulla",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"טבריה",cityEn:"Tiberias",role:"אמורא",isL:false,desc:"אמורא ארץ־ישראלי (אגדה), נבדל מרבי בנאה",descEn:"Eretz-Yisrael amora (aggadah); distinct from R. Banaa (gen/geo inferred)."}
+,{id:"ben_buhyan",name:"בן בוהיין",nameEn:"Ben Buhyan",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"תנא",isL:false,desc:"אדם מימי בית שני שנתן פאה לירק",descEn:"Second-Temple-era figure (gave peah to vegetables)."}
+,{id:"abba_yosef_chanin",name:"אבא יוסף בן חנין",nameEn:"Abba Yosef ben Chanin",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"תנא",isL:false,desc:"תנא בסוף ימי בית שני",descEn:"Late Second-Temple Tanna (critiqued priestly families)."}
+,{id:"yissachar_barkai",name:"יששכר איש כפר ברקאי",nameEn:"Yissachar of Kfar Barkai",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"כהן",isL:false,desc:"כהן מסוף ימי בית שני, נזכר באגדה",descEn:"Second-Temple priest of Kfar Barkai (aggadic figure)."}
+,{id:"yishmael_piachi",name:"ישמעאל בן פיאכי",nameEn:"Yishmael ben Piachi",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"כהן גדול",isL:false,desc:"כהן גדול בסוף ימי בית שני",descEn:"Second-Temple High Priest."}
+,{id:"yochanan_nirbai",name:"יוחנן בן נרבאי",nameEn:"Yochanan ben Nirbai",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"כהן",isL:false,desc:"כהן מסוף ימי בית שני, נזכר באגדה",descEn:"Second-Temple priest (aggadic figure)."}
+,{id:"rav_abba_chiya",name:"רב אבא בר חייא",nameEn:"Rav Abba bar Chiya",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"טבריה",cityEn:"Tiberias",role:"אמורא",isL:false,desc:"אמורא ארץ־ישראלי, בן דורו של רבי אבהו",descEn:"EY amora, contemporary of R. Abbahu (identity uncertain)."}
+,{id:"rabbi_chananya_tradyon",name:"רבי חנניה בן תרדיון",nameEn:"R. Chananya b. Tradyon",type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"גליל",cityEn:"Galilee",role:"תנא",isL:false,desc:"תנא, מעשרה הרוגי מלכות",descEn:"Tanna, one of the Ten Martyrs."}
+,{id:"rami_rav_yehuda",name:"רמי בר רב יהודה",nameEn:"Rami b. Rav Yehuda",type:"amo",gen:"דור ד׳",born:null,died:null,lat:33.21,lng:44.34,city:"פומבדיתא",cityEn:"Pumbedita",role:"אמורא",isL:false,desc:"אמורא בבלי, בנו של רב יהודה",descEn:"Bavel amora, son of Rav Yehuda."}
+,{id:"agripas",name:"אגריפס המלך",nameEn:"King Agrippa",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"מלך",isL:false,desc:"מלך יהודה בסוף ימי בית שני",descEn:"King of Judea, late Second-Temple era."}
+,{id:"rav_ilish",name:"רב עיליש",nameEn:"Rav Ilish",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, בן דורו של רבא",descEn:"Bavel amora, contemporary of Rava."}
+,{id:"bnei_beteira",name:"בני בתירא",nameEn:"Bnei Beteira",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.78,lng:35.23,city:"ירושלים",cityEn:"Jerusalem",role:"נשיאים",isL:false,desc:"בית דין/נשיאים שקדמו להלל",descEn:"Authorities/nesi'im who preceded Hillel (collective)."}
+,{id:"ryosi_chanina",name:"רבי יוסי בר חנינא",nameEn:"R. Yosi b. Chanina",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.5,lng:34.9,city:"קיסרין",cityEn:"Caesarea",role:"אמורא",isL:false,desc:"אמורא ארץ־ישראלי, מקיסרין",descEn:"EY amora of Caesarea."}
+,{id:"ben_teima",name:"בן תימא",nameEn:"Ben Teima",type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.79,lng:35.53,city:"גליל",cityEn:"Galilee",role:"תנא",isL:false,desc:"תנא, בעל דעה בענייני חגיגה ופסח",descEn:"Tanna (views on chagigah/pesach)."}
+,{id:"yehuda_dortai",name:"יהודה בן דורתאי",nameEn:"Yehuda b. Dortai",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.6,lng:34.9,city:"דרום",cityEn:"Judean South",role:"תנא",isL:false,desc:"פרש מן הציבור בימי שמעיה ואבטליון",descEn:"Separatist Tanna (era of Shemaya & Avtalyon)."}
+,{id:"dortai",name:"דורתאי",nameEn:"Dortai",type:"tan",gen:"דור א׳",born:null,died:null,lat:31.6,lng:34.9,city:"דרום",cityEn:"Judean South",role:"תנא",isL:false,desc:"בנו של יהודה בן דורתאי",descEn:"Son of Yehuda b. Dortai."}
+,{id:"ryehuda_safra",name:"רבי יהודה בן ספרא",nameEn:"R. Yehuda b. Safra",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"אמורא",isL:false,desc:"מקור לדרשת רבי אילעא",descEn:"Cited by R. Ila."}
+,{id:"rchiya_avelarav",name:"רבי חייא מאבל ערב",nameEn:"R. Chiya of Avel Arav",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.9,lng:35.4,city:"אבל ערב",cityEn:"Avel Arav",role:"אמורא",isL:false,desc:"אמורא, מסר משמו של רבי מאיר",descEn:"Amora of Avel Arav; transmitted R. Meir."}
+,{id:"yosef_chonai",name:"יוסף בן חונאי",nameEn:"Yosef ben Chonai",type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"תנא",isL:false,desc:"תנא, בעל דעה בשחיטת הפסח",descEn:"Tanna (view on slaughter of the pesach)."}
+,{id:"ravin_sava",name:"רבין סבא",nameEn:"Ravin Sava",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא, בן דורו של רב",descEn:"Amora, contemporary of Rav."}
+,{id:"rav_chinnana_sava",name:"רב חיננא סבא",nameEn:"Rav Chinnana Sava",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא, מסר משמו של רבי אסי",descEn:"Amora; transmitted R. Asi."}
+,{id:"rav_kahana_chinnana",name:"רב כהנא בריה דרב חיננא סבא",nameEn:"Rav Kahana b. Rav Chinnana Sava",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, בנו של רב חיננא סבא",descEn:"Bavel amora, son of Rav Chinnana Sava."}
+,{id:"rava_parzikya",name:"רבא מפרזיקיא",nameEn:"Rava of Parzikya",type:"amo",gen:"דור ה׳",born:null,died:null,lat:32,lng:44.4,city:"פרזיקיא",cityEn:"Parzikya",role:"אמורא",isL:false,desc:"אמורא בבלי מפרזיקיא",descEn:"Bavel amora of Parzikya."}
+,{id:"relazar_matya",name:"רבי אלעזר בן מתיא",nameEn:"R. Elazar b. Matya",type:"tan",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"תנא",isL:false,desc:"תנא, בעל דעה ביחיד המכריע את הציבור לטומאה",descEn:"Tanna (view on individual vs. community impurity)."}
+,{id:"rav_ika_chinnana",name:"רב איקא בר חיננא",nameEn:"Rav Ika bar Chinnana",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rav_eina_sava",name:"רב עינא סבא",nameEn:"Rav Eina Sava",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, בן דורו של רב נחמן",descEn:"Bavel amora, contemporary of Rav Nachman."}
+,{id:"rshimon_beroka",name:"רבי שמעון בנו של רבי יוחנן בן ברוקה",nameEn:"R. Shimon b. R. Yochanan b. Beroka",type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"תנא",isL:false,desc:"תנא, בנו של רבי יוחנן בן ברוקה",descEn:"Tanna, son of R. Yochanan b. Beroka."}
+,{id:"rav_ukva_chinnana",name:"רב עוקבא בר חיננא מפרישנא",nameEn:"Rav Ukva bar Chinnana of Parishna",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"פרישנא",cityEn:"Parishna",role:"אמורא",isL:false,desc:"אמורא בבלי מפרישנא",descEn:"Bavel amora of Parishna."}
+,{id:"rav_yehuda_abaye",name:"רב יהודה בר אביי",nameEn:"Rav Yehuda bar Abaye",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, מסר משמו של רב יהודה",descEn:"Bavel amora; transmitted Rav Yehuda."}
+,{id:"rav_anan_tachlifa",name:"רב ענן בר תחליפא",nameEn:"Rav Anan bar Tachlifa",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, תלמיד שמואל",descEn:"Bavel amora, student of Shmuel."}
+,{id:"rchanin_abaye",name:"רבי חנין בר אביי",nameEn:"R. Chanin bar Abaye",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"אמורא",isL:false,desc:"אמורא, מסר משמו של רבי פדת",descEn:"Amora; transmitted R. Pedat."}
+,{id:"marta",name:"מרתא",nameEn:"Marta",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"אמורא",isL:false,desc:"מסר משמו של רבי יהושע (בן חנניה)",descEn:"Amora; transmitted R. Yehoshua."}
+,{id:"rmenachem_simai",name:"רבי מנחם בר סימאי",nameEn:"R. Menachem bar Simai",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"אמורא",isL:false,desc:"'בנן של קדושים', לא הסתכל בצורת מטבע",descEn:"Amora ('son of holy ones')."}
+,{id:"rav_shmuel_idi",name:"רב שמואל בר אידי",nameEn:"Rav Shmuel bar Idi",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rav_hamnuna_sava",name:"רב המנונא סבא",nameEn:"Rav Hamnuna Sava",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, תלמיד רב",descEn:"Bavel amora, student of Rav."}
+,{id:"rav_idi_shisha",name:"רב אידי בר שישא",nameEn:"Rav Idi bar Shisha",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rav_chana_chinnana",name:"רב חנא בר חיננא",nameEn:"Rav Chana bar Chinnana",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, שאל את רב הונא",descEn:"Bavel amora."}
+,{id:"mar_yanuka",name:"מר ינוקא",nameEn:"Mar Yanuka",type:"amo",gen:"דור ה׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"בנו של רב חסדא, אחיו של מר קשישא",descEn:"Amora, son of Rav Chisda (brother of Mar Kashisha)."}
+,{id:"rav_chananya_bibi",name:"רב חנניה בר ביבי",nameEn:"Rav Chananya bar Bibi",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rava_bar_livai",name:"רבא בר ליואי",nameEn:"Rava bar Livai",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rav_chinnana_yehoshua",name:"רב חיננא בריה דרבי יהושע",nameEn:"Rav Chinnana b. R. Yehoshua",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"ryehoshua_akiva",name:"רבי יהושע בנו של רבי עקיבא",nameEn:"R. Yehoshua son of R. Akiva",type:"tan",gen:"דור ד׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"תנא",isL:false,desc:"בנו של רבי עקיבא",descEn:"Tanna, son of R. Akiva."}
+,{id:"rshmuel_marta",name:"רבי שמואל בר מרתא",nameEn:"R. Shmuel bar Marta",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא, מסר משמו של רב",descEn:"Amora; transmitted Rav."}
+,{id:"rav_sheshet_yehoshua",name:"רב ששת בריה דרב יהושע",nameEn:"Rav Sheshet b. Rav Yehoshua",type:"amo",gen:"דור ה׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rav_mesharshya_natan",name:"רב משרשיא בריה דרב נתן",nameEn:"Rav Mesharshya b. Rav Natan",type:"amo",gen:"דור ה׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, מסר משמו של הלל",descEn:"Bavel amora."}
+,{id:"rav_chanin_rav",name:"רב חנין בר רב",nameEn:"Rav Chanin bar Rav",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rav_chanin_rava",name:"רב חנין בר רבא",nameEn:"Rav Chanin bar Rava",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"ulla_bar_rav",name:"עולא בר רב",nameEn:"Ulla bar Rav",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי",descEn:"Bavel amora."}
+,{id:"rav_natan_avuha",name:"רב נתן אבוה דרב הונא",nameEn:"Rav Natan (father of Rav Huna)",type:"amo",gen:"דור ד׳",born:null,died:null,lat:32,lng:44.4,city:"בבל",cityEn:"Bavel",role:"אמורא",isL:false,desc:"אמורא בבלי, אביו של רב הונא",descEn:"Bavel amora, father of Rav Huna."}
+,{id:"rshimon_shiloni",name:"רבי שמעון השילוני",nameEn:"R. Shimon HaShiloni",type:"amo",gen:"דור ג׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"אמורא",isL:false,desc:"דרשן",descEn:"Amora/darshan."}
+,{id:"rav_chanina_shila",name:"רב חנינא בר שילא",nameEn:"Rav Chanina bar Shila",type:"amo",gen:"דור ב׳",born:null,died:null,lat:32.79,lng:35.53,city:"ארץ ישראל",cityEn:"Eretz Yisrael",role:"אמורא",isL:false,desc:"אמורא, בן דורו של רבי יוחנן",descEn:"Amora, contemporary of R. Yochanan."}
 ];
 
 const CITIES=[
@@ -2977,6 +3048,249 @@ const ERUVIN_DAFIM=[
 {daf:"105a",verified:true,sages:["ryochanan","rav_huna","rav_kahana1","rchiya_ashi","rav","rabi_elazar","rsby"]}
 ];
 
+const PESACHIM_DAFIM=[
+{daf:"2a",verified:true,sages:["rav_huna","rav_yehuda","rav"]},
+{daf:"2b",verified:true,sages:["ryehuda_ilai","reliezer_yaakov","rsby","rabbi_hanasi","mar_zutra"]},
+{daf:"3a",verified:true,sages:["rchanina_gamliel","shmuel","rav_huna","rav_yehuda","ryehoshua_levi","rav_pappa","ravina_1","rav_acha_yaakov","rishmael"]},
+{daf:"3b",verified:true,sages:["rav_huna","rav","rmeir","hillel","rybz","rabbi_hanasi","ryochanan","ryehuda_bteira","rav_kahana1","ryehoshua_idi","yochanan_chakukaah"]},
+{daf:"4a",verified:true,sages:["rav","rabbi_chiya","aivu","ryehuda_ilai","rmeir","rav_nachman_y","abaye","rav_mesharshiya"]},
+{daf:"4b",verified:true,sages:["abaye","rmeir","ryehuda_ilai"]},
+{daf:"5a",verified:true,sages:["rishmael","rav_nachman_y","rava","rakiva","ryosi"]},
+{daf:"5b",verified:true,sages:["rakiva","abaye","rava"]},
+{daf:"6a",verified:true,sages:["rava","rav_pappa","rav_ashi","rav_yehuda","rav","abaye","rshbg"]},
+{daf:"6b",verified:true,sages:["rshbg","rabbah_shimi","ravina_1","rav_nachman_y","rav_menashya_tachlifa","rav","rav_pappa","rav_yehuda","rava","rabi_elazar"]},
+{daf:"7a",verified:true,sages:["rav_gidel","rchiya_yosef","rav","rav_acha_yaakov","rabbah_rav_huna","rav_shemaya_zeira","rabbah","ryosi_byehuda","rav_nachman_y","rav_zvid","rav_pappa","rav_yehuda","rav_papi","rava"]},
+{daf:"7b",verified:true,sages:["rav_yehuda","shmuel","rav_nachman_y","abaye","rav","rav_chisda","rishmael"]},
+{daf:"8a",verified:true,sages:["rava","rav_nachman_y","rav_zvid","rav_pappa","ravina_1","rshbg","rabbi_chiya","rav_chisda","rabbah_rav_huna","rabi_elazar","rav_ashi"]},
+{daf:"8b",verified:true,sages:["rav_nachman_y","pleimo","rabi_elazar","rav","isi_ben_yehuda","rabi_ami","rabin_ada","rabbi_yitzchak_n","rdostai_yannai","rav_yehuda","ryochanan","shmuel","rabbi_chiya"]},
+{daf:"9a",verified:true,sages:["rabbi_zeira","rava","rav_chanina_choza","rabbi_oshaya","ryehuda_ilai"]},
+{daf:"9b",verified:true,sages:["abaye","rava","rav_mari"]},
+{daf:"10a",verified:true,sages:["ryehuda_ilai","ryosi","rava","ryochanan","reliezer","rmeir","rabbi_hanasi","rshbg"]},
+{daf:"10b",verified:true,sages:["rshbg","rava","ryehuda_ilai","rav_chisda","rabbah_rav_huna","rav_yosef","mar_zutra"]},
+{daf:"11a",verified:true,sages:["rmeir","ryehuda_ilai","rava","abaye","rav_ashi"]},
+{daf:"11b",verified:true,sages:["ryehuda_ilai","rmeir","rg_yavne","abaye"]},
+{daf:"12a",verified:true,sages:["rav_huna_yehuda","rava","rmeir","ryehuda_ilai"]},
+{daf:"12b",verified:true,sages:["rmeir","ryehuda_ilai","abaye","rava","rav_adda_ahava","ravina_1","rav_pappa","rav_ashi","rav_shimi_ashi"]},
+{daf:"13a",verified:true,sages:["rav_nachman_yaakov","rav","ryehuda_ilai","rava","rmeir","rg_yavne","relazar_bartota","ryehoshua","rav_pappa","rabbi_hanasi","rabin_ada","yochanan_chakukaah","rav_yosef","abaye","rav_adda_matna","rshbg","rabbah_b_chana","ryochanan"]},
+{daf:"13b",verified:true,sages:["rav_yehuda","ryehuda_ilai","rachava","rabbi_chanina","rav_adda_ahava","rabbi_yannai","rabbah","rabbi_hanasi","relazer_bshimon","rabi_elazar","abba_shaul"]},
+{daf:"14a",verified:true,sages:["rchanina_segan","rakiva","rmeir","ryosi","reliezer","ryehoshua","rav_yehuda","abaye","rav_adda_ahava","rava","ravina_1"]},
+{daf:"14b",verified:true,sages:["rava","rakiva","rmeir","rchanina_segan"]},
+{daf:"15a",verified:true,sages:["rchanina_segan","resh_lakish","bar_kapara","reliezer","ryehoshua","rav_nachman_yaakov","rabbah_b_avuha","rava","ryosi"]},
+{daf:"15b",verified:true,sages:["rmeir","ryehoshua","ryosi","rchanina_segan","rav_nachman_yaakov","reliezer","rabbi_yirmeya","rabi_assi","ryochanan","rabbi_zeira"]},
+{daf:"16a",verified:true,sages:["rmeir","relazer_s","ryehuda_ilai","ryosi","rsby","yosef_yoezer","shmuel","rav","rav_nachman_y","rav_huna_chinena","rav_pappa","rav_shisha_idi","rav_ashi","ryosi_bchanina","rchiya_abba","ryochanan"]},
+{daf:"16b",verified:true,sages:["rav_shmuel_ami","rabbi_zeira","yosef_yoezer","rav_pappa"]},
+{daf:"17a",verified:true,sages:["rav","shmuel","rav_nachman_yaakov","rabbah_b_avuha","ravina_1","mar_zutra","rav_ashi","levi_sisi","ryehoshua_levi"]},
+{daf:"17b",verified:true,sages:["rsby","rav_pappa","rav_huna_natan","relazer_s","ravina_1","rav_ashi","ryosi","ryehuda_ilai","rav_yehuda","shmuel","rmeir","rav_nachman_y"]},
+{daf:"18a",verified:true,sages:["ryosi","rsby","ryehuda_ilai","rav_ashi","rabbah_b_chana","resh_lakish","rakiva","rav_pappa","ravina_1"]},
+{daf:"18b",verified:true,sages:["ravina_1","rav_ashi","rava","ryosi","rakiva","rav_kahana1"]},
+{daf:"19a",verified:true,sages:["rav_ashi","rav_kahana1","rchiya_abba","ryochanan","rakiva","rchanin"]},
+{daf:"19b",verified:true,sages:["rav_yehuda","rav","ryosi_bchanina","rava","rabi_elazar","ryosi_bar_avin","rav_ashi","ryochanan"]},
+{daf:"20a",verified:true,sages:["rchiya_abba","ryochanan","ryosi_bchanina","resh_lakish","rav_yehuda","shmuel","rav_adda_ahava","rav_ashi","rav_sheshet","ryehuda_ilai","rava"]},
+{daf:"20b",verified:true,sages:["rav_chisda","ryehoshua","ryosi","rsby","rmeir","reliezer","ryosi_bchanina","rabi_elazar","rava","abaye","shmuel","rabbi_chiya","rishmael_byosi"]},
+{daf:"21a",verified:true,sages:["ryosi_bchanina","reliezer","ryehoshua","rava","rav_huna_yehoshua","ryehuda_ilai","rmeir","rabbah_ula","rg_yavne"]},
+{daf:"21b",verified:true,sages:["ryehuda_bteira","rava","rav_gidel","rchiya_yosef","ryochanan","ryehuda_ilai","chizkiyah","rabbi_abbahu","rmeir"]},
+{daf:"22a",verified:true,sages:["rmeir","rabbi_yitzchak_n","rabbi_abbahu","rsby","ryehuda_ilai","rav_ashi"]},
+{daf:"22b",verified:true,sages:["chizkiyah","rchiya_abba","ryochanan","rnatan","ben_zoma","rakiva","shimon_amsoni"]},
+{daf:"23a",verified:true,sages:["ryehuda_ilai","rav_pappa","mar_zutra","rav_ashi","rav_shemaya","chizkiyah","ryosi_hagelili","rakiva"]},
+{daf:"23b",verified:true,sages:["ryosi_hagelili","rakiva","rsby","chizkiyah","rabbi_abbahu","rshmuel_nachmani","ryehoshua_levi","ryehuda_ilai"]},
+{daf:"24a",verified:true,sages:["rsby","ryonatan_tanna","rabi_elazar","abaye","rav_pappa","ravina_1","rav_ashi"]},
+{daf:"24b",verified:true,sages:["rabbi_abbahu","ryochanan","rav_shimi_ashi","rav_acha_avya","rav_asi2","rabbi_zeira","abaye","isi_ben_yehuda"]},
+{daf:"25a",verified:true,sages:["rav_adda_ahava","rav_shemaya","rava","rabbi_yaakov","ryochanan","reliezer","ravin"]},
+{daf:"25b",verified:true,sages:["rabbi_hanasi","rava","mar_bar_ashi","ravina_1","abaye","ryehuda_ilai","rsby"]},
+{daf:"26a",verified:true,sages:["rava","ryehuda_ilai","abaye","rybz","rshimon_pazi","ryehoshua_levi","bar_kapara","rav_pappa","rabbi_dosa"]},
+{daf:"26b",verified:true,sages:["rav_pappa","rava","rabbi_hanasi","reliezer"]},
+{daf:"27a",verified:true,sages:["abaye","reliezer","rabbi_hanasi","rav_yosef","rav_yehuda","shmuel","rchiya_ashi","ryochanan","rav_pappa"]},
+{daf:"27b",verified:true,sages:["rami_chama","rav_chisda","rava","rav_pappa","ryehuda_ilai","rav_shemaya"]},
+{daf:"28a",verified:true,sages:["ryehuda_ilai","rav_yosef","abaye","rava","ryosi","rabbah","rsby","ryosi_hagelili"]},
+{daf:"28b",verified:true,sages:["rsby","ryosi_hagelili","ryehuda_ilai"]},
+{daf:"29a",verified:true,sages:["ryosi_hagelili","rav_acha_yaakov","ryehuda_ilai","rava","rsby","ryochanan","rnechunya_hakanah","rav_yosef","rav_acha_b_rava"]},
+{daf:"29b",verified:true,sages:["rav_yosef","rav_acha_yaakov","ryehuda_ilai","rsby","rav_ashi","ryosi_hagelili","rav","shmuel","ryochanan","resh_lakish"]},
+{daf:"30a",verified:true,sages:["rava","rav","rsby","rav_nachman_yaakov","shmuel","rava_ahilai"]},
+{daf:"30b",verified:true,sages:["rava_ahilai","ravina_1","rav_ashi","rav","rav_huna_yehoshua","ameimar","mareimar","rava_bar_abba","rchiya_ashi","shmuel","rava","abaye"]},
+{daf:"31a",verified:true,sages:["abaye","rava","rami_chama","rav_nachman_yaakov","rnatan","rmeir"]},
+{daf:"31b",verified:true,sages:["rabbi_yitzchak_n","rmeir","rshbg","rav_chisda","rav_acha_b_yosef","rav_ashi","shmuel","rafram"]},
+{daf:"32a",verified:true,sages:["rav_yosef","abaye","ryosi_hagelili","rnechunya_hakanah","rakiva","ryochanan_nuri","reliezer_yaakov","relazar_chasma"]},
+{daf:"32b",verified:true,sages:["abaye","reliezer_yaakov","rakiva","ryochanan_nuri","ryosi_hagelili","relazar_chasma","abba_shaul","rav_pappa","rav_nachman_y","rav_chiya_avin","rabbah","rav_sheshet"]},
+{daf:"33a",verified:true,sages:["rabbi_hanasi","rabbi_abbahu","rav_pappa","abba_shaul","mar_ravna","rav_nachman_y","rav_huna_yehoshua"]},
+{daf:"33b",verified:true,sages:["rav_acha_avya","rav_chisda","ryochanan","rava","abaye","chizkiyah","ryitzchak_marta","rav_huna","rav_ashi"]},
+{daf:"34a",verified:true,sages:["rav_ashi","rabin_ada","rabbi_yitzchak_n","abba_shaul","rabbi_hanasi","abaye_avin","rav_chananya_avin","rabbah","rabbah_matna","rav_sheshet","ryochanan","resh_lakish"]},
+{daf:"34b",verified:true,sages:["ryochanan","resh_lakish","ryishmael_beroka","rabbah_b_avuha","reliezer","ryehoshua","ravin","rabbi_yirmeya","rabbi_oshaya","rav_dimi","abaye","rabbi_abbahu","rav_yosef","rava"]},
+{daf:"35a",verified:true,sages:["rav_shimi_ashi","rav_ashi","resh_lakish","rishmael","reliezer_yaakov","ryochanan_nuri","abaye","rav_pappa","rabbah_b_chana","rav_huna_yehoshua","rav_idi_avin"]},
+{daf:"35b",verified:true,sages:["rav_huna","rabbi_abbahu","resh_lakish","rav_pappa","abaye","rav_sheshet","rsby"]},
+{daf:"36a",verified:true,sages:["ravina_1","ryosi_hagelili","rakiva","shmuel","rg_yavne","reliezer","ryehoshua","rabbi_zeira","rabbah_yirmeya"]},
+{daf:"36b",verified:true,sages:["rakiva","reliezer","ryosi_hagelili","rsby","rav_chanan_abba","shmuel"]},
+{daf:"37a",verified:true,sages:["rav_huna","rav_yosef","ryirmeya_abba","rabbi_hanasi","rav","rav_yehuda","baytos_zonin","reliezer_tzadok","rg_yavne","rtzadok","ryosi","ryehoshua_levi","resh_lakish","ryochanan","ula","shmuel","rava"]},
+{daf:"37b",verified:true,sages:["rishmael_byosi","ryosi","rav_yehuda","shmuel","ryehoshua_levi","ryochanan","ryehuda_ilai","rava","rabbah","rav_yosef","rabbi_zeira","ula","rav_asi2","rmeir"]},
+{daf:"38a",verified:true,sages:["rmeir","rav_pappa","rava","rav_yemar_shelemya","resh_lakish","ryosi_hagelili","rakiva","ryehuda_ilai","rabbah"]},
+{daf:"38b",verified:true,sages:["rav_yosef","rabbah","rakiva","rav_shmuel_yitzchak","resh_lakish","rabbi_ela","reliezer","ryehoshua"]},
+{daf:"39a",verified:true,sages:["rabbah_b_chana","resh_lakish","bar_kapara","rav_yehuda","rmeir","ryosi","shmuel","ryehuda_ilai","rabbi_ela","reliezer","reliezer_yaakov","ryochanan_broka","ryochanan","rav_huna","ravina_1","rav_acha_b_rava","rabbi_oshaya","rava","rshmuel_nachmani","rabbi_yonatan","rav_rechumi","abaye","rabbah_chanin","rabbah_rav_huna","rav"]},
+{daf:"39b",verified:true,sages:["ryosi_bchanina","rav_chisda","rmeir","reliezer_tzadok","rami_chama","rakiva","ryosi_hagelili","rava","rav_pappa","ryosi_byehuda","rabbi_shila","mar_zutra","rav_yosef"]},
+{daf:"40a",verified:true,sages:["abaye","rava","ryosi","shmuel","rav_chisda","mar_ukva","rabbah","rav_nachman_yaakov","rav_huna","rava_avin","rav_pappa","rabbi_zeira","rabbah_yirmeya","mar_brei_ravina"]},
+{daf:"40b",verified:true,sages:["rava","rabbah_leivai","rav_chisda","ryehuda_ilai","ryosi","ula","rav_papi","rmeir","rav_kahana1","rav_huna_yehuda","rav_nachman_yaakov","shmuel","rav_nachman_y"]},
+{daf:"41a",verified:true,sages:["rav_kahana1","rav_ashi","shmuel","ryosi","rabbi_hanasi","rmeir","ula","rav","rav_chisda","rava","rav_chiya_natan"]},
+{daf:"41b",verified:true,sages:["abaye","rava","rabbi_hanasi","rav_chisda"]},
+{daf:"42a",verified:true,sages:["ryehuda_ilai","rabbi_hanasi","bar_kapara","rav","rav_yehuda","rav_matna","rava","mar_zutra","rav_ashi","reliezer"]},
+{daf:"42b",verified:true,sages:["rav_nachman_y","ryehuda_ilai","rav_yosef","rav_pappa","rav_shimi_mechoznaa","rabbi_chiya","rav_oshaya","reliezer","rav_yehuda","rav"]},
+{daf:"43a",verified:true,sages:["rav_huna_yirmeya","ryirmeya_abba","ryehuda_ilai","ryehoshua","rav_yehuda","rav","rmeir","rav_nachman_yaakov","reliezer","rishmael"]},
+{daf:"43b",verified:true,sages:["reliezer","rav_natan","rabbi_abbahu","ryochanan","zeiri"]},
+{daf:"44a",verified:true,sages:["abaye","rav_dimi","rabbah_b_chana","reliezer"]},
+{daf:"44b",verified:true,sages:["ryochanan","rakiva","rchiya_rav_huna","rav_acha_avya","rav_ashi"]},
+{daf:"45a",verified:true,sages:["rakiva","rav_ashi","rav_kahana1","rav_yehuda","shmuel"]},
+{daf:"45b",verified:true,sages:["rav_huna","rav_yosef","rshimon_elazar","abaye","rav_ashi","rav_nachman_yaakov","rav","ryitzchak_ashyan","shmuel","ula","rnatan","rava"]},
+{daf:"46a",verified:true,sages:["rava","rav_pappa","rabbi_abbahu","resh_lakish","rav_nachman_y","aivu","rabbi_inya","rabbi_yannai","ryosi_bchanina","rav_acha","reliezer","ryehuda_bteira","ryehoshua"]},
+{daf:"46b",verified:true,sages:["ryehoshua","reliezer","rav_chisda","rabbah"]},
+{daf:"47a",verified:true,sages:["rshbg","rshimon_hasegan","rav_mari","abba_shaul","rav_chisda","rabbah","rav_acha_rav_huna"]},
+{daf:"47b",verified:true,sages:["rav_papa_shmuel","mar_bar_ashi","abaye","rabbah","rabbi_chiya","rav_chisda","rav_huna"]},
+{daf:"48a",verified:true,sages:["rav_acha_b_rava","abaye","rami_chama","rav_chisda","rabbah","reliezer","ryehoshua","rav_pappa","rav_shisha_idi","rabbi_yirmeya","rabbi_zeira","rabbi_hanasi","rabbi_yitzchak_n","ryehuda_bteira","ryishmael_beroka","rnatan","rav"]},
+{daf:"48b",verified:true,sages:["rav_yosef","abaye","reliezer","rav_yehuda","shmuel","ryehoshua_levi","rabbi_chanina","rabbi_yirmeya","ryehoshua","rshbg","rg_yavne","rakiva","ryehuda_ilai","rmeir","rava"]},
+{daf:"49a",verified:true,sages:["rmeir","reliezer_tzadok","rtzadok","zunin","rg_yavne","ryehuda_ilai","ryochanan","ryosi","rav_chisda","rsby","ryehoshua","rav_idi_avin","rav_sheshet_idi","ryehoshua_idi","rav_pappa","rav_kahana1","rabbi_yitzchak_n","abaye","rava","rav_shemaya"]},
+{daf:"49b",verified:true,sages:["rabbi_hanasi","rabi_elazar","rshmuel_nachmani","ryochanan","rshmuel_yitzchak","rakiva","rmeir","reliezer","rabbi_chiya","ryehuda_ilai","abaye"]},
+{daf:"50a",verified:true,sages:["rnatan","rabi_elazar","ryochanan","ryehoshua_levi","rav_yosef_rybl","rabbi_yirmeya","resh_lakish","racha_chanina","rav_nachman_y","rava","rabbi_avina"]},
+{daf:"50b",verified:true,sages:["ryehuda_ilai","rava","rav_yehuda","rav","ryehoshua_levi","ryochanan","rav_yosef","abaye"]},
+{daf:"51a",verified:true,sages:["rav_chisda","rav_ashi","ryehuda_gamliel","hillel_gamliel","rg_yavne","rshbg","ryehuda_ilai","rabbah_b_chana","rav_avira","rabbah_rav_huna","abaye","ryochanan","ryochanan_elazar","rshimon_yosi_lakonya"]},
+{daf:"51b",verified:true,sages:["rsby","rakiva","abaye","rava","rav_safra","rabbi_abba"]},
+{daf:"52a",verified:true,sages:["rabi_ami","rav_natan_asya","rav_yosef","abaye","rav","shmuel","ryehuda_ilai","rav_shisha_idi","rabi_elazar","rav_ashi","ryehoshua","rg_yavne","ravina_1","rshbg"]},
+{daf:"52b",verified:true,sages:["rav_chama_ukva","ryosi_bchanina","rshimon_elazar","rav_safra","rav_huna_ika","rav_kahana1","rabbi_abbahu","rachava","rav_yehuda","rav_yosef","rabbi_ela","rav_nachman_yaakov","rabbah_b_avuha","ryosi","rav_shimi_nehardea"]},
+{daf:"53a",verified:true,sages:["rav_asi2","rabbi_ela","reliezer","ryehuda_ilai","rshbg","rav_bibi","ryochanan","ryehuda_bteira","rav_yehuda","rav","rav_pappa","ryosi","todos_romi"]},
+{daf:"53b",verified:true,sages:["rav_acha","rav_sheshet","ryosi","rsby","ravina_1","rav_ashi","rava","todos_romi","ryosi_bar_avin","ryochanan","rav_yehoshua","rav_yehuda","shmuel","rabbah_b_chana","ula","rabbi_abba","rshimon_elazar","rav_yosef"]},
+{daf:"54a",verified:true,sages:["ula","rabbah_b_chana","rbinyamin_yefet","ryochanan","ryehuda_ilai","rabbi_hanasi","rabbi_chiya","ryitzchak_avdimi","rabbi_nechemya","ryoshiya","ryosi","rbnaa_ulla","rabi_elazar","rshbg","rava","shmuel","rav_pappa"]},
+{daf:"54b",verified:true,sages:["rshbg","shmuel","rav_shisha_idi","rava","ryochanan","rav_pappa","rabi_elazar"]},
+{daf:"55a",verified:true,sages:["rshbg","ryochanan","rav_shisha_idi","rmeir","ryehuda_ilai","rava","rav_sheshet","rav_ashi","ravina_1","ryosi_byehuda"]},
+{daf:"55b",verified:true,sages:["rmeir","ryosi_byehuda","abaye","rav_huna","rabi_ami","rava","rav_pappa"]},
+{daf:"56a",verified:true,sages:["rav_yehuda","rav_acha_b_rava","rava","rmeir","ryehuda_ilai","resh_lakish","rabbi_yitzchak_n","rabi_ami","rabbi_abbahu"]},
+{daf:"56b",verified:true,sages:["ryehuda_ilai","ula","resh_lakish","rava","ravin","rav_yehuda","rav","ryosi","rsby"]},
+{daf:"57a",verified:true,sages:["rsby","ryosi","ben_buhyan","abba_shaul","abba_shaul_botnit","abba_yosef_chanin","yissachar_barkai","yishmael_piachi","yochanan_nirbai"]},
+{daf:"57b",verified:true,sages:["rav_yosef","yissachar_barkai","rav_ashi","rsby","ravina_1"]},
+{daf:"58a",verified:true,sages:["ryehoshua_levi","rava","rishmael","rakiva","abaye"]},
+{daf:"58b",verified:true,sages:["rabbah_ula","rishmael","rakiva","abaye","rava"]},
+{daf:"59a",verified:true,sages:["ryishmael_beroka","ravina_1","rav_chisda","rav_pappa","rava"]},
+{daf:"59b",verified:true,sages:["rav_shemen_abba","rav_pappa","rav_ashi","rav_kahana1","rav_huna_natan","rav_safra","rav","rav_abba_chiya","rabbi_abbahu","ryosi","rmeir"]},
+{daf:"60a",verified:true,sages:["rmeir","ryosi","rav_pappa"]},
+{daf:"60b",verified:true,sages:["rmeir","ryosi","rav_dimi","rabbi_yirmeya","rava","rav_adda_ahava","rav_pappa"]},
+{daf:"61a",verified:true,sages:["rav_pinchas_ami","rava","rabbi_hanasi"]},
+{daf:"61b",verified:true,sages:["rav_chisda","rabbah","rav_ashi"]},
+{daf:"62a",verified:true,sages:["rabbah","rav_chisda","mar_zutra_mari","ravina_1"]},
+{daf:"62b",verified:true,sages:["rav_huna_yehoshua","reliezer","ryehoshua","rav_pappa","rsimlai","ryochanan","bruria","rmeir","rabbi_chananya_tradyon","rav_ashi","rami_rav_yehuda","rav","mar_zutra"]},
+{daf:"63a",verified:true,sages:["rava","rabbah","rmeir","abaye","ryehuda_ilai","rsby","resh_lakish"]},
+{daf:"63b",verified:true,sages:["ryochanan","resh_lakish","rav_oshaya","rabi_ami","rav_pappa","ryehuda_ilai"]},
+{daf:"64a",verified:true,sages:["rsby","ryehuda_ilai","rchiya_gamda","reliezer"]},
+{daf:"64b",verified:true,sages:["rabbi_yitzchak_n","abaye","rava","ryehuda_ilai","akavya_mehalalel","hillel","agripas","resh_lakish","rav_chisda","ryosi_hagelili","rabi_elazar"]},
+{daf:"65a",verified:true,sages:["rabbi_hanasi","rav_chisda","reliezer","rav_ashi","rnatan","ryehuda_ilai","rabi_elazar"]},
+{daf:"65b",verified:true,sages:["ryehuda_ilai","rav_ilish","reliezer","ryehoshua","rakiva"]},
+{daf:"66a",verified:true,sages:["rakiva","reliezer","bnei_beteira","hillel","shmaya","avtalyon"]},
+{daf:"66b",verified:true,sages:["hillel","ryochanan","rav_yehuda","rav","resh_lakish","rmani_patish"]},
+{daf:"67a",verified:true,sages:["abaye","rav_chisda","ryehuda_ilai","rsby"]},
+{daf:"67b",verified:true,sages:["rav_huna","rnatan","rishmael","reliezer","ryochanan"]},
+{daf:"68a",verified:true,sages:["ryitzchak_avdimi","ravina_1","rav_huna","chiya_bar_rav","rabi_elazar","rav_yosef","rav_menashya_yirmeya","rav","abaye","rava","rav_chananel","rshmuel_nachmani","rabbi_yonatan","ula","rav_chisda","shmuel"]},
+{daf:"68b",verified:true,sages:["rsby","rabi_elazar","ryosi_chanina","reliezer","ryehoshua","ryochanan","rabbah","rav_yosef","mar_brei_ravina","rav_sheshet","rav_ashi","chiya_rav_difti"]},
+{daf:"69a",verified:true,sages:["reliezer","rakiva","ula","rabbah","rava","abaye"]},
+{daf:"69b",verified:true,sages:["rav_huna_yehoshua","rava","rav_adda_abba","rakiva","rav_yehuda","rav","rav_ashi"]},
+{daf:"70a",verified:true,sages:["ben_teima","rav","chiya_bar_rav","rav_chisda"]},
+{daf:"70b",verified:true,sages:["yehuda_dortai","dortai","shmaya","avtalyon","rav","rav_ashi","rav_nachman_yaakov","rabbah_b_avuha","rabbi_ela","ryehuda_safra","ravin","abaye","ula","rabi_elazar"]},
+{daf:"71a",verified:true,sages:["rav_yosef","rav_idi_avin","rav_ashi","ben_teima","rava","rav_huna_yehuda","rav_pappa","ravin","rabi_elazar","rav_kahana1","abaye","relazer_azaria"]},
+{daf:"71b",verified:true,sages:["reliezer","ryehoshua","rmeir"]},
+{daf:"72a",verified:true,sages:["rabbi_avin","rav_yitzchak_yosef","rabbi_abbahu","reliezer","ryehoshua","rabi_ami","rmeir","rchiya_avelarav","rabbi_yannai"]},
+{daf:"72b",verified:true,sages:["rav_ashi","rav_kahana1","reliezer","ryehoshua","rsby","rmeir","rav_bibi","rabi_elazar","rabbi_zeira","ryochanan","rava","rav_nachman_yaakov","rav_shmuel_yitzchak","resh_lakish","ryosi","rav_beivai_abaye","rtarfon","rg_yavne"]},
+{daf:"73a",verified:true,sages:["rav_huna_chinena","rzerika","rakiva","ravina_1","rav_avira","rav_huna","rav","reliezer","ryehoshua"]},
+{daf:"73b",verified:true,sages:["rav_chisda","rav_huna","rchiya_gamda","rav_huna_yehoshua","rav","rav_pappa","reliezer","rav_yosef_sala","yosef_chonai","ryehoshua","rav_ashi","ryishmael_beroka","rabbah_b_avuha"]},
+{daf:"74a",verified:true,sages:["ryosi_hagelili","rakiva","rtzadok","rg_yavne","tavi","ryehuda_ilai","rishmael","rtarfon","rav_sheshet","rabbah","abaye"]},
+{daf:"74b",verified:true,sages:["ravin_sava","rav","rava","rav_acha","ravina_1","mar_bar_ameimar","rav_ashi"]},
+{daf:"75a",verified:true,sages:["rtzadok","rg_yavne","tavi","rav_chinena_idi","rav_adda_ahava","rav_chinnana_sava","rabi_assi","ryochanan","rabbi_hanasi","rav_achadvoi","rav_chisda","rav_matna","rav_nachman_yaakov","rabbi_yirmeya","rabbi_zeira"]},
+{daf:"75b",verified:true,sages:["ravina_1","rava","rabbi_hanasi","rav_sheshet","abaye","rabbah","rabbi_yitzchak_n"]},
+{daf:"76a",verified:true,sages:["rav","shmuel","rabbi_yirmeya","rav_huna","rava","rav_chinnana_pashronya"]},
+{daf:"76b",verified:true,sages:["rav","levi_sisi","rabbi_yirmeya","rav_mari","rmeir","ryehuda_ilai","ryosi","rabbah_b_chana","resh_lakish","rav_kahana_chinnana","rava_parzikya","mar_bar_ashi"]},
+{daf:"77a",verified:true,sages:["abaye","rsby","ryehuda_ilai","reliezer","ryosi","ryehoshua"]},
+{daf:"77b",verified:true,sages:["reliezer","ryehoshua","ryosi"]},
+{daf:"78a",verified:true,sages:["reliezer","ryosi","ryehoshua","rav_mari","rmeir","rav_pappa","abaye"]},
+{daf:"78b",verified:true,sages:["ryehoshua","reliezer","ryosi","rav_gidel","rav","rnatan","rabi_elazar","ryochanan"]},
+{daf:"79a",verified:true,sages:["ryehoshua","rav_pappa","ryochanan","rishmael","rav_chisda","rabbi_yitzchak_n","rava","rav","rav_kahana1"]},
+{daf:"79b",verified:true,sages:["rav","rav_kahana1","relazar_matya"]},
+{daf:"80a",verified:true,sages:["rsby","ryehuda_ilai","rav","relazar_matya","ula","rav_nachman_yaakov","shmuel","rav_huna","rav_adda_ahava"]},
+{daf:"80b",verified:true,sages:["rmani_patish","ravina_1","rabbi_shila","rami_chama","rava","rabbi_chiya","rav_yosef","ryosi"]},
+{daf:"81a",verified:true,sages:["ryosi","rabbi_oshaya","ryochanan","rav_yosef","rabbah"]},
+{daf:"81b",verified:true,sages:["reliezer","rakiva","rava","rabi_elazar","ryochanan","resh_lakish","mar_bar_ashi","ryosi_chanina"]},
+{daf:"82a",verified:true,sages:["rav_chama_ukva","rav_pappa","rav_zvid","rav_yosef","rava","ryochanan_broka"]},
+{daf:"82b",verified:true,sages:["rsby","rav_yosef","ryochanan","ryochanan_broka","rabbi_nechemya"]},
+{daf:"83a",verified:true,sages:["rabbah","ryosi_hagelili","ryochanan","mari_avuha","rabbi_yitzchak_n","rabbi_yaakov","rsby","rav_nachman_y","rav_zvid"]},
+{daf:"83b",verified:true,sages:["rav_yehuda","rav","rav_chisda","ryehuda_ilai","rav_ika_chinnana","rav_ashi","ravina_1","shmuel","chizkiyah","abaye","rava"]},
+{daf:"84a",verified:true,sages:["rav_ashi","rabbah","rava","ryochanan","resh_lakish","rabbi_yirmeya","rabbi_avin","rabbi_abbahu","ryehuda_ilai","rabbi_yaakov","rabbi_hanasi"]},
+{daf:"84b",verified:true,sages:["rav_yosef","rabbi_hanasi","abaye","rava","rav_pappa","ryishmael_beroka","rav_sheshet_idi","rav_nachman_y","rav_ashi","ravina_1","ryochanan","resh_lakish"]},
+{daf:"85a",verified:true,sages:["abaye","ravina_1","rav_huna","rav_chisda"]},
+{daf:"85b",verified:true,sages:["rabi_ami","rabba_bar_memel","rav_yehuda","rav","ryehoshua_levi","rav_shmuel_yitzchak","rabbi_chiya"]},
+{daf:"86a",verified:true,sages:["rav","abba_shaul","rav_yosef","rav_chisda","ryochanan","ryehuda_ilai","rav_chama_gurya","acha","rabbi_chanina"]},
+{daf:"86b",verified:true,sages:["ryehuda_ilai","rsby","rchiya_abba","ryochanan","rav_huna_natan","rav_nachman_y","rishmael_byosi","rshimon_yosi_lakonya","rav_huna","rabbah","ravina_1"]},
+{daf:"87a",verified:true,sages:["ryochanan","rava","rav_zutra_tuvia","rav"]},
+{daf:"87b",verified:true,sages:["shmuel","ryochanan","ryehuda_ilai","rabi_elazar","ryosi_chanina","rsby","rabbi_oshaya","rabbi_chanina","rabbi_chiya","ralexandri","ula"]},
+{daf:"88a",verified:true,sages:["ula","rabi_elazar","ryochanan","rabbi_zeira","rava","rav_eina_sava","rav_nachman_yaakov","beit_hillel","beit_shammai"]},
+{daf:"88b",verified:true,sages:["beit_hillel","beit_shammai","rg_zaken","abaye"]},
+{daf:"89a",verified:true,sages:["ryochanan","rsby","abaye"]},
+{daf:"89b",verified:true,sages:["rav_pappa","rav_huna_yehoshua","ravina_1","rava","ula","rabbi_oshaya"]},
+{daf:"90a",verified:true,sages:["abaye","rabbi_oshaya","rabbi_hanasi","ryosi_hagelili","rabbah","rabbi_zeira","rav_yehuda","rav"]},
+{daf:"90b",verified:true,sages:["ula","rav_shemaya","rav","rabbi_yitzchak_n","rav_adda_ahava","ravina_1"]},
+{daf:"91a",verified:true,sages:["rabbah_rav_huna","ryochanan","rav_chisda","rabbah_b_chana","rshimon_beroka","ryehuda_ilai","ryosi","rsby","rav_ukva_chinnana","rava"]},
+{daf:"91b",verified:true,sages:["ryehuda_ilai","ryosi","rsby","rabbi_yitzchak_n","rabi_elazar","rabbi_yaakov","ryochanan"]},
+{daf:"92a",verified:true,sages:["beit_shammai","beit_hillel","rabbah_b_chana","ryochanan","rshimon_elazar","rava"]},
+{daf:"92b",verified:true,sages:["rav_yehuda","shmuel","rav_yehuda_abaye","rav_nachman_yaakov","rav_sheshet","rav_ashi","rakiva"]},
+{daf:"93a",verified:true,sages:["rakiva","ryosi","ryehuda_ilai","rsby","rabbi_hanasi","rnatan","rchanina_akavya"]},
+{daf:"93b",verified:true,sages:["rabbi_hanasi","rnatan","rchanina_akavya","rakiva","reliezer","ryosi","ula","rabbah_b_chana","ryochanan","rabbi_chanina","rav_yehuda","rabbah"]},
+{daf:"94a",verified:true,sages:["rava","rabbah_b_chana","ryochanan","ryehuda_ilai","ula","rabbi_chanina","rnatan","rybz"]},
+{daf:"94b",verified:true,sages:["rnatan","rabbi_hanasi","rav_acha_yaakov","reliezer","abaye","rava","ryosi_byehuda","rav_yitzchak_yosef","ryosi","ryosi_hagelili"]},
+{daf:"95a",verified:true,sages:["isi_ben_yehuda","ryochanan","rshimon_yehotzadak"]},
+{daf:"95b",verified:true,sages:["ryehuda_ilai","reliezer","rav_yosef","rava"]},
+{daf:"96a",verified:true,sages:["rava","rabbi_zeira","abaye","rav_yosef","ben_bag_bag","relazer_azaria","rakiva","rabbah","rabbi_yitzchak_n"]},
+{daf:"96b",verified:true,sages:["ryosi_hagelili","ryehoshua","rakiva","rabbah","rabbi_zeira","reliezer","rava","abaye"]},
+{daf:"97a",verified:true,sages:["shmuel","ryochanan","rav_yosef","resh_lakish","rabbi_hanasi","rava"]},
+{daf:"97b",verified:true,sages:["rabbi_oshaya","shmuel","rsby","ryochanan","rabbah","rabbi_hanasi"]},
+{daf:"98a",verified:true,sages:["rav_huna_yehoshua","rava","abaye","rav_sherevya","rav_ashi","rsby","ravina_1"]},
+{daf:"98b",verified:true,sages:["rsby","rava"]},
+{daf:"99a",verified:true,sages:["ryehuda_ilai","ryosi","ryochanan","rav_ashi"]},
+{daf:"99b",verified:true,sages:["ryehuda_ilai","ryosi","rav_huna","rav_pappa","mar_zutra"]},
+{daf:"100a",verified:true,sages:["mareimar","rav_yeimar","rav_pinchas_ami","rav_huna","rabbi_yirmeya","ryochanan","rabbi_abbahu","ryosi_chanina","ryehuda_ilai","ryosi","rshbg","rav_yehuda","shmuel","rav_tachlifa_avdimi"]},
+{daf:"100b",verified:true,sages:["rabbah_rav_huna","rav","shmuel"]},
+{daf:"101a",verified:true,sages:["rav","shmuel","rav_anan_tachlifa","rav_huna","rabbah_rav_huna","rabbah","abaye","rsby","ryochanan","rchanin_abaye","rabbi_pedat"]},
+{daf:"101b",verified:true,sages:["rav_idi_avin","rav_chisda","rav_huna","rav_sheshet","rav_nachman_y"]},
+{daf:"102a",verified:true,sages:["ryehuda_ilai","ryochanan","rav_chisda","ryosi"]},
+{daf:"102b",verified:true,sages:["rav_huna","rav_sheshet","rav_nachman_y","rav","abaye","rava","shmuel"]},
+{daf:"103a",verified:true,sages:["rabbah","levi_sisi","mar_ravna","marta","ryehoshua","abba_bar_abba","rabbi_hanasi","rishmael_byosi","ryosi","rabbi_chanina","abaye","rava","rav_huna_yehuda","beit_shammai","beit_hillel","rmeir","ryochanan","ryaakov_bar_abba","rav","rav_beruna","rav_chananel"]},
+{daf:"103b",verified:true,sages:["rav_yeiva_saba","rav","ameimar","mar_zutra","rav_ashi","rav_acha_b_rava","rav_yehuda","rabbi_hanasi","rabi_elazar","rabbi_oshaya"]},
+{daf:"104a",verified:true,sages:["rav_yehuda","shmuel","rabi_elazar","rabbi_oshaya","ryochanan","rmenachem_simai","rav_shmuel_idi","ryehoshua_levi","ryosi_byehuda","rav","abaye","rav_yosef","ryehoshua"]},
+{daf:"104b",verified:true,sages:["ula","rav_yehuda","rav_yitzchak_yehuda","abaye"]},
+{daf:"105a",verified:true,sages:["ula","rav_chananya_shelemya","rav","rav_hamnuna_sava","rav_amram","rakiva","rav_ashi","ravina_1","rav_nachman_y"]},
+{daf:"105b",verified:true,sages:["ravina_1","rav_nachman_y"]},
+{daf:"106a",verified:true,sages:["rav_ashi","ryaakov_idi","rav_idi_shisha","mar_bar_ashi","rav_yehuda","rabbi_zeira","rav_asi2","ryochanan","rav_beruna","rav"]},
+{daf:"106b",verified:true,sages:["ryitzchak_marta","rav","rav_huna","rav_chana_chinnana","rav_asi2","ryirmeya_abba","rav_yosef","shmuel","rabbah","rav_nachman_yaakov"]},
+{daf:"107a",verified:true,sages:["rava","ameimar","mar_yanuka","mar_kashisha_chisda","rav_ashi","rav_huna","rav_chisda","rav","rabbi_chiya","rabbi_hanasi","rav_tachlifa_avdimi","shmuel","levi_sisi","rav_yosef","relazer_bshimon","abaye","ryosi_byehuda","rav_gidel","rav_nachman_y"]},
+{daf:"107b",verified:true,sages:["ravina_1","agripas","ryosi","rabbi_yitzchak_n","rava"]},
+{daf:"108a",verified:true,sages:["rav_sheshet","rabbi_oshaya","rabi_elazar","ryehuda_beteira","rav_nachman_yaakov","ryehoshua_levi"]},
+{daf:"108b",verified:true,sages:["rav_yehuda","shmuel","rava","rav","rav_nachman_y","ryehuda_ilai"]},
+{daf:"109a",verified:true,sages:["rakiva","reliezer","ryehuda_ilai","rav_yosef","ryehuda_beteira","rabbi_yitzchak_n","ryochanan","rav_chisda"]},
+{daf:"109b",verified:true,sages:["rav_ashi","ravin_bar_chinnana","rabbi_chiya","rav_nachman_yaakov","rava","ravina_1"]},
+{daf:"110a",verified:true,sages:["abaye","rav_yehuda","rav_ashi","rav_chananya_bibi","rabbi_zeira","rav_pappa","rava","rav_nachman_y","ula","rav_chisda","rabbah_rav_huna","rabbah","rav_yosef","rava_bar_livai","ameimar"]},
+{daf:"110b",verified:true,sages:["rav_dimi_nehardea","rav_dimi","rav_avira","rav_chinnana_yehoshua","ravina_1","rava","rav_yosef","rav_nachman_yaakov","rav","rav_mesharshiya","rabbah","rav_yehuda","shmuel"]},
+{daf:"111a",verified:true,sages:["ryochanan","rav_pappa","resh_lakish","rabbi_yitzchak_n"]},
+{daf:"111b",verified:true,sages:["rav_ashi","rav_kahana1","abaye","rav_pappa","rav_huna_yehoshua","rav_yosef"]},
+{daf:"112a",verified:true,sages:["rakiva","rav_pappa","ryehuda_teima","ryehoshua_akiva","rav_shmuel_yitzchak","rsby"]},
+{daf:"112b",verified:true,sages:["rava","rav_mesharshiya","rabbi_hanasi","rav_pappa","rav_shmuel_n","rav_oshaya","rmeir","rav","abaye","rishmael_byosi","ryosi_byehuda","ryehoshua_levi","chanina_dosa"]},
+{daf:"113a",verified:true,sages:["rav","rav_asi2","rav_kahana1","chiya_bar_rav","aivu","rava","rav_pappa","rav_chisda","ryochanan","ryehoshua_levi","rav_safra"]},
+{daf:"113b",verified:true,sages:["rava","rav_safra","rabbi_chanina","rav_oshaya","rav_pappa","rav_shmuel_yitzchak","rav","rav_nachman_y","rav_acha_b_rava","rav_ashi","rav_yosef","rabbah_b_chana","rshmuel_marta","isi_ben_yehuda"]},
+{daf:"114a",verified:true,sages:["rabbah_b_chana","ryochanan","ryehuda_ilai","ula","beit_shammai","beit_hillel","ryehoshua","reliezer_tzadok"]},
+{daf:"114b",verified:true,sages:["resh_lakish","ryosi","rav_huna","rava","rav_ashi","ryochanan_nuri","chizkiyah","rav_yosef","ravina_1"]},
+{daf:"115a",verified:true,sages:["rav_chisda","rav_huna","rav_sheshet_yehoshua","rav_acha_b_rava","ravina_1","rav_mesharshya_natan","hillel","ryochanan","rav_ashi","rabi_elazar","rav_oshaya","rav_pappa"]},
+{daf:"115b",verified:true,sages:["rav_pappa","rav_chisda","rabbana_ukva","rava","rav_shimi_ashi","rav_huna","rabbi_yannai","abaye","rabbah","shmuel"]},
+{daf:"116a",verified:true,sages:["rabi_ami","rav_asi2","reliezer_tzadok","rabbi_levi","ryochanan","abaye","rava","rav_safra","rav","shmuel","rav_nachman_yaakov","rg_yavne"]},
+{daf:"116b",verified:true,sages:["beit_shammai","beit_hillel","rtarfon","rakiva","rava","rav_acha_yaakov","mareimar","rav_yosef","rav_sheshet"]},
+{daf:"117a",verified:true,sages:["rav_chisda","ryochanan","rav","rabbah","ryehoshua_levi","rav_yehuda","shmuel","rmeir","ryosi","relazer_byosei","reliezer","ryehoshua","rav_nachman_yaakov","rav_gidel","ryehuda_ilai","relazer_modai","relazer_azaria","rakiva","ryosi_hagelili","rabbah_rav_huna","rav_chanin_rav","rav_chanin_rava","beit_shammai","beit_hillel"]},
+{daf:"117b",verified:true,sages:["beit_shammai","beit_hillel","rav_chisda","rabbah_rav_huna","rava","rabbi_zeira","rav_acha_yaakov","rabbah_bar_sheila","rav_yosef","resh_lakish","ulla_bar_rav","rav_natan_avuha","rav_pappa","ravina_1","mareimar"]},
+{daf:"118a",verified:true,sages:["rav_yehuda","ryochanan","rtarfon","ryehuda_ilai","rav_acha_yaakov","ryehoshua_levi","resh_lakish","rav_sheizvi","relazer_azaria","rav_sheshet","rav_nachman_y","chizkiyah","rshimon_shiloni"]},
+{daf:"118b",verified:true,sages:["rnatan","rav_huna","rabbah_bar_mari","resh_lakish","rava","rav_kahana1","rishmael_byosi","rabbi_hanasi","rchiya_abba","ryochanan","rshimon_brabi","rav_yosef","rabi_elazar"]},
+{daf:"119a",verified:true,sages:["rabi_elazar","rav_kahana1","rishmael_byosi","resh_lakish","ryehuda_nesia","rav_yehuda","shmuel","rav_asi2","rsby","rabbi_chama_chanina","rabbi_levi","rshmuel_nachmani","rabbi_yonatan"]},
+{daf:"119b",verified:true,sages:["abaye","rav_yehuda","shmuel","rav_nachman_y","rabbi_hanasi","relazar_parta","rav_avira","rabi_ami","rav_asi2","rav","rav_chanina_shila","ryochanan"]},
+{daf:"120a",verified:true,sages:["mar_zutra","rav_yosef","rav_yehuda","shmuel","rava","rav_acha_yaakov"]},
+{daf:"120b",verified:true,sages:["ryosi","rav_ashi","abaye","rabbah","rav_yosef","relazer_azaria","rakiva","rava","rav_huna","rav_chisda"]},
+{daf:"121a",verified:true,sages:["rishmael","rakiva"]},
+{daf:"121b",verified:true,sages:["rsimlai"]}
+];
+
 let activeDafim=CHULLIN_DAFIM;
 
 // Color scheme for highlighting sages by generation when a daf is selected.
@@ -4130,7 +4444,7 @@ function applyDafSelection(dafId){
 
 dafSelect.addEventListener('change',()=>applyDafSelection(dafSelect.value));
 document.getElementById('masechetselect').addEventListener('change',function(){
-  activeDafim = (this.value==='bechorot') ? BECHOROT_DAFIM : (this.value==='arakhin') ? ARAKHIN_DAFIM : (this.value==='temurah') ? TEMURAH_DAFIM : (this.value==='keritut') ? KERITUT_DAFIM : (this.value==='meilah') ? MEILAH_DAFIM : (this.value==='niddah') ? NIDDAH_DAFIM : (this.value==='berakhot') ? BERAKHOT_DAFIM : (this.value==='shabbat') ? SHABBAT_DAFIM : (this.value==='eruvin') ? ERUVIN_DAFIM : CHULLIN_DAFIM;
+  activeDafim = (this.value==='bechorot') ? BECHOROT_DAFIM : (this.value==='arakhin') ? ARAKHIN_DAFIM : (this.value==='temurah') ? TEMURAH_DAFIM : (this.value==='keritut') ? KERITUT_DAFIM : (this.value==='meilah') ? MEILAH_DAFIM : (this.value==='niddah') ? NIDDAH_DAFIM : (this.value==='berakhot') ? BERAKHOT_DAFIM : (this.value==='shabbat') ? SHABBAT_DAFIM : (this.value==='eruvin') ? ERUVIN_DAFIM : (this.value==='pesachim') ? PESACHIM_DAFIM : CHULLIN_DAFIM;
   if(dafModeActive){ clearDafMode(); }
   dafSelect.value='';
   document.getElementById('dafclear').style.display='none';
