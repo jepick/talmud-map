@@ -535,8 +535,8 @@ body.daf-mode .river-label{opacity:0.12}
   /* ── Sage info = bottom sheet, scrollable ── */
   #info{left:0; right:0; bottom:0; width:100%; max-width:100%;
     border-radius:16px 16px 0 0; border-width:2px 0 0; z-index:1200}
-  #info.on,#info.pinned{max-height:78dvh}
-  #info.pinned #ibody{max-height:calc(78dvh - 64px); overflow-y:auto; -webkit-overflow-scrolling:touch}
+  #info.on,#info.pinned{max-height:82dvh}
+  #info.on #ibody,#info.pinned #ibody{max-height:calc(82dvh - 64px); overflow-y:auto; -webkit-overflow-scrolling:touch}
   #iclose{font-size:22px; padding:6px 12px}
 
   /* ── Daf grid = bottom sheet with big tap targets ── */
@@ -566,6 +566,7 @@ body.daf-mode .river-label{opacity:0.12}
   #daf-inline{flex-wrap:wrap}
   #masechetselect{flex:1 1 100%;min-width:0;width:100%}
   #daf-trigger{flex:1 1 100%;width:100%}
+  #masechetselect,#daf-trigger{height:auto;min-height:46px;line-height:1.35;padding:11px 12px}
   /* settings: static heading + smaller buttons, a few per row */
   .settings-heading{display:block;text-align:center;font-size:12.5px;font-weight:800;color:#B8A880;width:100%;margin:4px 0 8px;padding-top:10px;border-top:1px solid rgba(200,134,10,.28)}
   .settings-btns{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:7px}
@@ -747,6 +748,8 @@ body.daf-mode .river-label{opacity:0.12}
     <div id="chartscroll"></div>
   </div>
 
+</div>
+
   <div id="info">
     <div id="ihdr">
       <div><div id="iname"></div><div id="ibadge"></div></div>
@@ -762,8 +765,6 @@ body.daf-mode .river-label{opacity:0.12}
       <div id="iappear"></div>
     </div>
   </div>
-
-</div>
 
 </div><!-- #app -->
 
@@ -5394,7 +5395,7 @@ function showInfo(r, pinned){
   descEl._currentRabbi=r;
   try{ renderAppearances(r, document.getElementById('iappear')); }catch(err){ const ap=document.getElementById('iappear'); if(ap){ap.style.display='none';ap.innerHTML='';} }
   const info=document.getElementById('info');
-  if(pinned){ infoPinned=true; info.classList.add('pinned'); }
+  if(pinned){ infoPinned=true; infoSuppressUntil=0; info.classList.add('pinned'); }
   else info.classList.remove('pinned');
   info.classList.add('on');
 }
@@ -5411,6 +5412,8 @@ function dismissInfo(suppress){
 }
 function unpinInfo(){ dismissInfo(false); }              // programmatic (mode switches)
 document.getElementById('iclose').onclick=()=>dismissInfo(true);
+(function(){ const el=document.getElementById('info'); if(!el) return;
+  ['click','mousedown','pointerdown','touchstart'].forEach(evt=>el.addEventListener(evt,e=>{ e.stopPropagation(); },{passive:true})); })();
 
 // Appearances: a collapsible "appears X times" total -> per-tractate counts
 // -> clickable page chips. Clicking a page opens that daf in the left list
@@ -5420,6 +5423,7 @@ function renderAppearances(r, box){
   const he=(currentLang==='he');
   const list=APPEAR_INDEX[r.id]||[];
   box.style.display='block';
+  box.innerHTML='';
   if(!list.length){
     box.innerHTML='<div class="iappear-empty">'+(he?'טרם מופיע בדפים המסומנים במאגר':'Not on any indexed pages yet')+'</div>';
     return;
@@ -5427,41 +5431,44 @@ function renderAppearances(r, box){
   const byT={};
   list.forEach(a=>{ (byT[a.key]=byT[a.key]||{he:a.he,en:a.en,dafim:[]}).dafim.push(a.daf); });
   const total=list.length;
-  box.innerHTML=
-    '<button class="iappear-total"><span>'
-    +(he?('מופיע <b>'+total+'</b> פעמים בש״ס'):('Appears <b>'+total+'</b> times in the Talmud'))
-    +'</span><span class="iappear-arrow">\u25be</span></button>'
-    +'<div class="iappear-tracts" style="display:none"></div>';
-  const totalBtn=box.querySelector('.iappear-total');
-  const wrap=box.querySelector('.iappear-tracts');
-  let built=false;
-  function buildTracts(){
-    if(built) return; built=true;
-    TRACTATES.forEach(t=>{
-      const g=byT[t.key]; if(!g) return;
-      const name=he?g.he:g.en;
-      const tract=document.createElement('div'); tract.className='iappear-tract';
-      tract.innerHTML='<button class="iappear-tbtn"><span>'+name+'</span>'
-        +'<span class="iappear-count"><b>'+g.dafim.length+'</b> <span class="iappear-arrow">\u25be</span></span></button>'
-        +'<div class="iappear-dafim"></div>';
-      const tbtn=tract.querySelector('.iappear-tbtn');
-      const dwrap=tract.querySelector('.iappear-dafim');
-      let dbuilt=false;
-      tbtn.onclick=(ev)=>{
-        if(ev){ ev.stopPropagation(); ev.preventDefault(); }
-        if(dwrap.classList.contains('open')){ dwrap.classList.remove('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25be'; return; }
-        if(!dbuilt){ dbuilt=true; g.dafim.forEach(d=>{ const c=document.createElement('span'); c.className='iappear-chip'; c.textContent=dafHe(d); c.onclick=(e2)=>{ if(e2){e2.stopPropagation();} gotoDaf(t.key,d); }; dwrap.appendChild(c); }); }
-        dwrap.classList.add('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25b4';
-      };
-      wrap.appendChild(tract);
+  const stop=(e)=>{ if(e){ e.stopPropagation(); if(e.stopImmediatePropagation) e.stopImmediatePropagation(); e.preventDefault(); } };
+
+  const totalBtn=document.createElement('button');
+  totalBtn.type='button'; totalBtn.className='iappear-total';
+  totalBtn.innerHTML='<span>'+(he?('מופיע <b>'+total+'</b> פעמים בש״ס'):('Appears <b>'+total+'</b> times in the Talmud'))+'</span><span class="iappear-arrow">\u25be</span>';
+  const wrap=document.createElement('div'); wrap.className='iappear-tracts'; wrap.style.display='none';
+  box.appendChild(totalBtn); box.appendChild(wrap);
+
+  // Tractate rows built now (cheap); each row's page chips are built the first
+  // time that tractate is opened.
+  TRACTATES.forEach(t=>{
+    const g=byT[t.key]; if(!g) return;
+    const name=he?g.he:g.en;
+    const tract=document.createElement('div'); tract.className='iappear-tract';
+    const tbtn=document.createElement('button'); tbtn.type='button'; tbtn.className='iappear-tbtn';
+    tbtn.innerHTML='<span>'+name+'</span><span class="iappear-count"><b>'+g.dafim.length+'</b> <span class="iappear-arrow">\u25be</span></span>';
+    const dwrap=document.createElement('div'); dwrap.className='iappear-dafim';
+    let dbuilt=false;
+    tbtn.addEventListener('click',(ev)=>{
+      stop(ev);
+      if(dwrap.classList.contains('open')){ dwrap.classList.remove('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25be'; return; }
+      if(!dbuilt){ dbuilt=true; g.dafim.forEach(d=>{
+        const c=document.createElement('span'); c.className='iappear-chip'; c.textContent=dafHe(d);
+        c.addEventListener('click',(e2)=>{ stop(e2); gotoDaf(t.key,d); });
+        dwrap.appendChild(c);
+      }); }
+      dwrap.classList.add('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25b4';
     });
-  }
-  totalBtn.onclick=(ev)=>{
-    if(ev){ ev.stopPropagation(); ev.preventDefault(); }
-    if(wrap.style.display!=='none'){ wrap.style.display='none'; totalBtn.querySelector('.iappear-arrow').textContent='\u25be'; return; }
-    buildTracts();
-    wrap.style.display='block'; totalBtn.querySelector('.iappear-arrow').textContent='\u25b4';
-  };
+    tract.appendChild(tbtn); tract.appendChild(dwrap);
+    wrap.appendChild(tract);
+  });
+
+  totalBtn.addEventListener('click',(ev)=>{
+    stop(ev);
+    const show=(wrap.style.display==='none');
+    wrap.style.display=show?'block':'none';
+    totalBtn.querySelector('.iappear-arrow').textContent=show?'\u25b4':'\u25be';
+  });
 }
 
 slider.addEventListener('input',()=>{
