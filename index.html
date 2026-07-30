@@ -56,12 +56,11 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 .lpills{display:flex;gap:12px;align-items:center}
 .lpill{display:flex;align-items:center;gap:5px;font-size:11px;color:#C8B890}
 .ldot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
-#chartbtn,#printbtn,#mapbtn,#langbtn,#infobtn,#resetbtn,#dafyomibtn{
+#chartbtn,#printbtn,#mapbtn,#langbtn,#infobtn,#resetbtn,#dafyomibtn,#settingsbtn{
   background:rgba(200,134,10,.15);border:1px solid var(--gold-dk);border-radius:6px;
   color:var(--gold);font-size:13px;padding:3px 9px;cursor:pointer;line-height:1;font-family:inherit;
 }
-#chartbtn:hover,#printbtn:hover,#mapbtn:hover,#langbtn:hover,#infobtn:hover,#resetbtn:hover,#dafyomibtn:hover{background:rgba(200,134,10,.3)}
-#dafyomibtn{background:rgba(200,134,10,.28);font-weight:700}
+#chartbtn:hover,#printbtn:hover,#mapbtn:hover,#langbtn:hover,#infobtn:hover,#resetbtn:hover,#dafyomibtn:hover,#settingsbtn:hover{background:rgba(200,134,10,.3)}
 #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:rgba(26,18,8,.96);color:var(--gold);border:1.5px solid var(--gold-dk);border-radius:10px;padding:9px 16px;font-size:12.5px;z-index:2200;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .25s;max-width:86vw;text-align:center}
 #toast.on{opacity:1}
 #sage-search-wrap{position:relative;display:inline-block}
@@ -434,6 +433,33 @@ body.daf-mode .river-label{opacity:0.12}
   box-shadow:inset 3px 0 0 #FFD700;
 }
 
+/* ── Uniform, emoji-free toolbar + Settings dropdown ── */
+#chartbtn,#printbtn,#mapbtn,#langbtn,#infobtn,#resetbtn,#dafyomibtn,#settingsbtn{
+  height:32px;box-sizing:border-box;font-size:12.5px;font-weight:600;padding:0 12px;
+  border-radius:7px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;
+}
+#masechetselect,#daf-trigger{height:32px;box-sizing:border-box;font-size:12px}
+#sagesearch{height:32px;box-sizing:border-box}
+#hsub{display:none}
+#cbadge{display:none}
+#dafyomibtn{background:var(--gold) !important;color:#1A1208 !important;font-weight:800;border:1px solid var(--gold-dk)}
+#dafyomibtn:hover{background:var(--gold-dk) !important;color:#fff !important}
+#settings-wrap{position:relative;display:inline-block}
+#settings-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:1600;background:#FDF6E3;
+  border:1.5px solid var(--gold-dk);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.5);
+  padding:9px;display:none;flex-direction:column;gap:7px;min-width:174px}
+#settings-pop.open{display:flex}
+#settings-pop button{width:100%}
+.settings-legend{display:flex;flex-direction:column;gap:6px;padding:2px 4px 8px;
+  border-bottom:1px solid rgba(200,134,10,.25);margin-bottom:2px}
+.settings-legend .lpill{color:#7A5C2A}
+/* Desktop: control bar always visible; timeline button lives only in the mobile menu */
+@media (min-width:821px){
+  #hdr{transform:none !important;pointer-events:auto !important}
+  #chartbtn{display:none}
+  #htitle{font-size:14px}
+}
+
 /* ══════════════════════════════════════
    Mobile / touch layout
    ══════════════════════════════════════ */
@@ -505,6 +531,25 @@ body.daf-mode .river-label{opacity:0.12}
   #dafgrid-filter{font-size:16px; padding:11px}
 }
 
+@media (max-width:820px){
+  #hdr{align-items:center; overflow-x:hidden}
+  .lpills{align-items:center}
+  #dafyomibtn,#chartbtn,#sage-search-wrap,#daf-inline,#settings-wrap,
+  #mapbtn,#langbtn,#infobtn,#printbtn,#resetbtn{max-width:340px;margin-left:auto;margin-right:auto;height:auto}
+  #chartbtn{display:flex}            /* timeline button available in the mobile menu */
+  #settingsbtn{display:none}          /* settings shown inline within the drawer */
+  #settings-wrap{width:100%}
+  #settings-pop{position:static;display:flex !important;box-shadow:none;border:none;
+    background:transparent;padding:0;min-width:0;width:100%;gap:9px}
+  .settings-legend{flex-direction:row;justify-content:center;flex-wrap:wrap;border-bottom:none;gap:10px 14px}
+  /* Bigger daf nav + close inside the sage-list sheet, so pages are easy to step through */
+  #chartpanel-hdr{padding:12px}
+  #daf-nav{gap:12px}
+  #dafprev,#dafnext{font-size:17px;padding:9px 16px}
+  #daf-cur-label{font-size:15px !important;min-width:56px !important}
+  #chartclose{font-size:24px;padding:6px 14px}
+}
+
 /* ══════════════════════════════════════
    Print-only stylesheet for the reference chart PDF
    ══════════════════════════════════════ */
@@ -549,40 +594,26 @@ body.daf-mode .river-label{opacity:0.12}
 
 <div id="hdr">
   <div>
-    <div id="htitle">🗺️ מפת התנאים והאמוראים</div>
+    <div id="htitle">מפת התנאים והאמוראים</div>
     <div id="hsub">הזז את הסליידר · לחץ על סמל לפרטים · גרור לזוז · גלגל/כפתורים לזום</div>
   </div>
   <div class="lpills">
-    <div class="lpill"><div class="ldot" style="background:#C8860A"></div>תנאים</div>
-    <div class="lpill"><div class="ldot" style="background:#2563EB"></div>אמוראים</div>
-    <div class="lpill"><div class="ldot" style="background:#FFD700;border:1.5px solid #aaa"></div>נשיא/ראש ישיבה</div>
-    <button id="chartbtn" title="הצג/הסתר ציר זמן">📜 ציר זמן</button>
-    <button id="printbtn" title="הדפס דף ייחוס PDF">🖨️ הדפס טבלה</button>
-    <button id="mapbtn" title="החלף מפה" class="active">🗺️ מודרני</button>
-    <button id="langbtn" title="Switch to English">EN</button>
-    <button id="infobtn" title="About this project">ℹ️</button>
-    <button id="resetbtn" title="אפס תצוגה למצב ההתחלתי">↺ אפס</button>
-    <button id="dafyomibtn" title="קפוץ לדף היומי של היום">📅 דף יומי</button>
-    <div id="sage-search-wrap">
-      <input id="sagesearch" type="text" autocomplete="off" placeholder="🔍 חיפוש חכם…">
-      <div id="sage-suggest"></div>
-    </div>
+    <button id="dafyomibtn" title="קפוץ לדף היומי של היום">דף יומי</button>
     <div id="daf-inline">
-      <span id="dafpanel-label">📖</span>
       <select id="masechetselect">
         <option value="chullin">חולין / Chullin</option>
         <option value="bechorot">בכורות / Bechorot</option>
         <option value="arakhin">ערכין / Arakhin</option>
         <option value="temurah">תמורה / Temurah</option>
-<option value="keritut">כריתות / Keritot</option>
-<option value="meilah">מעילה / Meilah</option>
-<option value="niddah">נדה / Niddah</option>
-<option value="berakhot">ברכות / Berakhot</option>
-<option value="shabbat">שבת / Shabbat</option>
-<option value="eruvin">עירובין / Eruvin</option>
-<option value="pesachim">פסחים / Pesachim</option>
-<option value="yoma">יומא / Yoma</option>
-<option value="sukkah">סוכה / Sukkah</option>
+        <option value="keritut">כריתות / Keritot</option>
+        <option value="meilah">מעילה / Meilah</option>
+        <option value="niddah">נדה / Niddah</option>
+        <option value="berakhot">ברכות / Berakhot</option>
+        <option value="shabbat">שבת / Shabbat</option>
+        <option value="eruvin">עירובין / Eruvin</option>
+        <option value="pesachim">פסחים / Pesachim</option>
+        <option value="yoma">יומא / Yoma</option>
+        <option value="sukkah">סוכה / Sukkah</option>
       </select>
       <select id="dafselect"><option value="">— דף —</option></select>
       <button id="daf-trigger" type="button">— דף —</button>
@@ -593,6 +624,26 @@ body.daf-mode .river-label{opacity:0.12}
       <span id="dafverified" style="display:none">✓</span>
       <span id="dafunverified" style="display:none">⚠️</span>
       <button id="dafclear" style="display:none">✕</button>
+    </div>
+    <div id="sage-search-wrap">
+      <input id="sagesearch" type="text" autocomplete="off" placeholder="חיפוש חכם…">
+      <div id="sage-suggest"></div>
+    </div>
+    <button id="chartbtn" title="ציר זמן">ציר זמן</button>
+    <div id="settings-wrap">
+      <button id="settingsbtn" title="הגדרות">הגדרות ▾</button>
+      <div id="settings-pop">
+        <div class="settings-legend">
+          <div class="lpill"><div class="ldot" style="background:#C8860A"></div>תנאים</div>
+          <div class="lpill"><div class="ldot" style="background:#2563EB"></div>אמוראים</div>
+          <div class="lpill"><div class="ldot" style="background:#FFD700;border:1.5px solid #aaa"></div>נשיא/ראש ישיבה</div>
+        </div>
+        <button id="mapbtn" title="החלף מפה" class="active">מפה מודרנית</button>
+        <button id="langbtn" title="Switch to English">EN</button>
+        <button id="infobtn" title="אודות הפרויקט">אודות</button>
+        <button id="printbtn" title="הדפס דף ייחוס">הדפסה</button>
+        <button id="resetbtn" title="אפס תצוגה למצב ההתחלתי">איפוס</button>
+      </div>
     </div>
   </div>
 </div>
@@ -646,7 +697,7 @@ body.daf-mode .river-label{opacity:0.12}
   <div id="chart-hover-zone"></div>
   <div id="chartpanel">
     <div id="chartpanel-hdr">
-      <h3>📜 ציר זמן</h3>
+      <h3>ציר זמן</h3>
       <div id="daf-nav" style="display:none">
         <button id="dafprev">◀</button>
         <span id="daf-cur-label" style="font-size:11px;color:var(--gold);min-width:44px;text-align:center;direction:ltr;display:inline-block"></span>
@@ -4008,8 +4059,8 @@ if(typeof L === 'undefined'){
 }
 
 const gmap=L.map('map',{
-  center:[32.2,40.5],
-  zoom:6,
+  center:[32.4,39.6],
+  zoom:5,
   minZoom:4,
   maxZoom:13,
   zoomControl:true,
@@ -4124,8 +4175,8 @@ function switchMapMode(mode){
   // Update button appearance
   const btn=document.getElementById('mapbtn');
   btn.classList.toggle('active', mode==='modern');
-  btn.textContent=mode==='ancient'?'🗺️ מודרני':'🗺️ עתיק';
-  if(currentLang==='en') btn.textContent=mode==='ancient'?'🗺️ Modern':'🗺️ Ancient';
+  btn.textContent=mode==='ancient'?'מפה מודרנית':'מפה עתיקה';
+  if(currentLang==='en') btn.textContent=mode==='ancient'?'Modern map':'Ancient map';
   document.body.classList.toggle('ancient-mode', mode==='ancient');
   // On ancient map, boost city marker visibility so they stand out
   updateCityMarkerVisibility();
@@ -4651,11 +4702,11 @@ document.getElementById('infomodal').addEventListener('click',e=>{
 
 const STRINGS={
   he:{
-    htitle:'🗺️ מפת התנאים והאמוראים',
+    htitle:'מפת התנאים והאמוראים',
     hsub:'הזז את הסליידר · לחץ על סמל לפרטים · גרור לזוז · גלגל/כפתורים לזום',
     pill_tan:'תנאים', pill_amo:'אמוראים', pill_lead:'נשיא/ראש ישיבה',
-    chartbtn:'📜 ציר זמן', printbtn:'🖨️ הדפס טבלה',
-    mapbtn:'🗺️ מודרני', langbtn:'EN', infobtn:'ℹ️',
+    chartbtn:'ציר זמן', printbtn:'הדפסה',
+    mapbtn:'מפה מודרנית', langbtn:'EN', infobtn:'אודות',
     ylabel:'לספירה',
     playtitle:'נגן', stoptitle:'עצור',
     daf_label:'📖',
@@ -4663,7 +4714,7 @@ const STRINGS={
     daf_verified:'✓ מאומת — חכמים אמיתיים מהדף',
     daf_unverified:'⚠️ עדיין לא אומת',
     daf_clear:'✕ נקה בחירה',
-    chart_title:'📜 ציר זמן — תנאים ואמוראים',
+    chart_title:'ציר זמן — תנאים ואמוראים',
     chart_tan:'תנאים', chart_amo:'אמוראים',
     chart_only:'מציג רק את החכמים המוזכרים בעמוד זה.',
     badge_tannaim:'תנאים', badge_amoraim:'אמוראים', badge_none:'אין חכמים',
@@ -4691,11 +4742,11 @@ const STRINGS={
     badge_format:(tc,ac)=>{const p=[];if(tc)p.push(tc+' תנאים');if(ac)p.push(ac+' אמוראים');return p.join(' · ')||'אין חכמים';},
   },
   en:{
-    htitle:'🗺️ Map of Tannaim & Amoraim',
+    htitle:'Map of Tannaim & Amoraim',
     hsub:'Move slider to change era · Hover dot for info · Click dot to highlight · Drag/scroll to navigate',
     pill_tan:'Tannaim', pill_amo:'Amoraim', pill_lead:'Nasi / Rosh Yeshiva',
-    chartbtn:'📜 Timeline', printbtn:'🖨️ Print Table',
-    mapbtn:'🗺️ Modern', langbtn:'עב', infobtn:'ℹ️',
+    chartbtn:'Timeline', printbtn:'Print',
+    mapbtn:'Modern map', langbtn:'עב', infobtn:'About',
     ylabel:'CE',
     playtitle:'Play', stoptitle:'Stop',
     daf_label:'📖',
@@ -4703,7 +4754,7 @@ const STRINGS={
     daf_verified:'✓ Verified — real sages from this page',
     daf_unverified:'⚠️ Not yet verified',
     daf_clear:'✕ Clear selection',
-    chart_title:'📜 Timeline — Tannaim & Amoraim',
+    chart_title:'Timeline — Tannaim & Amoraim',
     chart_tan:'Tannaim', chart_amo:'Amoraim',
     chart_only:'Showing only sages cited on this page.',
     badge_tannaim:'Tannaim', badge_amoraim:'Amoraim', badge_none:'No sages',
@@ -5465,6 +5516,8 @@ function applyLang(lang){
   document.getElementById('printbtn').textContent=S.printbtn;
   document.getElementById('mapbtn').textContent=S.mapbtn;
   document.getElementById('langbtn').textContent=S.langbtn;
+  document.getElementById('infobtn').textContent=S.infobtn;
+  { const sb=document.getElementById('settingsbtn'); if(sb) sb.textContent=(isHe?'הגדרות ▾':'Settings ▾'); }
   document.getElementById('ylabel').textContent=S.ylabel;
   // legend pills
   const pills=document.querySelectorAll('.lpill');
@@ -5472,7 +5525,6 @@ function applyLang(lang){
   if(pills[1]) pills[1].childNodes[1].textContent=S.pill_amo;
   if(pills[2]) pills[2].childNodes[1].textContent=S.pill_lead;
   // daf panel
-  document.getElementById('dafpanel-label').textContent=S.daf_label;
   const dafSel=document.getElementById('dafselect');
   if(dafSel.options[0]) dafSel.options[0].text=S.daf_placeholder;
   document.getElementById('dafverified').textContent=S.daf_verified;
@@ -5883,15 +5935,15 @@ function clearCityMode(){
     closeChart(); clearMapPulse(); hideInfo(); close(); input.value='';
     showAllSages=false; revealedIds.clear(); buildChart();
     slider.value=50; render(50);
-    gmap.setView([32.2,40.5],6);
+    gmap.setView([32.4,39.6],5);
   });
 
   // Keep search/reset labels in sync with language toggle
   function updateSearchLang(){
     const he=(currentLang==='he');
-    input.placeholder = he?'\uD83D\uDD0D חיפוש חכם…':'\uD83D\uDD0D Search sage…';
+    input.placeholder = he?'חיפוש חכם…':'Search sage…';
     const rb=document.getElementById('resetbtn');
-    rb.textContent = he?'\u21BA אפס':'\u21BA Reset';
+    rb.textContent = he?'איפוס':'Reset';
     rb.title = he?'אפס תצוגה למצב ההתחלתי':'Reset to initial view';
     updateDafYomiBtn();
   }
@@ -5939,9 +5991,9 @@ function clearCityMode(){
     const he=(currentLang==='he');
     const dy=dafYomiForDate(new Date());
     const btn=document.getElementById('dafyomibtn');
-    if(!dy){ btn.textContent='📅 '+(he?'דף יומי':'Daf Yomi'); return; }
+    if(!dy){ btn.textContent=(he?'דף יומי':'Daf Yomi'); return; }
     const label=(he?dy.he:dy.name)+' '+dy.daf;
-    btn.textContent='📅 '+label;
+    btn.textContent=label;
     btn.title=(he?'דף היומי של היום: ':"Today's Daf Yomi: ")+dy.name+' '+dy.daf;
   }
   document.getElementById('dafyomibtn').addEventListener('click',function(){
@@ -5950,7 +6002,7 @@ function clearCityMode(){
     if(!dy){ showToast(he?'לא ניתן לחשב את הדף היומי':'Could not compute the Daf Yomi'); return; }
     const label=(he?dy.he:dy.name)+' '+dy.daf;
     if(!dy.key || !TRACT_BY_KEY[dy.key]){
-      showToast('📅 '+(he?'הדף היומי היום — ':"Today's Daf Yomi — ")+label+(he?' — עדיין לא נכלל במפה זו':' — not yet in this map'));
+      showToast((he?'הדף היומי היום — ':"Today's Daf Yomi — ")+label+(he?' — עדיין לא נכלל במפה זו':' — not yet in this map'));
       return;
     }
     // Land on the first amud; the ◀ ▶ arrows step to the next amud/page.
@@ -5961,13 +6013,22 @@ function clearCityMode(){
       const bEntry=activeDafim.find(d=>d.daf===dy.daf+'b');
       if(bEntry && bEntry.verified && bEntry.sages && bEntry.sages.length){ gotoDaf(dy.key, dy.daf+'b'); }
     }
-    showToast('📅 '+(he?'דף יומי — ':'Daf Yomi — ')+label);
+    showToast((he?'דף יומי — ':'Daf Yomi — ')+label);
   });
   updateDafYomiBtn();
 
   updateSearchLang();
 })();
 
+// ── Settings dropdown toggle ──
+(function(){
+  const btn=document.getElementById('settingsbtn');
+  const pop=document.getElementById('settings-pop');
+  if(!btn||!pop) return;
+  btn.addEventListener('click',e=>{ e.stopPropagation(); pop.classList.toggle('open'); });
+  pop.addEventListener('click',e=>e.stopPropagation());
+  document.addEventListener('click',()=>pop.classList.remove('open'));
+})();
 </script>
 </body>
 </html>
