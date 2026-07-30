@@ -534,7 +534,7 @@ body.daf-mode .river-label{opacity:0.12}
 
   /* ── Sage info = bottom sheet, scrollable ── */
   #info{left:0; right:0; bottom:0; width:100%; max-width:100%;
-    border-radius:16px 16px 0 0; border-width:2px 0 0}
+    border-radius:16px 16px 0 0; border-width:2px 0 0; z-index:1200}
   #info.on,#info.pinned{max-height:78dvh}
   #info.pinned #ibody{max-height:calc(78dvh - 64px); overflow-y:auto; -webkit-overflow-scrolling:touch}
   #iclose{font-size:22px; padding:6px 12px}
@@ -642,19 +642,19 @@ body.daf-mode .river-label{opacity:0.12}
     <button id="dafyomibtn" title="קפוץ לדף היומי של היום">דף יומי</button>
     <div id="daf-inline">
       <select id="masechetselect">
-        <option value="chullin">חולין / Chullin</option>
-        <option value="bechorot">בכורות / Bechorot</option>
-        <option value="arakhin">ערכין / Arakhin</option>
-        <option value="temurah">תמורה / Temurah</option>
-        <option value="keritut">כריתות / Keritot</option>
-        <option value="meilah">מעילה / Meilah</option>
-        <option value="niddah">נדה / Niddah</option>
-        <option value="berakhot">ברכות / Berakhot</option>
-        <option value="shabbat">שבת / Shabbat</option>
-        <option value="eruvin">עירובין / Eruvin</option>
-        <option value="pesachim">פסחים / Pesachim</option>
-        <option value="yoma">יומא / Yoma</option>
-        <option value="sukkah">סוכה / Sukkah</option>
+        <option value="chullin">חולין</option>
+        <option value="bechorot">בכורות</option>
+        <option value="arakhin">ערכין</option>
+        <option value="temurah">תמורה</option>
+        <option value="keritut">כריתות</option>
+        <option value="meilah">מעילה</option>
+        <option value="niddah">נדה</option>
+        <option value="berakhot">ברכות</option>
+        <option value="shabbat">שבת</option>
+        <option value="eruvin">עירובין</option>
+        <option value="pesachim">פסחים</option>
+        <option value="yoma">יומא</option>
+        <option value="sukkah">סוכה</option>
       </select>
       <select id="dafselect"><option value="">— דף —</option></select>
       <button id="daf-trigger" type="button">— דף —</button>
@@ -4038,8 +4038,11 @@ const genLabelEls=[];
 GENERATIONS.forEach(g=>{
   const btn=document.createElement('div');
   btn.className='genlbl';
-  btn.textContent=g.label;
-  btn.style.left=pct(g.mid)+'%';
+  btn.textContent=String(g.range[0]);
+  const _gp=pct(g.range[0]);
+  btn.style.left=_gp+'%';
+  if(_gp<=3) btn.style.transform='translateX(-10%)';
+  else if(_gp>=97) btn.style.transform='translateX(-90%)';
   btn.style.color=g.color;
   btn.title=g.genHe+' / '+g.genEn+' ('+g.range[0]+'–'+g.range[1]+' CE)';
   btn.onclick=()=>{
@@ -4128,14 +4131,13 @@ const gmap=L.map('map',{
 // ring (clicking a marker itself does not trigger this — Leaflet keeps
 // marker clicks and map clicks separate — so this only fires for clicks
 // that land on the map background, exactly as intended).
-gmap.on('click',()=>{ if(typeof infoPinned!=='undefined' && infoPinned) return; hideInfo(); clearMapPulse(); closeChart(); clearCityMode(); if(dafModeActive){ clearDafMode(); document.getElementById('dafselect').value=''; document.getElementById('dafclear').style.display='none'; document.getElementById('dafverified').style.display='none'; document.getElementById('dafunverified').style.display='none'; if(typeof updateDafTrigger==='function') updateDafTrigger(); } });
-// Overlays sit above the map; stop their taps/scrolls from being treated as map interactions.
+gmap.on('click',()=>{ const _ip=(typeof infoPinned!=='undefined'&&infoPinned); const _io=document.getElementById('info').classList.contains('on'); if(_ip||_io) return; hideInfo(); clearMapPulse(); closeChart(); clearCityMode(); if(dafModeActive){ clearDafMode(); document.getElementById('dafselect').value=''; document.getElementById('dafclear').style.display='none'; document.getElementById('dafverified').style.display='none'; document.getElementById('dafunverified').style.display='none'; if(typeof updateDafTrigger==='function') updateDafTrigger(); } });
+// Keep scrolling the sage list from panning the map, but do NOT block clicks
+// (the map-click handler already ignores clicks while an info panel is open).
 (function(){
   if(!(window.L && L.DomEvent)) return;
-  ['info','chartpanel'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){ L.DomEvent.disableClickPropagation(el); L.DomEvent.disableScrollPropagation(el); }
-  });
+  const cp=document.getElementById('chartpanel');
+  if(cp) L.DomEvent.disableScrollPropagation(cp);
 })();
 
 // Basemap with automatic fallback across multiple independent tile providers.
@@ -5390,7 +5392,7 @@ function showInfo(r, pinned){
   const descEl=document.getElementById('idesc');
   descEl.textContent=(currentLang==='en' && r.descEn) ? r.descEn : r.desc;
   descEl._currentRabbi=r;
-  renderAppearances(r, document.getElementById('iappear'));
+  try{ renderAppearances(r, document.getElementById('iappear')); }catch(err){ const ap=document.getElementById('iappear'); if(ap){ap.style.display='none';ap.innerHTML='';} }
   const info=document.getElementById('info');
   if(pinned){ infoPinned=true; info.classList.add('pinned'); }
   else info.classList.remove('pinned');
@@ -5428,44 +5430,37 @@ function renderAppearances(r, box){
   box.innerHTML=
     '<button class="iappear-total"><span>'
     +(he?('מופיע <b>'+total+'</b> פעמים בש״ס'):('Appears <b>'+total+'</b> times in the Talmud'))
-    +'</span><span class="iappear-arrow">\u25b4</span></button>'
-    +'<div class="iappear-tracts"></div>';
+    +'</span><span class="iappear-arrow">\u25be</span></button>'
+    +'<div class="iappear-tracts" style="display:none"></div>';
   const totalBtn=box.querySelector('.iappear-total');
   const wrap=box.querySelector('.iappear-tracts');
-  // Build the tractate breakdown immediately (expanded by default) so on
-  // touch you can go straight to a tractate -> pages without an extra tap.
-  TRACTATES.forEach(t=>{
-    const g=byT[t.key]; if(!g) return;
-    const name=he?g.he:g.en;
-    const tract=document.createElement('div'); tract.className='iappear-tract';
-    tract.innerHTML='<button class="iappear-tbtn"><span>'+name+'</span>'
-      +'<span class="iappear-count"><b>'+g.dafim.length+'</b> <span class="iappear-arrow">\u25be</span></span></button>'
-      +'<div class="iappear-dafim"></div>';
-    const tbtn=tract.querySelector('.iappear-tbtn');
-    const dwrap=tract.querySelector('.iappear-dafim');
-    let dbuilt=false;
-    tbtn.onclick=(ev)=>{
-      if(ev){ ev.stopPropagation(); ev.preventDefault(); }
-      if(dwrap.classList.contains('open')){
-        dwrap.classList.remove('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25be'; return;
-      }
-      if(!dbuilt){
-        dbuilt=true;
-        g.dafim.forEach(d=>{
-          const c=document.createElement('span'); c.className='iappear-chip'; c.textContent=dafHe(d);
-          c.onclick=(e2)=>{ if(e2){ e2.stopPropagation(); } gotoDaf(t.key, d); };
-          dwrap.appendChild(c);
-        });
-      }
-      dwrap.classList.add('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25b4';
-    };
-    wrap.appendChild(tract);
-  });
+  let built=false;
+  function buildTracts(){
+    if(built) return; built=true;
+    TRACTATES.forEach(t=>{
+      const g=byT[t.key]; if(!g) return;
+      const name=he?g.he:g.en;
+      const tract=document.createElement('div'); tract.className='iappear-tract';
+      tract.innerHTML='<button class="iappear-tbtn"><span>'+name+'</span>'
+        +'<span class="iappear-count"><b>'+g.dafim.length+'</b> <span class="iappear-arrow">\u25be</span></span></button>'
+        +'<div class="iappear-dafim"></div>';
+      const tbtn=tract.querySelector('.iappear-tbtn');
+      const dwrap=tract.querySelector('.iappear-dafim');
+      let dbuilt=false;
+      tbtn.onclick=(ev)=>{
+        if(ev){ ev.stopPropagation(); ev.preventDefault(); }
+        if(dwrap.classList.contains('open')){ dwrap.classList.remove('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25be'; return; }
+        if(!dbuilt){ dbuilt=true; g.dafim.forEach(d=>{ const c=document.createElement('span'); c.className='iappear-chip'; c.textContent=dafHe(d); c.onclick=(e2)=>{ if(e2){e2.stopPropagation();} gotoDaf(t.key,d); }; dwrap.appendChild(c); }); }
+        dwrap.classList.add('open'); tbtn.querySelector('.iappear-arrow').textContent='\u25b4';
+      };
+      wrap.appendChild(tract);
+    });
+  }
   totalBtn.onclick=(ev)=>{
     if(ev){ ev.stopPropagation(); ev.preventDefault(); }
-    const openNow=wrap.style.display!=='none';
-    wrap.style.display=openNow?'none':'block';
-    totalBtn.querySelector('.iappear-arrow').textContent=openNow?'\u25be':'\u25b4';
+    if(wrap.style.display!=='none'){ wrap.style.display='none'; totalBtn.querySelector('.iappear-arrow').textContent='\u25be'; return; }
+    buildTracts();
+    wrap.style.display='block'; totalBtn.querySelector('.iappear-arrow').textContent='\u25b4';
   };
 }
 
@@ -5594,8 +5589,7 @@ function applyLang(lang){
   document.querySelector('#chartpanel-hdr h3').textContent=S.chart_title;
   // gen labels on timeline
   genLabelEls.forEach(({el},i)=>{
-    const g=GENERATIONS[i];
-    el.textContent=isHe?g.label:g.labelEn;
+    el.textContent=String(GENERATIONS[i].range[0]);
   });
   // historical event labels on timeline
   evtLabelDivs.forEach(item=>{
