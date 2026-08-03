@@ -4099,6 +4099,10 @@ const slider=document.getElementById('slider');
 
 // Declare language early — referenced in map/chart initialization code below
 let currentLang='he';
+// On touch devices, hover events (mouseover/mouseout) fire erratically alongside
+// taps and were causing the info panel to flash open then hide. Detect touch so
+// we can drive the panel purely from clicks there.
+const IS_TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints>0) || (window.matchMedia && window.matchMedia('(pointer:coarse)').matches);
 const sfill=document.getElementById('sfill');
 function updateFill(){sfill.style.width=pct(parseInt(slider.value))+'%';}
 
@@ -5379,8 +5383,9 @@ let infoSuppressUntil=0;
 // it open until you press the X or click a different sage.
 function showInfo(r, pinned){
   if(!pinned){
-    if(infoPinned) return;                  // keep a pinned panel stable on hover
-    if(Date.now()<infoSuppressUntil) return; // don't instantly re-open after X
+    if(IS_TOUCH) return;                      // touch: only taps (pinned) open the panel
+    if(infoPinned) return;                    // keep a pinned panel stable on hover
+    if(Date.now()<infoSuppressUntil) return;  // don't instantly re-open after X
   }
   document.getElementById('iname').textContent=r.name;
   const b=document.getElementById('ibadge');
@@ -5412,8 +5417,6 @@ function dismissInfo(suppress){
 }
 function unpinInfo(){ dismissInfo(false); }              // programmatic (mode switches)
 document.getElementById('iclose').onclick=()=>dismissInfo(true);
-(function(){ const el=document.getElementById('info'); if(!el) return;
-  ['click','mousedown','pointerdown','touchstart'].forEach(evt=>el.addEventListener(evt,e=>{ e.stopPropagation(); },{passive:true})); })();
 
 // Appearances: a collapsible "appears X times" total -> per-tractate counts
 // -> clickable page chips. Clicking a page opens that daf in the left list
