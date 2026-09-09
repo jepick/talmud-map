@@ -57,19 +57,6 @@ html,body{height:100%;font-family:'Noto Serif Hebrew',serif;overflow:hidden;back
 #mapwrap{position:absolute;inset:0;z-index:600}
 /* Left-edge hover zone to reopen chart */
 #chart-hover-zone{position:absolute;left:0;top:0;bottom:0;width:60px;z-index:610;cursor:pointer;}
-/* Region boxes — sages placed only in Bavel / Land of Israel (no town) */
-#region-boxes{position:absolute;right:12px;bottom:26px;z-index:615;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.region-box{background:rgba(26,18,8,.92);border:1.5px solid var(--gold-dk);border-radius:10px;color:var(--gold);
-  padding:7px 12px;font-size:12.5px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.45);
-  display:flex;align-items:center;gap:8px;white-space:nowrap;font-family:inherit;line-height:1.1}
-.region-box:hover{background:rgba(200,134,10,.32);color:#FFE9B0}
-.region-box.active{background:var(--gold-dk);color:#fff;border-color:var(--gold)}
-.region-box .rb-count{font-weight:600;opacity:.85;font-size:11px;background:rgba(255,255,255,.12);border-radius:20px;padding:1px 7px}
-body.lang-en .region-box{direction:ltr}
-@media (max-width:820px){
-  #region-boxes{right:8px;bottom:14px;gap:6px}
-  .region-box{padding:6px 9px;font-size:11px}
-}
 
 /* Hover zone strip that sits over the timeline to catch hover */
 #hdr-hover-zone{display:none}
@@ -96,6 +83,9 @@ body.lang-en .region-box{direction:ltr}
 .sug-name{font-weight:600;white-space:nowrap}
 .sug-meta{font-size:10px;color:#8A7A60;white-space:nowrap}
 #chartbtn.active{background:var(--gold-dk);color:#1A1208}
+/* Timeline + small Reset grouped in one row */
+#timeline-row{display:flex;align-items:center;gap:6px}
+#timeline-row #resetbtn{font-size:11px;padding:3px 8px}
 #langbtn{font-size:11px;font-weight:800;letter-spacing:1px;font-family:sans-serif}
 /* Info/About modal */
 #infomodal{
@@ -367,6 +357,26 @@ body.tour-hdr-open #hdr{transform:none !important;opacity:1 !important}
   box-shadow:0 1px 6px rgba(0,0,0,.35);
   transform:translateX(-50%) scale(1.08);
 }
+/* Names on/off toggle — small pill overlaid at the map's top-right */
+#names-toggle{
+  position:absolute;bottom:26px;right:12px;z-index:620;
+  background:rgba(26,18,8,.9);border:1.5px solid var(--gold-dk);border-radius:20px;
+  color:#C8B890;font-family:inherit;font-size:12px;font-weight:800;line-height:1;
+  padding:7px 12px;cursor:pointer;white-space:nowrap;box-shadow:0 3px 12px rgba(0,0,0,.4);
+  direction:ltr;transition:background .12s,color .12s}
+#names-toggle.on{background:rgba(200,134,10,.9);color:#1A1208;border-color:var(--gold)}
+#names-toggle:hover{filter:brightness(1.08)}
+@media (max-width:820px){ #names-toggle{bottom:20px;right:9px;font-size:11px;padding:6px 10px} }
+/* Region anchor labels — the two open-area markers where town-less sages
+   gather. Styled as a soft "zone" tag, clearly distinct from a town name. */
+.region-anchor-label{
+  font-family:'Noto Serif Hebrew',serif;font-weight:800;font-size:11px;
+  letter-spacing:.4px;color:#6B5320;white-space:nowrap;
+  background:rgba(200,134,10,.14);border:1px dashed rgba(150,110,30,.6);
+  border-radius:14px;padding:3px 11px;
+  transform:translate(-50%,-50%);pointer-events:none;text-align:center;
+  text-shadow:0 1px 0 rgba(255,246,220,.7);
+}
 /* Ancient city markers shown in ancient map mode */
 .ancient-city-dot{
   width:6px;height:6px;border-radius:50%;
@@ -518,14 +528,15 @@ body.daf-mode .river-label{opacity:0.12}
 }
 #chartclose:hover{background:rgba(255,255,255,.18);color:#fff}
 #chartclose{order:-1}
+/* Print matches the Clear pill so the header buttons look uniform */
 #chartpanel-hdr #printbtn{
-  background:rgba(255,255,255,.08);border:none;cursor:pointer;font-size:15px;
-  color:#C8B890;padding:4px 10px;border-radius:8px;line-height:1;flex-shrink:0;
-  height:auto;font-weight:400;order:-1;
+  background:rgba(200,134,10,.2);border:1px solid rgba(200,134,10,.6);cursor:pointer;font-size:11.5px;
+  color:#E8C77A;padding:4px 10px;border-radius:8px;line-height:1;flex-shrink:0;
+  height:auto;font-weight:800;order:-1;font-family:inherit;
 }
-#chartpanel-hdr #printbtn:hover{background:rgba(255,255,255,.18) !important;color:#fff}
-#chartpanel.daf-chart #printbtn{color:#7EB8D4}
-#chartpanel.city-chart #printbtn{color:#D4885A}
+#chartpanel-hdr #printbtn:hover{background:rgba(200,134,10,.4) !important;color:#fff}
+#chartpanel.daf-chart #printbtn{color:#9FD0E8;border-color:rgba(126,184,212,.6);background:rgba(126,184,212,.15)}
+#chartpanel.city-chart #printbtn{color:#E8B48A;border-color:rgba(212,136,90,.6);background:rgba(212,136,90,.15)}
 #chartpanel-hdr #clearbtn{
   background:rgba(200,134,10,.2);border:1px solid rgba(200,134,10,.6);cursor:pointer;font-size:11.5px;
   color:#E8C77A;padding:4px 10px;border-radius:8px;line-height:1;flex-shrink:0;
@@ -763,8 +774,12 @@ body.lang-en .sug-item{direction:ltr}
   #sage-search-wrap{order:2}
   #dafyomibtn{order:3}
   #daf-inline{order:4}
-  #chartbtn{order:5}
-  #dafyomibtn,#chartbtn,#sage-search-wrap,#daf-inline{width:100%;max-width:360px;margin:0 auto;height:auto}
+  #timeline-row{order:5}
+  #dafyomibtn,#timeline-row,#sage-search-wrap,#daf-inline{width:100%;max-width:360px;margin:0 auto;height:auto}
+  /* Timeline + small Reset share one row on mobile too */
+  #timeline-row{display:flex;gap:8px}
+  #timeline-row #chartbtn{flex:1;width:auto;margin:0}
+  #timeline-row #resetbtn{flex:0 0 auto;width:auto;margin:0;padding:12px 16px}
   /* tractate + daf stacked full width so the names aren't cut off */
   #daf-inline{flex-wrap:wrap}
   #masechetselect{flex:1 1 100%;min-width:0;width:100%}
@@ -863,7 +878,6 @@ body.lang-en .sug-item{direction:ltr}
       <div class="lpill"><div class="ldot" style="background:#2563EB"></div>אמוראים</div>
       <div class="lpill"><div class="ldot" style="background:#FFD700;border:1.5px solid #aaa"></div>נשיא/ראש ישיבה</div>
     </div>
-    <button id="resetbtn" title="אפס תצוגה למצב ההתחלתי">איפוס</button>
     <div id="sage-search-wrap">
       <input id="sagesearch" type="text" autocomplete="off" placeholder="חיפוש חכם…">
       <div id="sage-suggest"></div>
@@ -915,7 +929,10 @@ body.lang-en .sug-item{direction:ltr}
       <span id="dafunverified" style="display:none">⚠️</span>
       <button id="dafclear" style="display:none">✕</button>
     </div>
-    <button id="chartbtn" title="ציר זמן">ציר זמן</button>
+    <div id="timeline-row">
+      <button id="chartbtn" title="ציר זמן">ציר זמן</button>
+      <button id="resetbtn" title="אפס תצוגה למצב ההתחלתי">איפוס</button>
+    </div>
     </div>
 </div>
 
@@ -1023,15 +1040,8 @@ body.lang-en .sug-item{direction:ltr}
 
 <div id="mapwrap">
   <div id="map"></div>
-  <!-- Region boxes: sages placed only in a broad region (no specific town) -->
-  <div id="region-boxes">
-    <button class="region-box" id="region-israel" type="button" data-region="israel">
-      <span class="rb-name">Land of Israel</span><span class="rb-count" id="rb-israel-n"></span>
-    </button>
-    <button class="region-box" id="region-bavel" type="button" data-region="bavel">
-      <span class="rb-name">Babylonia</span><span class="rb-count" id="rb-bavel-n"></span>
-    </button>
-  </div>
+  <!-- Toggle for the sage name labels that appear as you zoom in -->
+  <button id="names-toggle" type="button" class="on" aria-pressed="true" title="Show or hide sage names on the map">🏷 Names: On</button>
   <div id="chart-hover-zone"></div>
   <!-- Mobile: floating page navigator, shown on the map while a daf is selected -->
   <div id="daf-nav-float">
@@ -2473,24 +2483,36 @@ function stripNikud(s){ return String(s||'').replace(/[֑-ׇ]/g,''); }
 function primaryCity(r){ return stripNikud((r.city||'').split(/[\/,]/)[0].trim()); }
 // Some sages are placed only in a broad region (Babylonia or the Land of
 // Israel) with no specific town. Rather than float them at a fake point on
-// the map, they live in a side "region box". Returns 'bavel' | 'israel' | null.
+// the map, they gather at a clearly-labelled REGION ANCHOR — an open spot in
+// that region — so they still appear on the map during normal timeline /
+// generation browsing, just grouped as "region, no specific town".
+// Returns 'bavel' | 'israel' | null.
 function sageRegion(r){
   const pc=primaryCity(r).replace(/־/g,' ').replace(/\s+/g,' ').trim();
   if(pc==='בבל') return 'bavel';
   if(pc==='ארץ ישראל'||pc==='ארץ ישראל') return 'israel';
   return null;
 }
+// Open-area anchor points (away from the ◆ academy towns) where town-less
+// region sages are shown, each with a standing label on the map.
+const REGION_ANCHORS={
+  bavel:  { lat:32.15, lng:45.15, nameHe:'בבל',        nameEn:'Babylonia' },
+  israel: { lat:31.42, lng:34.58, nameHe:'ארץ ישראל',  nameEn:'Land of Israel' }
+};
 
 // Snap every sage that names one of the ◆ academy towns as its primary city
 // to that town's canonical coordinates. This repairs data where a sage was
 // labelled with one town (e.g. Nehardea) but given another town's coordinates
 // (e.g. Mahoza), which made its dot appear at the wrong place on the map.
+// Town-less region sages are snapped to their region anchor instead.
 (function snapSageCoordsToPrimaryCity(){
   const byName={};
   CITIES.forEach(c=>{ byName[stripNikud(c.name)]=c; });
   RABBIS.forEach(r=>{
     const c=byName[primaryCity(r)];
-    if(c){ r.lat=c.lat; r.lng=c.lng; }
+    if(c){ r.lat=c.lat; r.lng=c.lng; return; }
+    const reg=sageRegion(r);
+    if(reg && REGION_ANCHORS[reg]){ r.lat=REGION_ANCHORS[reg].lat; r.lng=REGION_ANCHORS[reg].lng; }
   });
 })();
 
@@ -6069,7 +6091,6 @@ let cityMapFilter=null;
 // (core) sage or one the user explicitly revealed.
 function filterEligible(r){ return r._core || revealedIds.has(r.id); }
 function sageMatchesCity(r, city){
-  if(city.region) return sageRegion(r)===city.region;
   // Match only on the sage's PRIMARY town, so a sage tied to two towns
   // (e.g. "Nehardea / Mahoza") appears under — and is drawn at — one town,
   // never both.
@@ -6329,22 +6350,16 @@ function resetMapView(){
   catch(e){ gmap.setView([32.3,39.9],6); }
 }
 
-// Clicking empty map space dismisses any info panel left pinned open from
-// clicking a name in the full chart list, and clears any active pulse
-// ring (clicking a marker itself does not trigger this — Leaflet keeps
-// marker clicks and map clicks separate — so this only fires for clicks
-// that land on the map background, exactly as intended).
+// Clicking empty map space dismisses an unpinned hover preview only. It does
+// NOT clear the current daf / town / generation selection — an accidental tap
+// on the map (common while scrolling on touch) must never wipe out the sages
+// you picked. Use the ✕ / Clear controls to leave a selection deliberately.
 gmap.on('click',()=>{
   const _ip=(typeof infoPinned!=='undefined'&&infoPinned);
-  const _io=document.getElementById('info').classList.contains('on');
-  if(_ip||_io) return;
-  const hadFilter = genMapFilter || cityMapFilter || cityModeActive || dafModeActive;
-  hideInfo(); clearMapPulse(); closeChart(); clearCityMode();
-  if(dafModeActive){ clearDafMode(); clearDafUI(); }
-  if(hadFilter){
-    genMapFilter=null; cityMapFilter=null;
-    buildChart();
-    render(parseInt(document.getElementById('slider').value));
+  if(_ip) return;               // keep a pinned info panel open
+  const infoEl=document.getElementById('info');
+  if(infoEl.classList.contains('on') && !infoEl.classList.contains('pinned')){
+    hideInfo();                 // dismiss a stray hover preview, nothing else
   }
 });
 // Keep scrolling the sage list from panning the map, but do NOT block clicks
@@ -6816,6 +6831,24 @@ CITIES.forEach(c=>{
   cityLabelMarkers.push(lm);
   // Only the town NAME reacts to hover (highlight + click). The ◆ dot itself
   // is left unchanged on hover, per request.
+});
+
+// ── Region anchors — standing map labels for the two broad regions where
+// town-less sages gather. Not a clickable filter, just an annotation so the
+// dots that sit there read as "this region, no specific town". ──
+const regionLabelMarkers=[];
+Object.keys(REGION_ANCHORS).forEach(key=>{
+  const a=REGION_ANCHORS[key];
+  const lm=L.marker([a.lat,a.lng],{
+    icon:L.divIcon({
+      className:'',
+      html:'<div class="region-anchor-label" data-region="'+key+'">'+(currentLang==='en'?a.nameEn:a.nameHe)+'</div>',
+      iconSize:[0,0],iconAnchor:[0,0]
+    }),
+    interactive:false, zIndexOffset:280
+  }).addTo(gmap);
+  lm._regionKey=key;
+  regionLabelMarkers.push(lm);
 });
 
 // ══════════════════════════════════════
@@ -7477,11 +7510,12 @@ function applyDafSelection(dafId){
   gmap.on('zoomend',redrawDafDots);
   gmap.on('moveend',redrawDafDots);
 
-  // Replace the chart with a version showing only these sages
+  // Replace the chart with a version showing only these sages, and open it
+  // automatically (on both mobile and desktop) so the list is visible without
+  // an extra tap. The floating page nav + the > pull tab let you flip to the
+  // map to see the dots whenever you want.
   buildDafChart(citedRabbis);
-  // On mobile keep the map (with its dots + floating page nav) in view; the
-  // chart is available via the > pull tab. On desktop open it automatically.
-  if(!IS_MOBILE()) openChart();
+  openChart();
   syncChartHighlight();
   if(typeof updateDafTrigger==='function') updateDafTrigger();
   if(typeof updateSageNameLabels==='function') updateSageNameLabels();
@@ -7710,9 +7744,7 @@ function render(year){
         const {born,died}=getLifeRange(r);
         return year>=born && year<=died;
       })
-    // Region-only sages (Bavel / Land of Israel, no town) are never drawn as
-    // map dots — they live in the region boxes instead.
-    ).filter(r=>!sageRegion(r));
+    );
   const aliveIds=new Set(alive.map(r=>r.id));
 
   const S=STRINGS[currentLang];
@@ -7794,34 +7826,43 @@ gmap.on('zoomend',redrawNormalDots);
 gmap.on('moveend',redrawNormalDots);
 
 // ══════════════════════════════════════
-// MOBILE SAGE NAME LABELS — on touch you can't hover, so once you've zoomed
-// in far enough that only a handful of dots remain, float each sage's name
-// beside their dot. Tapping a label (or its dot) opens that sage's info box.
+// SAGE NAME LABELS (mobile + desktop) — once you zoom in far enough that only
+// a handful of dots are IN VIEW, float each sage's name beside their dot, so
+// you can tell who you're looking at without hovering. Gating is by how many
+// dots are currently VISIBLE (not the total alive), which keeps it consistent
+// across the timeline slider, milestone clicks, generation filters and daf
+// view. A toggle button turns it off. Tapping a label opens that sage's info.
 // ══════════════════════════════════════
 let sageLabelMarkers={};
-const LABEL_ZOOM_MIN=7;    // only once zoomed in this far
-const LABEL_MAX_DOTS=14;   // only when few enough dots to stay legible
+const LABEL_ZOOM_MIN=8;      // genuinely a "zoom in" feature (default view ≈7)
+const LABEL_MAX_VISIBLE=12;  // only when few enough are in view to stay legible
+let namesEnabled=true;
+try{ const _v=localStorage.getItem('tm_names_on'); if(_v!==null) namesEnabled=(_v==='1'); }catch(e){}
 function _escLabel(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function clearSageNameLabels(){
   for(const id in sageLabelMarkers){ try{ gmap.removeLayer(sageLabelMarkers[id]); }catch(e){} }
   sageLabelMarkers={};
 }
 function updateSageNameLabels(){
-  // Aid for touch layouts only; desktop has hover.
-  if(!IS_MOBILE()){ if(Object.keys(sageLabelMarkers).length) clearSageNameLabels(); return; }
-  const entries=[];
+  if(!namesEnabled){ if(Object.keys(sageLabelMarkers).length) clearSageNameLabels(); return; }
+  // Candidate dots: the daf dots in daf view, otherwise the normal markers.
+  const all=[];
   if(dafModeActive){
-    dafSageMarkers.forEach(m=>{ const r=RABBIS.find(x=>x.id===m._rabbiId); if(r) entries.push({id:r.id,r,marker:m}); });
+    dafSageMarkers.forEach(m=>{ const r=RABBIS.find(x=>x.id===m._rabbiId); if(r) all.push({id:r.id,r,marker:m}); });
   } else {
-    for(const id in rabbiMarkerById){ const r=RABBIS.find(x=>x.id===id); if(r) entries.push({id,r,marker:rabbiMarkerById[id]}); }
+    for(const id in rabbiMarkerById){ const r=RABBIS.find(x=>x.id===id); if(r) all.push({id,r,marker:rabbiMarkerById[id]}); }
   }
-  const show = gmap.getZoom()>=LABEL_ZOOM_MIN && entries.length>0 && entries.length<=LABEL_MAX_DOTS;
+  // Keep only dots currently within the visible map area.
+  let bounds; try{ bounds=gmap.getBounds(); }catch(e){ return; }
+  const vis=all.filter(e=>{ try{ return bounds.contains((rabbiMarkerById[e.id]||e.marker).getLatLng()); }catch(_){ return false; } });
+  const show = gmap.getZoom()>=LABEL_ZOOM_MIN && vis.length>0 && vis.length<=LABEL_MAX_VISIBLE;
   if(!show){ clearSageNameLabels(); return; }
-  const wantIds=new Set(entries.map(e=>e.id));
+  const wantIds=new Set(vis.map(e=>e.id));
   for(const id in sageLabelMarkers){ if(!wantIds.has(id)){ try{ gmap.removeLayer(sageLabelMarkers[id]); }catch(e){} delete sageLabelMarkers[id]; } }
   const isHe=currentLang==='he';
-  // Create any missing label markers, and stamp each with its dot position.
-  entries.forEach(({id,r,marker})=>{
+  // Create missing label markers; refresh text/pos on existing ones (so a
+  // language switch updates the visible tags too).
+  vis.forEach(({id,r,marker})=>{
     const name=isHe?r.name:(r.nameEn||r.name);
     const ll=(rabbiMarkerById[id]||marker).getLatLng();
     if(!sageLabelMarkers[id]){
@@ -7839,6 +7880,8 @@ function updateSageNameLabels(){
       sageLabelMarkers[id]=lm;
     } else {
       sageLabelMarkers[id].setLatLng(ll);
+      const el=sageLabelMarkers[id]._icon && sageLabelMarkers[id]._icon.querySelector('.sage-name-label');
+      if(el && el.textContent!==name) el.textContent=name;
     }
   });
   // Screen-space de-collision: tags sit to the RIGHT of their dot and, where
@@ -7866,6 +7909,30 @@ function updateSageNameLabels(){
 }
 gmap.on('zoomend',updateSageNameLabels);
 gmap.on('moveend',updateSageNameLabels);
+
+// ── Names on/off toggle ──
+function setNamesEnabled(on){
+  namesEnabled=!!on;
+  try{ localStorage.setItem('tm_names_on', namesEnabled?'1':'0'); }catch(e){}
+  const btn=document.getElementById('names-toggle');
+  if(btn){ btn.classList.toggle('on', namesEnabled); btn.setAttribute('aria-pressed', namesEnabled?'true':'false'); }
+  updateNamesToggleLabel();
+  updateSageNameLabels();
+}
+function updateNamesToggleLabel(){
+  const btn=document.getElementById('names-toggle'); if(!btn) return;
+  const isHe=(typeof currentLang!=='undefined'&&currentLang==='he');
+  const on=namesEnabled;
+  btn.textContent='🏷 '+(isHe?('שמות: '+(on?'פועל':'כבוי')):('Names: '+(on?'On':'Off')));
+}
+(function(){
+  const btn=document.getElementById('names-toggle');
+  if(btn){
+    btn.classList.toggle('on', namesEnabled);
+    btn.addEventListener('click', ()=>setNamesEnabled(!namesEnabled));
+    updateNamesToggleLabel();
+  }
+})();
 
 // ── Info panel (hover-driven: appears on mouseover, disappears on mouseout) ──
 let infoPinned=false;
@@ -8122,9 +8189,17 @@ function applyLang(lang){
   // Tannaim / Amoraim labels on the timeline era bar
   { const et=document.getElementById('era-tan'); if(et) et.textContent=S.chart_tan;
     const ea=document.getElementById('era-amo'); if(ea) ea.textContent=S.chart_amo; }
-  // Region box labels
-  { const bi=document.querySelector('#region-israel .rb-name'); if(bi) bi.textContent=isHe?'ארץ ישראל':'Land of Israel';
-    const bb=document.querySelector('#region-bavel .rb-name'); if(bb) bb.textContent=isHe?'בבל':'Babylonia'; }
+  // Region anchor labels on the map (town-less sages gather here)
+  if(typeof regionLabelMarkers!=='undefined'){
+    regionLabelMarkers.forEach(lm=>{
+      const a=REGION_ANCHORS[lm._regionKey]; if(!a) return;
+      const el=lm._icon && lm._icon.querySelector('.region-anchor-label');
+      if(el) el.textContent=isHe?a.nameHe:a.nameEn;
+    });
+  }
+  // Names toggle label + refresh any visible name tags into the new language
+  if(typeof updateNamesToggleLabel==='function') updateNamesToggleLabel();
+  if(typeof updateSageNameLabels==='function') updateSageNameLabels();
   // Generation numbers on the era-bar colour bands (Gen 4 / דור ד׳)
   { const heNum=['','א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ז׳'];
     document.querySelectorAll('.pbar-seg').forEach(s=>{
@@ -8454,10 +8529,7 @@ buildRiverLabels();
 // ══════════════════════════════════════
 function buildCityChart(city){
   cityModeActive=true; genMapFilter=null;
-  document.querySelectorAll('.region-box.active').forEach(x=>x.classList.remove('active'));
-  // A region box (Bavel / Land of Israel) lists sages that have no town, so it
-  // does not drive the map; a real town filters the map to its sages.
-  cityMapFilter = city.region ? null : city;
+  cityMapFilter = city;
   currentCityName=city.name;
 
   const panel=document.getElementById('chartpanel');
@@ -8520,8 +8592,7 @@ function buildCityChart(city){
         if(['rav_dimi','ula','rabbah_b_chana'].includes(r.id)) row.classList.add('nehuta');
         row.onmouseenter=()=>showInfo(r);
         row.onmouseleave=()=>hideInfo();
-        // Region sages have no map location — clicking one just opens its info.
-        row.onclick=()=> city.region ? showInfo(r,true) : jumpToRabbi(r);
+        row.onclick=()=>jumpToRabbi(r);
         genDiv.appendChild(row);
       });
       scroll.appendChild(genDiv);
@@ -8532,22 +8603,16 @@ function buildCityChart(city){
   renderCityPeriod('amo',GEN_ORDER_AMO);
 
   openChart();
-  if(city.region){
-    // Region list only — the map isn't changed (these sages have no town).
-    syncChartHighlight();
-  } else {
-    // Update the map to show only this town's common sages, centre + zoom in a
-    // bit on the town, and highlight in the list whoever is on the map.
-    render(parseInt(document.getElementById('slider').value));
-    const pts=RABBIS.filter(r=>filterEligible(r)&&sageMatchesCity(r,city)&&r.lat&&r.lng).map(r=>[r.lat,r.lng]);
-    if(pts.length){ frameSagesOnMap(pts, 9); }
-    else { frameSagesOnMap([[city.lat,city.lng]], 8); }
-    syncChartHighlight();
-  }
+  // Update the map to show only this town's common sages, centre + zoom in a
+  // bit on the town, and highlight in the list whoever is on the map.
+  render(parseInt(document.getElementById('slider').value));
+  const pts=RABBIS.filter(r=>filterEligible(r)&&sageMatchesCity(r,city)&&r.lat&&r.lng).map(r=>[r.lat,r.lng]);
+  if(pts.length){ frameSagesOnMap(pts, 9); }
+  else { frameSagesOnMap([[city.lat,city.lng]], 8); }
+  syncChartHighlight();
 }
 
 function clearCityMode(){
-  document.querySelectorAll('.region-box.active').forEach(x=>x.classList.remove('active'));
   if(!cityModeActive) return;
   cityModeActive=false;
   cityMapFilter=null;
@@ -8555,28 +8620,6 @@ function clearCityMode(){
   document.getElementById('chartpanel').classList.remove('city-chart');
   document.getElementById('city-mode-hdr').style.display='none';
 }
-
-// ── Region boxes (Bavel / Land of Israel) ──
-function updateRegionCounts(){
-  const rb=RABBIS.filter(r=>sageRegion(r)==='bavel').length;
-  const ri=RABBIS.filter(r=>sageRegion(r)==='israel').length;
-  const bn=document.getElementById('rb-bavel-n'); if(bn) bn.textContent=rb;
-  const inn=document.getElementById('rb-israel-n'); if(inn) inn.textContent=ri;
-}
-function openRegion(key){
-  clearCityMode();
-  const pseudo = key==='bavel'
-    ? {name:'בבל', nameEn:'Babylonia', region:'bavel', lat:32.0, lng:44.4}
-    : {name:'ארץ ישראל', nameEn:'Land of Israel', region:'israel', lat:31.78, lng:35.23};
-  buildCityChart(pseudo);
-  const el=document.getElementById('region-'+key); if(el) el.classList.add('active');
-}
-(function(){
-  updateRegionCounts();
-  document.querySelectorAll('.region-box').forEach(btn=>{
-    btn.addEventListener('click', ()=>openRegion(btn.dataset.region));
-  });
-})();
 
 // ===== Sage search (autocomplete) + Reset view =====
 (function(){
